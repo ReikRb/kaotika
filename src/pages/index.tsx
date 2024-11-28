@@ -12,7 +12,6 @@ const Home = () => {
   const { publicRuntimeConfig } = getConfig();
 
   useEffect(() => {
-    router.push('/shop')
     if (status === 'authenticated') {
       const email = session?.user?.email || '';
       const fetchPlayer = async () => {
