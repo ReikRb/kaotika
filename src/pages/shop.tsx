@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
+import ShopHeader from '@/components/shop/ShopHeader';
 
 export default function Shop() {
 
   const [ingredients, setIngredients] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getIngredients = async () => {
@@ -26,13 +30,13 @@ export default function Shop() {
     getIngredients();
   }, []);
 
+	if (loading) {
+    return <Loading />;
+	}
+
   return (
-    <html lang="es">
-      <body className="bg-cover bg-center" style={{ backgroundImage: 'url(/images/background.jpg)'}}>
-        <div>
-            <p>HELLO WORLD</p>
-        </div>
-      </body>
-    </html>
+		<Layout>
+      <ShopHeader></ShopHeader>
+		</Layout>
   );
 }
