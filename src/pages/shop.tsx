@@ -1,3 +1,4 @@
+import { Armor } from '@/_common/interfaces/Armor';
 import { Player } from '@/_common/interfaces/Player';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
@@ -15,6 +16,7 @@ export default function Shop() {
     const [currentEquipment, setCurrentEquipment] = useState({});
     const [error, setError] = useState<string | null>(null);
     const [ingredients, setIngredients] = useState([]);
+    const [armors, setArmors] = useState<Armor[]>([]);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -45,6 +47,28 @@ export default function Shop() {
                 }
             };
 
+            const fetchArmors = async () => {
+                try {
+                    console.log('Fetching armors');
+                    const res = await fetch(`/api/shop/armors`);
+                    
+                    if (res.status === 200) {
+                        const response = await res.json();
+                        
+                        console.log('Armors fetch complete:', response)
+                        setArmors(response);
+
+                    } else if (res.status === 404) {
+                        //   const response = await res.json();
+
+                    } else {
+                        setError('An error occurred while checking registration');
+                    }
+                } catch (error) {
+                    setError('An error occurred while checking registration');
+                }
+            };
+
             const getIngredients = async () => {
                 try {
                     console.log('Getting ingredients');
@@ -67,6 +91,7 @@ export default function Shop() {
 
             const handleFetches = async () =>{
                 await getIngredients();
+                await fetchArmors();
                 await fetchPlayerData();
             }
             handleFetches()
