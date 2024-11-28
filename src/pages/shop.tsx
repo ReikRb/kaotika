@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
+import ShopHeader from '@/components/shop/ShopHeader';
 import { useState } from 'react';
 
 export default function Shop() {
@@ -9,7 +10,7 @@ export default function Shop() {
 	}
   return (
 		<Layout>
-    	<div>SHOP</div>
+      <ShopHeader></ShopHeader>
 		</Layout>
   )
 }
