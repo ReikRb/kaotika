@@ -2,6 +2,7 @@ import { Armor } from '@/_common/interfaces/Armor';
 import { Boot } from '@/_common/interfaces/Boot';
 import { Helmet } from '@/_common/interfaces/Helmet';
 import { Player } from '@/_common/interfaces/Player';
+import { Ring } from '@/_common/interfaces/Ring';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
 import ShopHeader from '@/components/shop/ShopHeader';
@@ -21,6 +22,7 @@ export default function Shop() {
     const [armors, setArmors] = useState<Armor[]>([]);
     const [boots, setBoots] = useState<Boot[]>([]);
     const [helmets, setHelmets] = useState<Helmet[]>([]);
+    const [rings, setRings] = useState<Ring[]>([]);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -60,7 +62,7 @@ export default function Shop() {
                         const response = await res.json();
                         
                         console.log(categoryName, ' fetch complete:', response)
-                        setArmors(response);
+                        setMethod(response);
 
                     } else if (res.status === 404) {
                         //   const response = await res.json();
@@ -98,6 +100,7 @@ export default function Shop() {
                 await fetchCategory('armors', setArmors);
                 await fetchCategory('boots', setBoots);
                 await fetchCategory('helmets', setHelmets);
+                await fetchCategory('rings', setRings);
                 await fetchPlayerData();
             }
             
