@@ -1,5 +1,6 @@
 export const mongoose = require("mongoose");
-const MONGODB_URI = (process.env.MONGO_URL + process.env.DB)
+const MONGODB_URI = (process.env.MONGO_URL! + process.env.DB!)
+console.log(process.env.MONGO_URL);
 
 
 export async function DBConnect(db = MONGODB_URI){
