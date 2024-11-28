@@ -1,5 +1,6 @@
 import { Armor } from '@/_common/interfaces/Armor';
 import { Boot } from '@/_common/interfaces/Boot';
+import { Helmet } from '@/_common/interfaces/Helmet';
 import { Player } from '@/_common/interfaces/Player';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
@@ -19,6 +20,7 @@ export default function Shop() {
     const [ingredients, setIngredients] = useState([]);
     const [armors, setArmors] = useState<Armor[]>([]);
     const [boots, setBoots] = useState<Boot[]>([]);
+    const [helmets, setHelmets] = useState<Helmet[]>([]);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -95,8 +97,10 @@ export default function Shop() {
                 await getIngredients();
                 await fetchCategory('armors', setArmors);
                 await fetchCategory('boots', setBoots);
+                await fetchCategory('helmets', setHelmets);
                 await fetchPlayerData();
             }
+            
             handleFetches()
         }
     }, [session]);
