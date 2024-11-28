@@ -1,6 +1,5 @@
 
 import mongoose from "mongoose";
-const Modifier = require("./modifierSchema");
 
 const helmetSchema = new mongoose.Schema({
   name: { type: String },
@@ -9,7 +8,14 @@ const helmetSchema = new mongoose.Schema({
   value: { type: Number },
   defense: { type: Number },
   image: { type: String },
-  modifiers: { type: Modifier },
+  modifiers: {
+    intelligence: { type: Number },
+    dexterity: { type: Number },
+    constitution: { type: Number },
+    insanity: { type: Number },
+    charisma: { type: Number },
+    strength: { type: Number },
+  },
   min_lvl: { type: Number },
   isUnique: { type: Boolean },
   isActive: { type: Boolean },

@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import { ModifierSchema } from "./modifierSchema";
-
 
 const armorSchema = new mongoose.Schema({
     name: { type: String },
