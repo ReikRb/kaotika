@@ -1,4 +1,5 @@
 import { Armor } from '@/_common/interfaces/Armor';
+import { Boot } from '@/_common/interfaces/Boot';
 import { Player } from '@/_common/interfaces/Player';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
@@ -17,6 +18,7 @@ export default function Shop() {
     const [error, setError] = useState<string | null>(null);
     const [ingredients, setIngredients] = useState([]);
     const [armors, setArmors] = useState<Armor[]>([]);
+    const [boots, setBoots] = useState<Boot[]>([]);
 
     useEffect(() => {
         if (session?.user?.email) {
@@ -47,25 +49,25 @@ export default function Shop() {
                 }
             };
 
-            const fetchArmors = async () => {
+            const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
                 try {
-                    console.log('Fetching armors');
-                    const res = await fetch(`/api/shop/armors`);
+                    console.log('Fetching : ', categoryName);
+                    const res = await fetch(`/api/shop/${categoryName}`);
                     
                     if (res.status === 200) {
                         const response = await res.json();
                         
-                        console.log('Armors fetch complete:', response)
+                        console.log(categoryName, ' fetch complete:', response)
                         setArmors(response);
 
                     } else if (res.status === 404) {
                         //   const response = await res.json();
 
                     } else {
-                        setError('An error occurred while checking registration');
+                        setError(`An error occurred while fetching: ${categoryName}` );
                     }
                 } catch (error) {
-                    setError('An error occurred while checking registration');
+                    setError(`An error occurred while fetching: ${categoryName}` );
                 }
             };
 
@@ -91,7 +93,8 @@ export default function Shop() {
 
             const handleFetches = async () =>{
                 await getIngredients();
-                await fetchArmors();
+                await fetchCategory('armors', setArmors);
+                await fetchCategory('boots', setBoots);
                 await fetchPlayerData();
             }
             handleFetches()
