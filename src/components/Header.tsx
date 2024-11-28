@@ -26,6 +26,9 @@ const Header: React.FC = () => {
       <Link href="/hall">
         <span className={router.pathname == "/hall" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Hall of Fame</span>
       </Link>
+      <Link href="/shop">
+        <span className={router.pathname == "/shop" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Aivan's Store</span>
+      </Link>
     </nav>);
   } else {
     navigation = (<nav className="flex-1 text-center">     
@@ -37,6 +40,9 @@ const Header: React.FC = () => {
       </Link>
       <Link href="/hall">
         <span className={router.pathname == "/hall" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Hall of Fame</span>
+      </Link>
+      <Link href="/shop">
+        <span className={router.pathname == "/shop" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Aivan's Store</span>
       </Link>
     </nav>);
   }
