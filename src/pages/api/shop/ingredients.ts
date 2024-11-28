@@ -1,18 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { Ingredient } from '@/database/models/IngredientSchema';
+import mongoose from 'mongoose';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	try {
-		const response = await fetch(`https://kaotika-server.fly.dev/ingredients`);
-
-		if (!response.ok) {
-			throw new Error('Failed to get players');
-		}
-
-		const result = await response.json();
-		console.log(result);
-		res.status(200).json(result);
+		await mongoose.connect(process.env.MONGO_URL + process.env.DB);
+		const ingredients = await Ingredient.find();
+		console.log(ingredients);
+		res.status(200).json(ingredients);
+		await mongoose.disconnect();
 	} catch (error) {
-		console.error('Failed to get players:', error);
-		res.status(500).json({ error: 'Failed to get players' });
+		console.error('Failed to get ingredients:', error);
+		res.status(500).json({ error: 'Failed to get ingredients' });
 	}
 }

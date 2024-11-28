@@ -17,14 +17,14 @@ export default function Shop() {
         });
     
         const results = await response.json();
-        setIngredients(results.data);
+        setIngredients(results);
       } catch (error) {
         console.error('Failed to get ingredients: ', error);
       }
     }
 
     getIngredients();
-  }, [])
+  }, []);
 
   return (
     <html lang="es">
