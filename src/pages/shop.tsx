@@ -1,12 +1,16 @@
+import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
+import ShopHeader from '@/components/shop/ShopHeader';
+import { useState } from 'react';
 
 export default function Shop() {
+  const [loading, setLoading] = useState(false);
+	if (loading) {
+    return <Loading />;
+	}
   return (
-    <html lang="es">
-      <body className="bg-cover bg-center" style={{ backgroundImage: 'url(/images/background.jpg)'}}>
-        <div>
-            <p>HELLO WORLD</p>
-        </div>
-      </body>
-    </html>
-  );
+		<Layout>
+      <ShopHeader></ShopHeader>
+		</Layout>
+  )
 }
