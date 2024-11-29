@@ -12,6 +12,7 @@ import Loading from '@/components/Loading';
 import LeftContainer from '@/components/shop/LeftContainer';
 import MainContainer from '@/components/shop/MainContainer';
 import MidContainer from '@/components/shop/MidContainer';
+import RightContainer from '@/components/shop/RightContainer';
 import ShopContainer from '@/components/shop/ShopContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
 import { useSession } from 'next-auth/react';
@@ -127,6 +128,7 @@ export default function Shop() {
             <MainContainer>
                 <LeftContainer/>
                 <MidContainer/>
+                <RightContainer/>
             </MainContainer>
         </ShopContainer>
     );
