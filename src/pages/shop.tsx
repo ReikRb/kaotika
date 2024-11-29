@@ -1,4 +1,5 @@
 import { Armor } from '@/_common/interfaces/Armor';
+import { Artifact } from '@/_common/interfaces/Artifact';
 import { Boot } from '@/_common/interfaces/Boot';
 import { Helmet } from '@/_common/interfaces/Helmet';
 import { Player } from '@/_common/interfaces/Player';
@@ -25,6 +26,7 @@ export default function Shop() {
     const [helmets, setHelmets] = useState<Helmet[]>([]);
     const [rings, setRings] = useState<Ring[]>([]);
     const [shields, setShields] = useState<Shield[]>([]);
+    const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     
     useEffect(() => {
         if (session?.user?.email) {
@@ -104,6 +106,7 @@ export default function Shop() {
                 await fetchCategory('helmets', setHelmets);
                 await fetchCategory('rings', setRings);
                 await fetchCategory('shields', setShields);
+                await fetchCategory('artifacts', setArtifacts);
                 await fetchPlayerData();
             }
             
