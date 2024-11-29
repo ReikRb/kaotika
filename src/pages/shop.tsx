@@ -5,6 +5,7 @@ import { Helmet } from '@/_common/interfaces/Helmet';
 import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
+import { Weapon } from '@/_common/interfaces/Weapon';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
 import ShopHeader from '@/components/shop/ShopHeader';
@@ -27,12 +28,12 @@ export default function Shop() {
     const [rings, setRings] = useState<Ring[]>([]);
     const [shields, setShields] = useState<Shield[]>([]);
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+    const [weapons, setWeapons] = useState<Weapon[]>([]);
     
     useEffect(() => {
         if (session?.user?.email) {
             const fetchPlayerData = async () => {
                 try {
-                    setLoading(true);
                     console.log('Fetching user character');
                     const res = await fetch(`/api/shop/player?email=${session.user?.email}`);
                     
@@ -50,10 +51,6 @@ export default function Shop() {
                     }
                 } catch (error) {
                     setError('An error occurred while checking registration');
-                } finally {
-                    setLoading(false);
-                    console.log('Loading Complete');
-                    
                 }
             };
 
@@ -111,14 +108,23 @@ export default function Shop() {
             };
 
             const handleFetches = async () =>{
-                await getIngredients();
-                await fetchCategory('armors', setArmors);
-                await fetchCategory('boots', setBoots);
-                await fetchCategory('helmets', setHelmets);
-                await fetchCategory('rings', setRings);
-                await fetchCategory('shields', setShields);
-                await fetchCategory('artifacts', setArtifacts);
-                await fetchPlayerData();
+                try {
+                    setLoading(true);
+                    await getIngredients();
+                    await fetchCategory('armors', setArmors);
+                    await fetchCategory('boots', setBoots);
+                    await fetchCategory('helmets', setHelmets);
+                    await fetchCategory('rings', setRings);
+                    await fetchCategory('shields', setShields);
+                    await fetchCategory('artifacts', setArtifacts);
+                    await fetchCategory('weapons', setWeapons);
+                    await fetchPlayerData();
+                } catch (error) {
+                    console.error('An error ocurred fetching the data: ', error);
+                } finally {
+                    setLoading(false);
+                    console.log('Loading Complete');
+                }
             }
             
             handleFetches()
