@@ -34,7 +34,6 @@ export default function Shop() {
         if (session?.user?.email) {
             const fetchPlayerData = async () => {
                 try {
-                    setLoading(true);
                     console.log('Fetching user character');
                     const res = await fetch(`/api/shop/player?email=${session.user?.email}`);
                     
@@ -52,10 +51,6 @@ export default function Shop() {
                     }
                 } catch (error) {
                     setError('An error occurred while checking registration');
-                } finally {
-                    setLoading(false);
-                    console.log('Loading Complete');
-                    
                 }
             };
 
@@ -102,15 +97,23 @@ export default function Shop() {
             };
 
             const handleFetches = async () =>{
-                await getIngredients();
-                await fetchCategory('armors', setArmors);
-                await fetchCategory('boots', setBoots);
-                await fetchCategory('helmets', setHelmets);
-                await fetchCategory('rings', setRings);
-                await fetchCategory('shields', setShields);
-                await fetchCategory('artifacts', setArtifacts);
-                await fetchCategory('weapons', setWeapons);
-                await fetchPlayerData();
+                try {
+                    setLoading(true);
+                    await getIngredients();
+                    await fetchCategory('armors', setArmors);
+                    await fetchCategory('boots', setBoots);
+                    await fetchCategory('helmets', setHelmets);
+                    await fetchCategory('rings', setRings);
+                    await fetchCategory('shields', setShields);
+                    await fetchCategory('artifacts', setArtifacts);
+                    await fetchCategory('weapons', setWeapons);
+                    await fetchPlayerData();
+                } catch (error) {
+                    console.error('An error ocurred fetching the data: ', error);
+                } finally {
+                    setLoading(false);
+                    console.log('Loading Complete');
+                }
             }
             
             handleFetches()
