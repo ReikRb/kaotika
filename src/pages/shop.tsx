@@ -5,6 +5,7 @@ import { Helmet } from '@/_common/interfaces/Helmet';
 import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
+import { Weapon } from '@/_common/interfaces/Weapon';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
 import ShopHeader from '@/components/shop/ShopHeader';
@@ -27,6 +28,7 @@ export default function Shop() {
     const [rings, setRings] = useState<Ring[]>([]);
     const [shields, setShields] = useState<Shield[]>([]);
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+    const [weapons, setWeapons] = useState<Weapon[]>([]);
     
     useEffect(() => {
         if (session?.user?.email) {
@@ -107,6 +109,7 @@ export default function Shop() {
                 await fetchCategory('rings', setRings);
                 await fetchCategory('shields', setShields);
                 await fetchCategory('artifacts', setArtifacts);
+                await fetchCategory('weapons', setWeapons);
                 await fetchPlayerData();
             }
             
