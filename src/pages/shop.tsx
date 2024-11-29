@@ -120,7 +120,7 @@ export default function Shop() {
 
     return (
         <Layout>
-            {/* <ShopHeader></ShopHeader> */}
+            <ShopHeader></ShopHeader>
             <LeftContainer></LeftContainer>
         </Layout>
     );
