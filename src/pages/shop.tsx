@@ -8,6 +8,7 @@ import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
+import LeftContainer from '@/components/shop/LeftContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import { useSession } from 'next-auth/react';
@@ -99,15 +100,15 @@ export default function Shop() {
             const handleFetches = async () =>{
                 try {
                     setLoading(true);
-                    await getIngredients();
-                    await fetchCategory('armors', setArmors);
-                    await fetchCategory('boots', setBoots);
-                    await fetchCategory('helmets', setHelmets);
-                    await fetchCategory('rings', setRings);
-                    await fetchCategory('shields', setShields);
-                    await fetchCategory('artifacts', setArtifacts);
-                    await fetchCategory('weapons', setWeapons);
-                    await fetchPlayerData();
+                    // await getIngredients();
+                    // await fetchCategory('armors', setArmors);
+                    // await fetchCategory('boots', setBoots);
+                    // await fetchCategory('helmets', setHelmets);
+                    // await fetchCategory('rings', setRings);
+                    // await fetchCategory('shields', setShields);
+                    // await fetchCategory('artifacts', setArtifacts);
+                    // await fetchCategory('weapons', setWeapons);
+                    // await fetchPlayerData();
                 } catch (error) {
                     console.error('An error ocurred fetching the data: ', error);
                 } finally {
@@ -126,7 +127,8 @@ export default function Shop() {
 
     return (
         <Layout>
-            <ShopHeader></ShopHeader>
+            {/* <ShopHeader></ShopHeader> */}
+            <LeftContainer></LeftContainer>
         </Layout>
     );
 }
