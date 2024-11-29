@@ -1,4 +1,4 @@
-const LeftContainer: React.FC = () => {
+const MidContainer: React.FC = () => {
     return (
         <>
             <div className="w-1/3 h-full border-2 border-red-600"></div>
@@ -6,4 +6,4 @@ const LeftContainer: React.FC = () => {
     );
 };
 
-export default LeftContainer;
+export default MidContainer;

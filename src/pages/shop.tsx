@@ -10,6 +10,8 @@ import { Weapon } from '@/_common/interfaces/Weapon';
 import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import LeftContainer from '@/components/shop/LeftContainer';
+import MainContainer from '@/components/shop/MainContainer';
+import MidContainer from '@/components/shop/MidContainer';
 import ShopContainer from '@/components/shop/ShopContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
 import { useSession } from 'next-auth/react';
@@ -122,7 +124,10 @@ export default function Shop() {
         <ShopContainer>
             <Header/>
             <ShopHeader/>
-            <LeftContainer/>
+            <MainContainer>
+                <LeftContainer/>
+                <MidContainer/>
+            </MainContainer>
         </ShopContainer>
     );
 }
