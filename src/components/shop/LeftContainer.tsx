@@ -1,7 +1,7 @@
 const LeftContainer: React.FC = () => {
     return (
         <>
-            <div className="w-1/3 h-screen border-2 border-red-600"></div>
+            <div className="w-1/3 h-5/6 pt-10"/>
         </>
     );
 };

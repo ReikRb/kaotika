@@ -41,10 +41,10 @@ const ShopHeader: React.FC = () => {
 
     return (
         <>
-            <div className=" flex items-center bg-black justify-center py-1">
-                <Image src="/images/HeaderDivider.webp" alt="HeaderDivider" width={350} height={1} />
-            </div>
-            <header className="w-full bg-black text-white z-50 shadow-md">
+            <header className="w-full h-1/6 pt-28 bg-black text-white z-50 shadow-md">
+                <div className=" flex items-center bg-black justify-center py-1">
+                    <Image src="/images/HeaderDivider.webp" alt="HeaderDivider" width={350} height={1} />
+                </div>
                 <div className="container mx-auto flex items-center justify-between">
                     <div className="flex items-center">
                         <button

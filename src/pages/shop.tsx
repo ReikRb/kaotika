@@ -7,11 +7,11 @@ import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
-import Layout from '@/components/Layout';
+import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import LeftContainer from '@/components/shop/LeftContainer';
+import ShopContainer from '@/components/shop/ShopContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
-import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -119,9 +119,10 @@ export default function Shop() {
     }
 
     return (
-        <Layout>
-            <ShopHeader></ShopHeader>
-            <LeftContainer></LeftContainer>
-        </Layout>
+        <ShopContainer>
+            <Header/>
+            <ShopHeader/>
+            <LeftContainer/>
+        </ShopContainer>
     );
 }
