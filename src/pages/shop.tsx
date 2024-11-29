@@ -2,6 +2,7 @@ import { Armor } from '@/_common/interfaces/Armor';
 import { Artifact } from '@/_common/interfaces/Artifact';
 import { Boot } from '@/_common/interfaces/Boot';
 import { Helmet } from '@/_common/interfaces/Helmet';
+import { Ingredient } from '@/_common/interfaces/Ingredient';
 import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
@@ -21,7 +22,7 @@ export default function Shop() {
     const [loading, setLoading] = useState(true);
     const [currentEquipment, setCurrentEquipment] = useState({});
     const [error, setError] = useState<string | null>(null);
-    const [ingredients, setIngredients] = useState([]);
+    const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [armors, setArmors] = useState<Armor[]>([]);
     const [boots, setBoots] = useState<Boot[]>([]);
     const [helmets, setHelmets] = useState<Helmet[]>([]);
