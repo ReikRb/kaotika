@@ -58,24 +58,35 @@ export default function Shop() {
             };
 
             const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
-                try {
-                    console.log('Fetching : ', categoryName);
-                    const res = await fetch(`/api/shop/${categoryName}`);
-                    
-                    if (res.status === 200) {
-                        const response = await res.json();
+                const cachedData = sessionStorage.getItem(categoryName);
+                if (!cachedData) {
+                    try {
+                        console.log('Data not found in local storage. \nFetching : ', categoryName);
+                        const res = await fetch(`/api/shop/${categoryName}`);
                         
-                        console.log(categoryName, ' fetch complete:', response)
-                        setMethod(response);
+                        if (res.status === 200) {
+                            const response = await res.json();
+                            
+                            console.log(categoryName, ' fetch complete:', response)
+                            setMethod(response);
 
-                    } else if (res.status === 404) {
-                        //   const response = await res.json();
-
-                    } else {
+                            console.log(`Saving ${categoryName} data in local storage.`)
+                            sessionStorage.setItem(categoryName, JSON.stringify(response));
+    
+                        } else if (res.status === 404) {
+                            //   const response = await res.json();
+    
+                        } else {
+                            setError(`An error occurred while fetching: ${categoryName}` );
+                        }
+                    } catch (error) {
                         setError(`An error occurred while fetching: ${categoryName}` );
                     }
-                } catch (error) {
-                    setError(`An error occurred while fetching: ${categoryName}` );
+                } else {
+                    const parsedData = JSON.parse(cachedData!)
+                    console.log(`Data of ${categoryName} found in Local Storage: `, parsedData);
+                    
+                    setMethod(parsedData);
                 }
             };
 
