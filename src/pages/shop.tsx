@@ -54,6 +54,7 @@ export default function Shop() {
                 }
             };
 
+            //If there is not cached data it will fetch the requested category and save it in the local storage
             const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
                 const cachedData = sessionStorage.getItem(categoryName);
                 if (!cachedData) {
@@ -87,30 +88,10 @@ export default function Shop() {
                 }
             };
 
-            const getIngredients = async () => {
-                try {
-                    console.log('Getting ingredients');
-
-                    const response = await fetch(`/api/shop/ingredients`, {
-                        method: 'get',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    });
-
-                    const results = await response.json();
-                    console.log('Ingredients Fetch result: ', results);
-                    
-                    setIngredients(results);
-                } catch (error) {
-                    console.error('Failed to get ingredients: ', error);
-                }
-            };
-
             const handleFetches = async () =>{
                 try {
                     setLoading(true);
-                    await getIngredients();
+                    await fetchCategory('ingredients', setIngredients);
                     await fetchCategory('armors', setArmors);
                     await fetchCategory('boots', setBoots);
                     await fetchCategory('helmets', setHelmets);
