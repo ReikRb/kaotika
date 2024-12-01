@@ -1,9 +1,10 @@
 import React from "react";
+import ShopButton from "./shopButton";
 
 const MidContainer: React.FC = () => {
     
     const handleButtonClick = (action: string) => {
-        console.log(action);
+        console.log(action); 
     };
 
     return (
@@ -19,31 +20,27 @@ const MidContainer: React.FC = () => {
 
                     </div>
                 </div>
-                <img src="#" alt="ProductReq" className="h-16 w-16" />
+                <img src="/path-to-your-image1.jpg" alt="Center" className="h-16 w-16" />
             </div>
 
             <div className="flex items-center justify-center h-[50%] border-b-2 border-gray-300">
-                <img src="#" alt="ProductImage" className="h-32 w-32" />
+                <img src="/path-to-your-image2.jpg" alt="Center" className="h-32 w-32" />
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
                 
-                <div
-                    className="relative cursor-pointer hover:opacity-80 focus:opacity-80"
+                <ShopButton
+                    label="BUY"
+                    imageSrc="/images/store_button.webp"
                     onClick={() => handleButtonClick('Buy')}
-                >
-                    <img src="/images/store_button.webp" alt="Buy Button" className="h-24 w-48" />
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold">BUY</span>
-                </div>
+                />
 
                 
-                <div
-                    className="relative cursor-pointer hover:opacity-80 focus:opacity-80"
+                <ShopButton
+                    label="ADD TO CART"
+                    imageSrc="/images/store_button.webp"
                     onClick={() => handleButtonClick('Add to Cart')}
-                >
-                    <img src="/images/store_button.webp" alt="Add to Cart Button" className="h-24 w-48" />
-                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold">ADD TO CART</span>
-                </div>
+                />
             </div>
         </div>
     );
