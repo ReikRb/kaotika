@@ -90,7 +90,7 @@ const ShopOptionsHeader: React.FC = () => {
                             onClick={() => handleCategoryChange('cart')}
                             className={`flex items-center text-3xl px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
                         >
-                            <Image src="/images/cart.webp" alt="Cart" width={65} height={65} />
+                            <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} />
                             <span className="ml-2 ">Cart</span>
                         </button>
                     </div>
