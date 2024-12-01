@@ -1,7 +1,11 @@
-const RightContainer: React.FC = () => {
+import ProductsCardsContainer from "./ProductsCardsContainer";
+
+const RightContainer: React.FC = (products) => {
     return (
         <>
-            <div className="w-4/12 h-full border-2 border-red-600"></div>
+            <div className="w-4/12 grid grid-rows-10 border-2 border-red-600">
+                <ProductsCardsContainer/>
+            </div>
         </>
     );
 };
