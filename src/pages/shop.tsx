@@ -8,6 +8,7 @@ import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
 import Loading from '@/components/Loading';
+import CollapseSidepanelButton from '@/components/shop/CollapseSidepanelButton';
 import LeftContainer from '@/components/shop/LeftContainer';
 import MainContainer from '@/components/shop/MainContainer';
 import MainHeader from '@/components/shop/MainHeader';
@@ -129,9 +130,11 @@ export default function Shop() {
                 <ShopOptionsHeader/>
             </ShopHeader>
             <MainContainer>
+                <CollapseSidepanelButton/>
                 <LeftContainer/>
                 <MidContainer/>
                 <RightContainer/>
+                <CollapseSidepanelButton/>
             </MainContainer>
         </ShopContainer>
     );
