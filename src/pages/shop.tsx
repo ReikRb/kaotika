@@ -8,12 +8,17 @@ import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
-import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
+import CollapseSidepanelButton from '@/components/shop/CollapseSidepanelButton';
 import LeftContainer from '@/components/shop/LeftContainer';
+import MainContainer from '@/components/shop/MainContainer';
+import MainHeader from '@/components/shop/MainHeader';
+import MidContainer from '@/components/shop/MidContainer';
+import RightContainer from '@/components/shop/RightContainer';
+import ShopContainer from '@/components/shop/ShopContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
-import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import { calculateAllAttributes } from '@/helpers/PlayerAttributes';
+import ShopOptionsHeader from '@/components/shop/ShopOptionsHeader';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -153,9 +158,18 @@ export default function Shop() {
     }
 
     return (
-        <Layout>
-            <ShopHeader></ShopHeader>
-            <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-        </Layout>
+        <ShopContainer>
+            <ShopHeader>
+                <MainHeader/>
+                <ShopOptionsHeader/>
+            </ShopHeader>
+            <MainContainer>
+                <CollapseSidepanelButton/>
+                <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
+                <MidContainer/>
+                <RightContainer/>
+                <CollapseSidepanelButton/>
+            </MainContainer>
+        </ShopContainer>
     );
 }

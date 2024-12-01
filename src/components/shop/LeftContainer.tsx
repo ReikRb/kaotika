@@ -65,20 +65,20 @@ const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
     
     return (
         <>
-            <div className="w-1/3 h-screen border-2 border-red-600">
-            {currentAttributes && product ? (
-                <>
-                    <h1 className={`text-center text-3xl mt-3 mb-2 ${product.isUnique ? "text-purple-500" : "text-darkSepia"}`}>{product.name}</h1>
-                    <p className="text-center text-2xl mb-2">{product.description}</p>
-                    <ShopProgressBar label="Charisma" value={currentAttributes.charisma} itemValue={modifierValue.charisma} maxValue={300} />
-                    <ShopProgressBar label="Constitution" value={currentAttributes.constitution} itemValue={modifierValue.constitution} maxValue={300} />
-                    <ShopProgressBar label="Dexterity" value={currentAttributes.dexterity} itemValue={modifierValue.dexterity} maxValue={300} />
-                    <ShopProgressBar label="Insanity" value={currentAttributes.insanity} itemValue={modifierValue.insanity} maxValue={300} />
-                    <ShopProgressBar label="Intelligence" value={currentAttributes.intelligence} itemValue={modifierValue.intelligence} maxValue={300} />
-                    <ShopProgressBar label="Strength" value={currentAttributes.strength} itemValue={modifierValue.strength} maxValue={500} />
-                </>
-            ) : <h1 className={`text-center text-3xl mb-2 "text-darkSepia"}`}>Something went wrong. Please reload.</h1>
-            }
+            <div className="w-4/12 h-full border-2 border-red-600">
+                {currentAttributes && product ? (
+                    <>
+                        <h1 className={`text-center text-3xl mt-3 mb-2 ${product.isUnique ? "text-purple-500" : "text-darkSepia"}`}>{product.name}</h1>
+                        <p className="text-center text-2xl mb-2">{product.description}</p>
+                        <ShopProgressBar label="Charisma" value={currentAttributes.charisma} itemValue={modifierValue.charisma} maxValue={300} />
+                        <ShopProgressBar label="Constitution" value={currentAttributes.constitution} itemValue={modifierValue.constitution} maxValue={300} />
+                        <ShopProgressBar label="Dexterity" value={currentAttributes.dexterity} itemValue={modifierValue.dexterity} maxValue={300} />
+                        <ShopProgressBar label="Insanity" value={currentAttributes.insanity} itemValue={modifierValue.insanity} maxValue={300} />
+                        <ShopProgressBar label="Intelligence" value={currentAttributes.intelligence} itemValue={modifierValue.intelligence} maxValue={300} />
+                        <ShopProgressBar label="Strength" value={currentAttributes.strength} itemValue={modifierValue.strength} maxValue={500} />
+                    </>
+                ) : <h1 className={`text-center text-3xl mb-2 "text-darkSepia"}`}>Something went wrong. Please reload.</h1>
+                }
             </div>
         </>
     );
