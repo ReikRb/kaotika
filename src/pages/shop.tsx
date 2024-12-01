@@ -3,6 +3,7 @@ import { Artifact } from '@/_common/interfaces/Artifact';
 import { Boot } from '@/_common/interfaces/Boot';
 import { Helmet } from '@/_common/interfaces/Helmet';
 import { Ingredient } from '@/_common/interfaces/Ingredient';
+import { Modifier } from '@/_common/interfaces/Modifier';
 import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
@@ -12,16 +13,27 @@ import Loading from '@/components/Loading';
 import LeftContainer from '@/components/shop/LeftContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
+import { calculateAllAttributes } from '@/helpers/PlayerAttributes';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
+interface Equipment {
+    helmet: Helmet,
+    weapon: Weapon,
+    armor: Armor,
+    shield: Shield,
+    artifact: Artifact,
+    boot: Boot,
+    ring: Ring,
+  }
 export default function Shop() {
     const router = useRouter();
     const { data: session } = useSession();
     const [player, setPlayer] = useState<Player>();
     const [loading, setLoading] = useState(true);
     const [currentEquipment, setCurrentEquipment] = useState({});
+    const [playerEquipment, setPlayerEquipment] = useState<Equipment>();
     const [error, setError] = useState<string | null>(null);
     const [ingredients, setIngredients] = useState<Ingredient[]>([]);
     const [armors, setArmors] = useState<Armor[]>([]);
@@ -31,6 +43,8 @@ export default function Shop() {
     const [shields, setShields] = useState<Shield[]>([]);
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [weapons, setWeapons] = useState<Weapon[]>([]);
+    const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
+    const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield>();
     
     useEffect(() => {
         if (session?.user?.email) {
@@ -42,6 +56,16 @@ export default function Shop() {
                     if (res.status === 200) {
                         const response = await res.json();
                         setCurrentEquipment(response.equipment);
+                        const equipment = {
+                            helmet: response.equipment.helmet,
+                            weapon: response.equipment.weapon,
+                            armor: response.equipment.armor,
+                            shield: response.equipment.shield,
+                            artifact: response.equipment.artifact,
+                            boot: response.equipment.boot,
+                            ring: response.equipment.ring,
+                          }
+                          setPlayerEquipment(equipment)
                         console.log('Users character fetch complete:', response)
                         setPlayer(response);
 
@@ -114,6 +138,16 @@ export default function Shop() {
         }
     }, [session]);
 
+    useEffect(() => {
+        if(player) calculateAllAttributes(player, setCurrentAttributes);
+      }, [player]);
+
+    //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
+    useEffect(() => {
+        console.log('helmets array: ',helmets)
+        setCurrentDisplay(helmets[0])
+    }, [helmets])
+    
     if (loading) {
         return <Loading />;
     }
@@ -121,7 +155,7 @@ export default function Shop() {
     return (
         <Layout>
             <ShopHeader></ShopHeader>
-            <LeftContainer></LeftContainer>
+            <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
         </Layout>
     );
 }
