@@ -15,12 +15,12 @@ const MidContainer: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
                 <ShopButton
                     label="BUY"
-                    imageSrc="/images/store_button.webp"
+                    imageSrc="/images/shop/store_button.webp"
                     onClick={() => handleButtonClick("Buy")}
                 />
                 <ShopButton
                     label="ADD TO CART"
-                    imageSrc="/images/store_button.webp"
+                    imageSrc="/images/shop/store_button.webp"
                     onClick={() => handleButtonClick("Add to Cart")}
                 />
             </div>
