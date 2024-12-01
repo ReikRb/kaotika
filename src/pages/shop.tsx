@@ -7,14 +7,15 @@ import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
-import Header from '@/components/Header';
 import Loading from '@/components/Loading';
 import LeftContainer from '@/components/shop/LeftContainer';
 import MainContainer from '@/components/shop/MainContainer';
+import MainHeader from '@/components/shop/MainHeader';
 import MidContainer from '@/components/shop/MidContainer';
 import RightContainer from '@/components/shop/RightContainer';
 import ShopContainer from '@/components/shop/ShopContainer';
 import ShopHeader from '@/components/shop/ShopHeader';
+import ShopOptionsHeader from '@/components/shop/ShopOptionsHeader';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -123,8 +124,10 @@ export default function Shop() {
 
     return (
         <ShopContainer>
-            <Header/>
-            <ShopHeader/>
+            <ShopHeader>
+                <MainHeader/>
+                <ShopOptionsHeader/>
+            </ShopHeader>
             <MainContainer>
                 <LeftContainer/>
                 <MidContainer/>

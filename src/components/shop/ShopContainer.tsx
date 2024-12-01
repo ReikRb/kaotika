@@ -6,7 +6,7 @@ interface LayoutProps {
 
 const ShopContainer: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="w-screen h-screen bg-black">
+    <div className="w-screen h-screen grid grid-rows-10">
         {children}
     </div>
   );
