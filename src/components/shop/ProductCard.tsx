@@ -10,14 +10,18 @@ import GoldComponent from "./GoldComponent";
 
 interface Product {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
+    isSelected: boolean;
     onClick: () => void;
 }
 
-const ProductCard: React.FC<Product> = ({ product, onClick }) => {
+const ProductCard: React.FC<Product> = ({ product, onClick, isSelected }) => {
     return (
         <>
-            <div className=" h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat bg-[url('/images/shop/product_card_unselected.webp')]"
-            onClick={onClick}
+            <div 
+            className={`h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat 
+                ${isSelected ? "bg-[url('/images/shop/product_card_selected.webp')]" : "bg-[url('/images/shop/product_card_unselected.webp')]"}
+                transform transition-transform duration-300 hover:scale-105 cursor-pointer`}
+                onClick={onClick}
             >
             
                 <div className=" justify-center content-center self-center w-[90%] h-[90%] m-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]">
