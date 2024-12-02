@@ -167,7 +167,7 @@ export default function Shop() {
                 <CollapseSidepanelButton/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer/>
-                <RightContainer/>
+                <RightContainer products={helmets!}/>
                 <CollapseSidepanelButton/>
             </MainContainer>
         </ShopContainer>
