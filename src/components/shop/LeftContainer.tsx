@@ -23,8 +23,10 @@ interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
   }
 
+
 const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, product}) => {
-    
+    console.log('Current P LeftC: ', product.name);
+
     return (
         <>
             <div className="w-4/12 grid grid-rows-10 border-2 border-red-600">

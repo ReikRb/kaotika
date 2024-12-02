@@ -164,11 +164,11 @@ export default function Shop() {
                 <ShopOptionsHeader/>
             </ShopHeader>
             <MainContainer>
-                <CollapseSidepanelButton/>
+                <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer/>
+                <MidContainer product={currentDisplay!}/>
                 <RightContainer products={helmets!}/>
-                <CollapseSidepanelButton/>
+                <CollapseSidepanelButton direction='left' executeFunction={(() => {console.log('left')})}/>
             </MainContainer>
         </ShopContainer>
     );

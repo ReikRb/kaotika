@@ -1,9 +1,24 @@
-import Image from "next/image";
+import { useEffect, useState } from "react";
 
-const CollapseSidepanelButton: React.FC = () => {
+interface Props {
+    direction: String;
+    executeFunction: Function;
+}
+
+const CollapseSidepanelButton: React.FC<Props> = ({direction, executeFunction}) => {
+    const [ArrowImage, setArrowImage] = useState('');
+
+    useEffect(() => {
+        direction === 'right'
+        ? setArrowImage('/images/shop/rightArrow.png')
+        : setArrowImage('/images/shop/leftArrow.png');
+    }, [])
+
     return (
         <>
-            <div className="h-full border-2 border-red-600"></div>
+            <div className="h-full flex items-center border-2 border-red-600">
+                <img src={ArrowImage} alt="Arrow" className="h-1/6" onClick={executeFunction()}/>
+            </div>
         </>
     );
 };
