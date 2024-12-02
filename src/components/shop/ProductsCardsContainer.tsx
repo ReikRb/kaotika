@@ -6,6 +6,7 @@ import { Ring } from "@/_common/interfaces/Ring";
 import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
+import ProductCard from "./ProductCard";
 
 interface Props {
     products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
@@ -14,14 +15,10 @@ interface Props {
 const ProductsCardsContainer: React.FC<Props> = (data) => {
     return (
         <>
-            <div className="w-full row-span-8 row-start-3 p-[2%] overflow-y-auto border-2 border-red-600">
+            <div className="w-[73%] row-span-8 row-start-3 p-[2%] overflow-y-auto">
                 {       
                     data.products.map((product, i) => {
-                        return (
-                            <div key={i} className="w-full row-span-8 row-start-3 p-[2%]">
-                                <p>{product.name}</p>
-                            </div>
-                        )
+                        return <ProductCard product={product}/>
                     })
                 }
             </div>
