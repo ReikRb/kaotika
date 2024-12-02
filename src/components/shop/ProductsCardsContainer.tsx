@@ -10,18 +10,18 @@ import ProductCard from "./ProductCard";
 
 interface Props {
     products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
+    onProductSelect: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => void;
+
 }
 
-const ProductsCardsContainer: React.FC<Props> = (data) => {
+const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) => {
     return (
         <>
             <div className="w-[73%] ml-[13%] bg-gray-950 bg-opacity-50 row-span-8 row-start-3 p-[2%] overflow-y-auto">
-                {       
-                    data.products.map((product, i) => {
-                        return <ProductCard key={i.toString()} product={product}/>
-                    })
-                }
-            </div>
+            {products.map((product, i) => (
+                <ProductCard key={i.toString()} product={product} onClick={() => onProductSelect(product)} />
+            ))}
+        </div>
         </>
     );
 };

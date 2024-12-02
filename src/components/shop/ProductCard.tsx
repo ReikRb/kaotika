@@ -10,12 +10,16 @@ import GoldComponent from "./GoldComponent";
 
 interface Product {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
+    onClick: () => void;
 }
 
-const ProductCard: React.FC<Product> = ({ product }) => {
+const ProductCard: React.FC<Product> = ({ product, onClick }) => {
     return (
         <>
-            <div className=" h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat bg-[url('/images/shop/product_card_unselected.webp')]">
+            <div className=" h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat bg-[url('/images/shop/product_card_unselected.webp')]"
+            onClick={onClick}
+            >
+            
                 <div className=" justify-center content-center self-center w-[90%] h-[90%] m-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]">
                     <img className="ml-[32%] mb-[3%] w-[37%]" src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
                 </div>

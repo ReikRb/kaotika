@@ -13,7 +13,8 @@ import { Shield } from "@/_common/interfaces/Shield";
 import ProductWeaponDisplay from "./WeaponModifierDisplay";
 
 interface Props {
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+    products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[];
+    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
 }
 
 const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is (Helmet | Armor | Boot | Shield) => {
@@ -28,9 +29,11 @@ const MidContainer: React.FC<Props> = ({ product }) => {
     const handleButtonClick = (action: string) => {
         console.log(action);
     };
-
+    if (!product) {
+        return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
+    }
     return (
-        <div className="w-full sm:w-4/12 h-full border-2 border-red-600 flex flex-col">
+        <div className="w-full sm:w-4/12 h-full flex flex-col">
             <RequirementsSection gold={product.value} level={product.min_lvl} />
 
             {hasDefense(product) ? (
@@ -43,7 +46,7 @@ const MidContainer: React.FC<Props> = ({ product }) => {
                     dieNum={product.die_num}
                 />
             ) : (
-                <div className="flex flex-col items-center justify-center h-[10%] border-b-2 border-gray-300 relative">
+                <div className="flex flex-col items-center justify-center h-[10%] relative">
                     <div className="relative w-full"></div>
                 </div>
             )}

@@ -8,7 +8,7 @@ const ProductDefense: React.FC<{ defense: number }> = ({ defense }) => (
 );
 
 const ProductDefenseSection: React.FC<{ defense?: number }> = ({ defense }) => (
-    <div className="flex flex-col items-center justify-center h-[10%] border-b-2 border-gray-300 relative">
+    <div className="flex flex-col items-center justify-center h-[10%] relative">
         {defense ? (
             <div className="relative h-64 w-full">
                 <img

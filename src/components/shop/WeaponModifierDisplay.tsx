@@ -26,7 +26,7 @@ const ProductAttack: React.FC<Props> = ({ basePercentage, dieFaces, dieModifier,
 const ProductWeaponDisplay: React.FC<Props> = ({ basePercentage, dieFaces, dieModifier, dieNum }) => {
     return (
 
-        <div className="flex flex-col items-center justify-center h-[10%] border-b-2 border-gray-300 relative">
+        <div className="flex flex-col items-center justify-center h-[10%] relative">
             <div className="relative w-full">
                 <img
                     src="/images/shop/ProductBonusContainer.webp"

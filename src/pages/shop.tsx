@@ -49,7 +49,7 @@ export default function Shop() {
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [weapons, setWeapons] = useState<Weapon[]>([]);
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
-    const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield>();
+    const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     
     useEffect(() => {
         if (session?.user?.email) {
@@ -166,8 +166,8 @@ export default function Shop() {
             <MainContainer>
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay!}/>
-                <RightContainer products={helmets!}/>
+                <MidContainer product={currentDisplay} />
+                <RightContainer products={helmets!} onProductSelect={setCurrentDisplay} />
                 <CollapseSidepanelButton direction='left' executeFunction={(() => {console.log('left')})}/>
             </MainContainer>
         </ShopContainer>

@@ -6,7 +6,7 @@ interface ProductImageProps {
 }
 
 const ProductImage: React.FC<ProductImageProps> = ({ imageSrc, altText }) => (
-    <div className="flex items-center justify-center h-[50%] border-b-2 border-gray-300">
+    <div className="flex items-center justify-center h-[50%] ">
         <img src={imageSrc} alt={altText} className="h-64 w-64" />
     </div>
 );
