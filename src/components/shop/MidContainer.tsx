@@ -33,17 +33,19 @@ const MidContainer: React.FC<Props> = ({ product }) => {
         <div className="w-full sm:w-4/12 h-full border-2 border-red-600 flex flex-col">
             <RequirementsSection gold={product.value} level={product.min_lvl} />
 
-            {hasDefense(product) && (
+            {hasDefense(product) ? (
                 <ProductDefenseSection defense={product.defense} />
-            )}
-
-            {isWeapon(product) && (
+            ) : isWeapon(product) ? (
                 <ProductWeaponDisplay
                     basePercentage={product.base_percentage}
                     dieFaces={product.die_faces}
                     dieModifier={product.die_modifier}
                     dieNum={product.die_num}
                 />
+            ) : (
+                <div className="flex flex-col items-center justify-center h-[10%] border-b-2 border-gray-300 relative">
+                    <div className="relative w-full"></div>
+                </div>
             )}
 
             <ProductImage imageSrc={product.image} altText="Center" />
