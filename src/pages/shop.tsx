@@ -150,7 +150,7 @@ export default function Shop() {
     //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
         console.log('helmets array: ',helmets)
-        setCurrentDisplay(helmets[0])
+        setCurrentDisplay(rings[1])
     }, [helmets])
     
     if (loading) {

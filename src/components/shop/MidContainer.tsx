@@ -2,6 +2,7 @@ import React from "react";
 import ShopButton from "./shopButton";
 import RequirementsSection from "./requirementsSection";
 import ProductImage from "./ProductImage";
+import ProductDefenseSection from "./DefensiveModifierDisplay";
 import { Weapon } from "@/_common/interfaces/Weapon";
 import { Helmet } from "@/_common/interfaces/Helmet";
 import { Armor } from "@/_common/interfaces/Armor";
@@ -9,23 +10,42 @@ import { Boot } from "@/_common/interfaces/Boot";
 import { Ring } from "@/_common/interfaces/Ring";
 import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
-import { Modifier } from "@/_common/interfaces/Modifier";
-import MerchantComponent from "./MerchantComponent";
-import ItemContainer from "./ItemContainer";
+import ProductWeaponDisplay from "./WeaponModifierDisplay";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
-  }
+}
 
-const MidContainer: React.FC<Props>  = ({product}) => {
+const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is (Helmet | Armor | Boot | Shield) => {
+    return "defense" in product;
+};
+
+const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is Weapon => {
+    return "base_percentage" in product && "die_faces" in product;
+};
+
+const MidContainer: React.FC<Props> = ({ product }) => {
     const handleButtonClick = (action: string) => {
         console.log(action);
     };
-    // console.log('Current Product: ', product.name,);
 
     return (
         <div className="w-full sm:w-4/12 h-full border-2 border-red-600 flex flex-col">
             <RequirementsSection gold={product.value} level={product.min_lvl} />
+
+            {hasDefense(product) && (
+                <ProductDefenseSection defense={product.defense} />
+            )}
+
+            {isWeapon(product) && (
+                <ProductWeaponDisplay
+                    basePercentage={product.base_percentage}
+                    dieFaces={product.die_faces}
+                    dieModifier={product.die_modifier}
+                    dieNum={product.die_num}
+                />
+            )}
+
             <ProductImage imageSrc={product.image} altText="Center" />
             <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
                 <ShopButton
