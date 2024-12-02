@@ -15,7 +15,7 @@ interface Props {
 const ProductsCardsContainer: React.FC<Props> = (data) => {
     return (
         <>
-            <div className="w-[73%] row-span-8 row-start-3 p-[2%] overflow-y-auto">
+            <div className="w-[73%] ml-[13%] bg-gray-950 bg-opacity-50 row-span-8 row-start-3 p-[2%] overflow-y-auto">
                 {       
                     data.products.map((product, i) => {
                         return <ProductCard product={product}/>
