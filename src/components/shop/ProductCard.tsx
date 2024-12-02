@@ -15,9 +15,9 @@ interface Product {
 const ProductCard: React.FC<Product> = ({ product }) => {
     return (
         <>
-            <div className=" h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-cover bg-no-repeat bg-[url('/images/shop/product_card_unselected.webp')]">
+            <div className=" h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat bg-[url('/images/shop/product_card_unselected.webp')]">
                 <div className=" justify-center content-center self-center w-[90%] h-[90%] m-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]">
-                    <img className="ml-[32%]" src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" width={70} height={1} />
+                    <img className="ml-[32%] mb-[3%] w-[37%]" src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
                 </div>
                 <div className=" text-center content-center ml-[2%] w-[80%] space-y-[7%] inline-block">
                     <p className=" text-2xl text-white mr-[15%]">{product.name}</p>
