@@ -1,12 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-const ShopOptionsHeader: React.FC = () => {
+interface Props {
+    displaySelectedShopProducts: Function;
+}
+
+const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
-    const [activeCategory, setActiveCategory] = useState<string>('weapons');
+    const [activeCategory, setActiveCategory] = useState<string>('weapon');
     const [shopType, setShopType] = useState<string>('equipment');
     const [isCartActive, setIsCartActive] = useState(false);
 
+    useEffect(() => {
+        displaySelectedShopProducts(activeCategory);
+    }, [activeCategory]);
 
     const handleCategoryChange = (category: string) => {
         setActiveCategory(category);
@@ -18,22 +25,22 @@ const ShopOptionsHeader: React.FC = () => {
 
     const handleShopTypeChange = (type: string) => {
         setShopType(type);
-        setActiveCategory(type === 'equipment' ? 'weapons' : 'ingredients');
+        setActiveCategory(type === 'equipment' ? 'weapon' : 'ingredient');
     };
 
     const equipmentCategories = [
-        { key: 'weapons', label: 'Weapons' },
-        { key: 'armor', label: 'Armor' },
-        { key: 'helmets', label: 'Helmets' },
-        { key: 'footwear', label: 'Footwear' },
-        { key: 'rings', label: 'Rings' },
-        { key: 'shields', label: 'Shields' },
-        { key: 'artifacts', label: 'Artifacts' },
+        { key: 'weapon', label: 'Weapons' },
+        { key: 'shield', label: 'Shields' },
+        { key: 'helmet', label: 'Helmets' },
+        { key: 'armor', label: 'Armors' },
+        { key: 'boot', label: 'Boots' },
+        { key: 'ring', label: 'Rings' },
+        { key: 'artifact', label: 'Artifacts' },
     ];
 
     const magicalCategories = [
-        { key: 'ingredients', label: 'Ingredients' },
-        { key: 'containers', label: 'Containers' },
+        { key: 'ingredient', label: 'Ingredients' },
+        { key: 'container', label: 'Containers' },
     ];
 
     const categoriesToDisplay =
