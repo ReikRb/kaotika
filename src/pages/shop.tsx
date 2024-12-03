@@ -147,13 +147,11 @@ export default function Shop() {
 
     useEffect(() => {
         if(player) calculateAllAttributes(player, setCurrentAttributes);
-      }, [player]);
+    }, [player]);
 
-    //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
-        console.log('helmets array: ',helmets)
-        setCurrentDisplay(helmets[0])
-    }, [helmets]);
+        setCurrentDisplay(displayProducts[0]);
+    }, [displayProducts]);
 
     const displaySelectedShopProducts = (category: String) => {
         switch (category){
@@ -190,7 +188,7 @@ export default function Shop() {
     }, [helmets])
     
     if (loading) {
-        return <Loading />;
+        return <Loading/>;
     }
 
     return (

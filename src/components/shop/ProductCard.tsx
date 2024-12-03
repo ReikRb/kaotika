@@ -33,7 +33,7 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected }) => {
                         <GoldComponent amount={product.value} />
                     </div>
                     {
-                        product.type !== 'Ingredient'
+                        product.type !== 'ingredient'
                             ? (
                                 <div className=" justify-center flex space-x-[15%] inline-row">
                                     <p className="text-xl w-[20%] text-white">{`Req. Lvl.`}</p>
