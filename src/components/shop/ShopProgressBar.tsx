@@ -17,14 +17,16 @@ interface BarValue {
 const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue }) => {
   const [newValue, setNewValue] = useState(0)
   const [differenceValue, setDifferenceValue] = useState(0)
-  const [barValues, setBarValues] = useState<BarValue[]>([{
-    value: 0,
-    color: "#e4caa5",
-  },
-  {
-    value: 0,
-    color: "red",
-  }])
+  const [barValues, setBarValues] = useState<BarValue[]>([
+    {
+      value: 0,
+      color: "#e4caa5",
+    },
+    {
+      value: 0,
+      color: "#4acd15",
+    }
+  ])
 
   useEffect(() => {
 
@@ -41,13 +43,19 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
       {
         value: newValue,
         color: "#e4caa5",
+      },
+      {
+        value: 0,
+        color: "#4acd15",
       }
     ]
 
     if (itemValue) {
-      let valuePercentage = (itemValue / maxValue) * 100
-      valuePercentage = valuePercentage < 0 ? 0 : valuePercentage
       if (itemValue > 0) {
+        let valuePercentage = (itemValue / maxValue) * 100
+        valuePercentage = valuePercentage < 0 ? 0 : valuePercentage
+        //First bar: yellow -> newValue
+        //Second bar: green -> valuePercentage
         newBarValues = [
           {
             value: newValue,
@@ -55,31 +63,32 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
           },
           {
             value: valuePercentage,
-            color: "green",
+            color: "#4acd15",
           }
         ]
       } else if (itemValue < 0) {
         const result = newValue - differenceValue
+        // First bar: yellow -> differenceValue
+        // Second bar: red -> result
         newBarValues = [
           {
-            value: differenceValue,
+            value: newValue,
             color: "#e4caa5",
           },
           {
             value: result,
-            color: "red",
+            color: "#bd1111",
           }
         ]
       }
     }
-
     setBarValues(newBarValues)
   }, [newValue, differenceValue])
 
   return (
     <>
-      <div className='flex flex-row'>
-        <p className='w-2/4 text-start'>{label}</p>
+      <div className='flex flex-row text-2xl mt-[4.5%]'>
+        <p className='w-[38%] ml-[5%] text-start'>{label}</p>
         <div className='flex flex-row w-2/4 text-end'>
           {itemValue! > 0
             ? <p className='w-11/12 text-end text-green-500'>{`(+${itemValue})`}</p>
@@ -99,6 +108,10 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
         border={'1px solid #e4caa5'}
         elements={barValues}
       /> */}
+      <div className="flex inline-row ml-[5%] h-2 w-[90%] bg-gray-200 dark:bg-neutral-600">
+        <div className="h-2" style={{ backgroundColor: barValues[0].color, width: `${barValues[0].value}%` }}></div>
+        <div className="h-2 bg-red-600" style={{ backgroundColor: barValues[1].color, width: `${barValues[1].value}%` }}></div>
+      </div>
     </>
   )
 }
