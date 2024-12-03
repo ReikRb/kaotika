@@ -50,8 +50,9 @@ export default function Shop() {
     const [shields, setShields] = useState<Shield[]>([]);
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [weapons, setWeapons] = useState<Weapon[]>([]);
+    const [inventory, setInventory] = useState<Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[]>();
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
-    const [displayProducts, setDisplayProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(weapons);
+    const [displayProducts, setDisplayProducts] = useState<Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
 
@@ -79,6 +80,7 @@ export default function Shop() {
                         setPlayerEquipment(equipment)
                         console.log('Users character fetch complete:', response)
                         setPlayer(response);
+                        setInventory(setInventoryItems(response));
 
                     } else if (res.status === 404) {
                         //   const response = await res.json();
@@ -89,6 +91,18 @@ export default function Shop() {
                 } catch (error) {
                     setError('An error occurred while checking registration');
                 }
+            };
+
+            const setInventoryItems = (player: Player) => {
+                const products: Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[] = [];
+            
+                Object.values(player?.inventory).map((productTypes) => {
+                    productTypes.map((product) => {
+                        products.push(product[0]);
+                    });
+                });
+
+                return products;
             };
 
             const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
@@ -172,6 +186,10 @@ export default function Shop() {
         setCurrentDisplay(displayProducts[0]);
     }, [displayProducts]);
 
+    useEffect(() => {
+        setCurrentDisplay(weapons[0])
+    }, [weapons]);
+
     const displaySelectedShopProducts = (category: String) => {
         switch (category){
 
@@ -199,12 +217,11 @@ export default function Shop() {
             case 'ingredient':
                 setDisplayProducts(ingredients);
             break;
+            case 'inventory':
+                setDisplayProducts(inventory!);
+            break;
         }
     };
-
-    useEffect(() => {
-        setCurrentDisplay(armors[3])
-    }, [helmets])
 
     if (loading) {
         return <Loading/>;
