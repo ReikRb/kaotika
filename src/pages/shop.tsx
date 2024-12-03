@@ -55,7 +55,7 @@ export default function Shop() {
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
     const [displayProducts, setDisplayProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
-    const [isRightPanelOpen, setIsRightPanelOpen] = useState(true);
+    const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
     const [cart, setCart] = useState<Product[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -65,6 +65,10 @@ export default function Shop() {
 
     const addToCart = (product: Product) => {
         setCart((prevCart) => [...prevCart, product]);
+    };
+
+    const onClearCart = () => {
+        setCart([]);
     };
 
     const toggleRightPanel = () => setIsRightPanelOpen((prev) => !prev);
@@ -230,9 +234,8 @@ export default function Shop() {
             </ShopHeader>
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
-                    <img src="/images/shop/leftArrow.png" alt="Open Right Panel" className="absolute top-2/4 left-0 w-8 h-40" />
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart}/>
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer product={currentDisplay} onAddToCart={addToCart}/>
