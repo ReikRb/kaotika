@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const Modifier = require("./modifierSchema");
 
 const bootSchema = new mongoose.Schema({
   name: { type: String },

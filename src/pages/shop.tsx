@@ -155,37 +155,37 @@ export default function Shop() {
 
     //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
-        console.log('helmets array: ', helmets)
+        console.log('helmets array: ',helmets)
         setCurrentDisplay(helmets[0])
     }, [helmets]);
 
     const displaySelectedShopProducts = (category: String) => {
-        switch (category) {
+        switch (category){
 
             case 'weapon':
                 setDisplayProducts(weapons);
-                break;
+            break;
             case 'shield':
                 setDisplayProducts(shields);
-                break;
+            break;
             case 'helmet':
                 setDisplayProducts(helmets);
-                break;
+            break;
             case 'armor':
                 setDisplayProducts(armors);
-                break;
+            break;
             case 'boot':
                 setDisplayProducts(boots);
-                break;
+            break;
             case 'ring':
                 setDisplayProducts(rings);
-                break;
+            break;
             case 'artifact':
                 setDisplayProducts(artifacts);
-                break;
+            break;
             case 'ingredient':
                 setDisplayProducts(ingredients);
-                break;
+            break;
         }
     };
 
@@ -200,22 +200,18 @@ export default function Shop() {
     return (
         <ShopContainer>
             <ShopHeader>
-                <MainHeader />
-                <ShopOptionsHeader displaySelectedShopProducts={displaySelectedShopProducts} />
+                <MainHeader/>
+                <ShopOptionsHeader displaySelectedShopProducts={displaySelectedShopProducts}/>
             </ShopHeader>
             <MainContainer>
-
-                <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
+            <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                     <img src="/images/shop/leftArrow.png" alt="Open Right Panel" className="absolute top-2/4 left-0 w-8 h-40" />
                 </button>
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} />
-
-                <CollapseSidepanelButton direction='right' executeFunction={(() => { console.log('right') })} />
-
-                <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} />
-                <MidContainer product={currentDisplay} />
-                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} />
-
+                <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
+                <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
+                <MidContainer product={currentDisplay}/>
+                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay}/>
             </MainContainer>
         </ShopContainer>
     );

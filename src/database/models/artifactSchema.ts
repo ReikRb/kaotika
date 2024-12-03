@@ -18,4 +18,4 @@ const artifactSchema = new mongoose.Schema({
     profiles: [{ type: mongoose.Schema.Types.ObjectId}],
 });
 
-export const Artifact = mongoose.models.Artifact || mongoose.model("Artifact", artifactSchema);
+module.exports = mongoose.models.Artifact || mongoose.model("Artifact", artifactSchema);
