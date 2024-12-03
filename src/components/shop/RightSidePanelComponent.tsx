@@ -14,9 +14,9 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel }) 
 
     return (
         <>
-            <div className={`fixed top-0 right-0 h-full bg-black z-50 transition-transform ${isOpen ? 'translate-x-full' : 'translate-x-1/3'}`} style={{ width: '50%' }}>
+            <div className={`fixed top-[20%] right-0 h-full bg-black z-50 transition-transform ${isOpen ? 'translate-x-full' : 'translate-x-1/3'}`} style={{ width: '50%' }}>
                 <button onClick={togglePanel} className="absolute top-1/3 left-0">
-                    <img src={ArrowImage} alt="Close Right Panel" className="h-52 w-4" />
+                    <img src={ArrowImage} alt="Close Right Panel" className="h-36 w-9" />
                 </button>
                 <div className="p-4 text-white">
                     <p>CART</p>
