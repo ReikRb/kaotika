@@ -31,7 +31,8 @@ interface Equipment {
     artifact: Artifact,
     boot: Boot,
     ring: Ring,
-  }
+}
+
 export default function Shop() {
     const router = useRouter();
     const { data: session } = useSession();
@@ -49,6 +50,7 @@ export default function Shop() {
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [weapons, setWeapons] = useState<Weapon[]>([]);
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
+    const [displayProducts, setDisplayProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     
     useEffect(() => {
@@ -150,6 +152,40 @@ export default function Shop() {
     //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
         console.log('helmets array: ',helmets)
+        setCurrentDisplay(helmets[0])
+    }, [helmets]);
+
+    const displaySelectedShopProducts = (category: String) => {
+        switch (category){
+
+            case 'weapon':
+                setDisplayProducts(weapons);
+            break;
+            case 'shield':
+                setDisplayProducts(shields);
+            break;
+            case 'helmet':
+                setDisplayProducts(helmets);
+            break;
+            case 'armor':
+                setDisplayProducts(armors);
+            break;
+            case 'boot':
+                setDisplayProducts(boots);
+            break;
+            case 'ring':
+                setDisplayProducts(rings);
+            break;
+            case 'artifact':
+                setDisplayProducts(artifacts);
+            break;
+            case 'ingredient':
+                setDisplayProducts(ingredients);
+            break;
+        }
+    };
+
+    useEffect(() => {
         setCurrentDisplay(armors[3])
     }, [helmets])
     
@@ -161,13 +197,13 @@ export default function Shop() {
         <ShopContainer>
             <ShopHeader>
                 <MainHeader/>
-                <ShopOptionsHeader/>
+                <ShopOptionsHeader displaySelectedShopProducts={displaySelectedShopProducts}/>
             </ShopHeader>
             <MainContainer>
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay} />
-                <RightContainer products={helmets!} onProductSelect={setCurrentDisplay} />
+                <MidContainer product={currentDisplay}/>
+                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay}/>
                 <CollapseSidepanelButton direction='left' executeFunction={(() => {console.log('left')})}/>
             </MainContainer>
         </ShopContainer>
