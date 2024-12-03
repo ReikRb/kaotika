@@ -7,7 +7,7 @@ import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import ProductCard from "./ProductCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
     products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
@@ -19,18 +19,22 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) 
 
     const [selectedProduct, setSelectedProduct] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null>(null);
 
+    useEffect(() => {
+        setSelectedProduct(products[0]);
+    }, [products]);
+
     const handleProductSelect = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
         setSelectedProduct(product);
         onProductSelect(product);
-        
     };
+
     return (
         <>
             <div className="w-[73%] ml-[13%] bg-gray-950 bg-opacity-50 row-span-8 row-start-3 p-[2%] overflow-y-auto">
-            {products.map((product, i) => (
-                <ProductCard key={i.toString()} product={product} isSelected={selectedProduct === product} onClick={() => handleProductSelect(product)}/>
-            ))}
-        </div>
+                {products.map((product, i) => (
+                    <ProductCard key={i.toString()} product={product} isSelected={selectedProduct === product} onClick={() => handleProductSelect(product)}/>
+                ))}
+            </div>
         </>
     );
 };

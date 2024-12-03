@@ -100,6 +100,17 @@ export default function Shop() {
                 }
             };
 
+            const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
+                let newData: any = []
+
+                data.map((element: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => {
+                    if (element.value > 0 && !element.isUnique) 
+                        newData = [...newData, element]
+                })
+
+                return newData;
+            }
+
             //If there is not cached data it will fetch the requested category and save it in the local storage
             const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
                 const cachedData = sessionStorage.getItem(categoryName);
@@ -112,7 +123,11 @@ export default function Shop() {
                             const response = await res.json();
 
                             console.log(categoryName, ' fetch complete:', response)
-                            setMethod(response);
+
+                            const result = filter(response)
+                            console.log(categoryName, ' after filtering:', result)
+
+                            setMethod(result);
 
                             console.log(`Saving ${categoryName} data in local storage.`)
                             sessionStorage.setItem(categoryName, JSON.stringify(response));
@@ -162,11 +177,9 @@ export default function Shop() {
         if (player) calculateAllAttributes(player, setCurrentAttributes);
     }, [player]);
 
-    //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
-        console.log('helmets array: ',helmets)
-        setCurrentDisplay(helmets[0])
-    }, [helmets]);
+        setCurrentDisplay(displayProducts[0]);
+    }, [displayProducts]);
 
     const displaySelectedShopProducts = (category: String) => {
         switch (category){
@@ -203,7 +216,7 @@ export default function Shop() {
     }, [helmets])
 
     if (loading) {
-        return <Loading />;
+        return <Loading/>;
     }
 
     return (
