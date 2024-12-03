@@ -10,13 +10,18 @@ import { Ingredient } from "@/_common/interfaces/Ingredient";
 
 interface Props {
     products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
+    onProductSelect: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => void;
+
 }
 
-const RightContainer: React.FC<Props> = (data) => {
+const RightContainer: React.FC<Props> = ({ products, onProductSelect }) => {
     return (
         <>
-            <div className="w-4/12 grid grid-rows-10 border-2 border-red-600">
-                <ProductsCardsContainer products={data.products!}/>
+            <div className="w-[5.6%] h-[100%] bg-cover bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]">
+
+            </div>
+            <div className="w-4/12 grid grid-rows-10">
+                <ProductsCardsContainer products={products} onProductSelect={onProductSelect} />
             </div>
         </>
     );

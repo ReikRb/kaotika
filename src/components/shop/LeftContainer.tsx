@@ -25,7 +25,6 @@ interface Props {
 
 
 const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, product}) => {
-    console.log('Current P LeftC: ', product.name);
 
     return (
         <>
