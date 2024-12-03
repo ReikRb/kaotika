@@ -31,7 +31,8 @@ interface Equipment {
     artifact: Artifact,
     boot: Boot,
     ring: Ring,
-  }
+}
+
 export default function Shop() {
     const router = useRouter();
     const { data: session } = useSession();
@@ -50,6 +51,7 @@ export default function Shop() {
     const [weapons, setWeapons] = useState<Weapon[]>([]);
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield>();
+    const [displayProducts, setDisplayProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(weapons);
     
     useEffect(() => {
         if (session?.user?.email) {
@@ -151,7 +153,38 @@ export default function Shop() {
     useEffect(() => {
         console.log('helmets array: ',helmets)
         setCurrentDisplay(helmets[0])
-    }, [helmets])
+    }, [helmets]);
+
+    const displaySelectedShopProducts = (category: String) => {
+
+        switch (category){
+
+            case 'weapon':
+                setDisplayProducts(weapons);
+            break;
+            case 'shield':
+                setDisplayProducts(shields);
+            break;
+            case 'helmet':
+                setDisplayProducts(helmets);
+            break;
+            case 'armor':
+                setDisplayProducts(armors);
+            break;
+            case 'boot':
+                setDisplayProducts(boots);
+            break;
+            case 'ring':
+                setDisplayProducts(rings);
+            break;
+            case 'artifact':
+                setDisplayProducts(artifacts);
+            break;
+            case 'ingredient':
+                setDisplayProducts(ingredients);
+            break;
+        }
+    };
     
     if (loading) {
         return <Loading />;
@@ -161,13 +194,13 @@ export default function Shop() {
         <ShopContainer>
             <ShopHeader>
                 <MainHeader/>
-                <ShopOptionsHeader/>
+                <ShopOptionsHeader displaySelectedShopProducts={displaySelectedShopProducts}/>
             </ShopHeader>
             <MainContainer>
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer product={currentDisplay!}/>
-                <RightContainer products={helmets!}/>
+                <RightContainer products={displayProducts}/>
                 <CollapseSidepanelButton direction='left' executeFunction={(() => {console.log('left')})}/>
             </MainContainer>
         </ShopContainer>
