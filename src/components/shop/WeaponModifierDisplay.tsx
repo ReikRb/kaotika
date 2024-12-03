@@ -10,12 +10,12 @@ interface Props {
 const ProductAttack: React.FC<Props> = ({ basePercentage, dieFaces, dieModifier, dieNum }) => (
     <div>
         <div className="flex items-center space-x-40">
-            <span className="text-gray-200 text-2xl ">Base Percentage:</span>
+            <span className="text-gray-200 text-2xl ">Base Percentage</span>
             <span className="text-amber-200 text-2xl ">{basePercentage}</span>
 
         </div>
         <div className="flex items-center space-x-40">
-            <span className="text-gray-200 text-2xl">Attack:</span>
+            <span className="text-gray-200 text-2xl">Attack</span>
             <span className="text-amber-200 text-2xl">{dieNum}D{dieFaces} + {dieModifier}</span>
 
         </div>
