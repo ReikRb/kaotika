@@ -1,7 +1,6 @@
 import { PROGRESS_LABEL, PROGRESS_VALUE } from '@/constants/constants';
 import { Progress } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
-import MultiProgress from 'react-multi-progress';
 
 interface Props {
   label: string;
@@ -94,12 +93,12 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
           }
         </div>
       </div>
-      <MultiProgress
+      {/* <MultiProgress
         transitionTime={1.5}
         backgroundColor={'gray'}
         border={'1px solid #e4caa5'}
         elements={barValues}
-      />
+      /> */}
     </>
   )
 }
