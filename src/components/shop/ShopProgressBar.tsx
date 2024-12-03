@@ -102,15 +102,9 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
           }
         </div>
       </div>
-      {/* <MultiProgress
-        transitionTime={1.5}
-        backgroundColor={'gray'}
-        border={'1px solid #e4caa5'}
-        elements={barValues}
-      /> */}
-      <div className="flex inline-row ml-[5%] h-2 w-[90%] bg-gray-200 dark:bg-neutral-600">
-        <div className="h-2" style={{ backgroundColor: barValues[0].color, width: `${barValues[0].value}%` }}></div>
-        <div className="h-2 bg-red-600" style={{ backgroundColor: barValues[1].color, width: `${barValues[1].value}%` }}></div>
+      <div className="flex inline-row ml-[5%] h-2 w-[90%] bg-gray-200 dark:bg-neutral-600 rounded-full">
+        <div className="h-2 rounded-l-sm" style={{ backgroundColor: barValues[0].color, width: `${barValues[0].value}%` }}/>
+        <div className="h-2 bg-red-600 rounded-r-sm" style={{ backgroundColor: barValues[1].color, width: `${barValues[1].value}%` }}/>
       </div>
     </>
   )
