@@ -22,6 +22,7 @@ import ShopOptionsHeader from '@/components/shop/ShopOptionsHeader';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import RightSidePanel from '@/components/shop/RightSidePanelComponent';
 
 interface Equipment {
     helmet: Helmet,
@@ -52,14 +53,17 @@ export default function Shop() {
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
     const [displayProducts, setDisplayProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
-    
+    const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
+
+    const toggleRightPanel = () => setIsRightPanelOpen((prev) => !prev);
+
     useEffect(() => {
         if (session?.user?.email) {
             const fetchPlayerData = async () => {
                 try {
                     console.log('Fetching user character');
                     const res = await fetch(`/api/shop/player?email=${session.user?.email}`);
-                    
+
                     if (res.status === 200) {
                         const response = await res.json();
                         setCurrentEquipment(response.equipment);
@@ -71,8 +75,8 @@ export default function Shop() {
                             artifact: response.equipment.artifact,
                             boot: response.equipment.boot,
                             ring: response.equipment.ring,
-                          }
-                          setPlayerEquipment(equipment)
+                        }
+                        setPlayerEquipment(equipment)
                         console.log('Users character fetch complete:', response)
                         setPlayer(response);
 
@@ -105,9 +109,10 @@ export default function Shop() {
                     try {
                         console.log('Data not found in local storage. \nFetching : ', categoryName);
                         const res = await fetch(`/api/shop/${categoryName}`);
-                        
+
                         if (res.status === 200) {
                             const response = await res.json();
+
                             console.log(categoryName, ' fetch complete:', response)
 
                             const result = filter(response)
@@ -117,25 +122,25 @@ export default function Shop() {
 
                             console.log(`Saving ${categoryName} data in local storage.`)
                             sessionStorage.setItem(categoryName, JSON.stringify(response));
-    
+
                         } else if (res.status === 404) {
                             //   const response = await res.json();
-    
+
                         } else {
-                            setError(`An error occurred while fetching: ${categoryName}` );
+                            setError(`An error occurred while fetching: ${categoryName}`);
                         }
                     } catch (error) {
-                        setError(`An error occurred while fetching: ${categoryName}` );
+                        setError(`An error occurred while fetching: ${categoryName}`);
                     }
                 } else {
                     const parsedData = JSON.parse(cachedData!)
                     console.log(`Data of ${categoryName} found in Local Storage: `, parsedData);
-                    
+
                     setMethod(parsedData);
                 }
             };
 
-            const handleFetches = async () =>{
+            const handleFetches = async () => {
                 try {
                     setLoading(true);
                     await fetchCategory('ingredients', setIngredients);
@@ -154,14 +159,14 @@ export default function Shop() {
                     console.log('Loading Complete');
                 }
             }
-            
+
             handleFetches()
         }
     }, [session]);
 
     useEffect(() => {
-        if(player) calculateAllAttributes(player, setCurrentAttributes);
-      }, [player]);
+        if (player) calculateAllAttributes(player, setCurrentAttributes);
+    }, [player]);
 
     //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
@@ -202,7 +207,7 @@ export default function Shop() {
     useEffect(() => {
         setCurrentDisplay(armors[3])
     }, [helmets])
-    
+
     if (loading) {
         return <Loading />;
     }
@@ -214,11 +219,14 @@ export default function Shop() {
                 <ShopOptionsHeader displaySelectedShopProducts={displaySelectedShopProducts}/>
             </ShopHeader>
             <MainContainer>
+            <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
+                    <img src="/images/shop/leftArrow.png" alt="Open Right Panel" className="absolute top-2/4 left-0 w-8 h-40" />
+                </button>
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} />
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer product={currentDisplay}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay}/>
-                <CollapseSidepanelButton direction='left' executeFunction={(() => {console.log('left')})}/>
             </MainContainer>
         </ShopContainer>
     );
