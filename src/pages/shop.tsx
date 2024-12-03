@@ -87,6 +87,17 @@ export default function Shop() {
                 }
             };
 
+            const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
+                let newData: any = []
+
+                data.map((element: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => {
+                    if (element.value > 0 && !element.isUnique) 
+                        newData = [...newData, element]
+                })
+
+                return newData;
+            }
+
             //If there is not cached data it will fetch the requested category and save it in the local storage
             const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
                 const cachedData = sessionStorage.getItem(categoryName);
@@ -97,9 +108,12 @@ export default function Shop() {
                         
                         if (res.status === 200) {
                             const response = await res.json();
-                            
                             console.log(categoryName, ' fetch complete:', response)
-                            setMethod(response);
+
+                            const result = filter(response)
+                            console.log(categoryName, ' after filtering:', result)
+
+                            setMethod(result);
 
                             console.log(`Saving ${categoryName} data in local storage.`)
                             sessionStorage.setItem(categoryName, JSON.stringify(response));
