@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const ringSchema = new mongoose.Schema({

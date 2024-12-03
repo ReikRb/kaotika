@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ShopButton from "./shopButton";
 import RequirementsSection from "./requirementsSection";
 import ProductImage from "./ProductImage";
-import ProductDefenseSection from "./DefensiveModifierDisplay";
 import { Weapon } from "@/_common/interfaces/Weapon";
 import { Helmet } from "@/_common/interfaces/Helmet";
 import { Armor } from "@/_common/interfaces/Armor";
@@ -12,9 +11,9 @@ import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
 import ProductWeaponDisplay from "./WeaponModifierDisplay";
 import GoldComponent from "./GoldComponent";
+import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 
 interface Props {
-    products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[];
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
 }
 
@@ -50,8 +49,8 @@ const MidContainer: React.FC<Props> = ({ product }) => {
         <div className="w-full sm:w-4/12 h-full flex flex-col relative">
             {isModalOpen && modalContent && (
                <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-               <div className="relative w-[80%] max-w-4xl h-[55%] bg-[url('/images/shop/confirmation_box.webp')] bg-cover bg-no-repeat text-center text-white shadow-xl p-8 md:p-24 flex flex-col items-center justify-between space-y-6">
-                   <div className="flex flex-col items-center justify-center space-y-4 md:space-y-8">
+               <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
+                   <div className="flex flex-col items-center justify-center md:space-y-8">
                        <p className="text-xl md:text-4xl font-bold">Are you sure you want to buy</p>
                        <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">{modalContent.name}</p>
                        <div className="flex items-center justify-center space-x-2">
@@ -81,7 +80,7 @@ const MidContainer: React.FC<Props> = ({ product }) => {
             <RequirementsSection gold={product.value} level={product.min_lvl} />
 
             {hasDefense(product) ? (
-                <ProductDefenseSection defense={product.defense} />
+                <ProductDefenseDisplay defense={product.defense} />
             ) : isWeapon(product) ? (
                 <ProductWeaponDisplay
                     basePercentage={product.base_percentage}
