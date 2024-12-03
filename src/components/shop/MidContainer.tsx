@@ -15,7 +15,10 @@ import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
+    onAddToCart: (product: Product) => void;
+
 }
+type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
 
 const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;
@@ -25,7 +28,7 @@ const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Sh
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product }) => {
+const MidContainer: React.FC<Props> = ({ product, onAddToCart }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
 
@@ -104,7 +107,7 @@ const MidContainer: React.FC<Props> = ({ product }) => {
                 <ShopButton
                     label="ADD TO CART"
                     imageSrc="/images/shop/store_button.webp"
-                    onClick={() => console.log("Add to Cart")}
+                    onClick={() => product && onAddToCart(product)}
                 />
             </div>
         </div>
