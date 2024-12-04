@@ -24,8 +24,8 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected }) => {
                 onClick={onClick}
             >
             
-                <div className=" justify-center content-center self-center w-[90%] h-[90%] m-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]">
-                    <img className="ml-[32%] mb-[3%] w-[37%]" src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
+                <div className=" place-items-center w-[90%] h-[90%] ml-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]">
+                    <img className=" place-items-center ml-[31%] mt-[30%] w-[37%]" src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
                 </div>
                 <div className=" text-center content-center ml-[2%] w-[80%] space-y-[7%] inline-block">
                     <p className=" text-2xl text-white mr-[15%]">{product.name}</p>

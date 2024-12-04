@@ -33,6 +33,8 @@ interface Equipment {
     boot: Boot,
     ring: Ring,
 }
+type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+
 
 export default function Shop() {
     const router = useRouter();
@@ -54,15 +56,21 @@ export default function Shop() {
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
     const [displayProducts, setDisplayProducts] = useState<Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
-    const [isRightPanelOpen, setIsRightPanelOpen] = useState(true);
-    const [cart, setCart] = useState<(Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]>([]);
-
-    const handleAddToCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
-        setCart((prevCart) => [...prevCart, product]);
-    };
+    const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
+    const [cart, setCart] = useState<Product[]>([]);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [playerGold, setPlayerGold] = useState(null);
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
         setCart((prevCart) => prevCart.filter((item) => item !== product));
+    };
+
+    const addToCart = (product: Product) => {
+        setCart((prevCart) => [...prevCart, product]);
+    };
+
+    const onClearCart = () => {
+        setCart([]);
     };
 
     const toggleRightPanel = () => setIsRightPanelOpen((prev) => !prev);
@@ -89,6 +97,7 @@ export default function Shop() {
                         setPlayerEquipment(equipment)
                         console.log('Users character fetch complete:', response)
                         setPlayer(response);
+                        setPlayerGold(response.gold);
                         setInventory(setInventoryItems(response));
 
                     } else if (res.status === 404) {
@@ -144,7 +153,7 @@ export default function Shop() {
                             setMethod(result);
 
                             console.log(`Saving ${categoryName} data in local storage.`)
-                            sessionStorage.setItem(categoryName, JSON.stringify(response));
+                            sessionStorage.setItem(categoryName, JSON.stringify(result));
 
                         } else if (res.status === 404) {
                             //   const response = await res.json();
@@ -244,13 +253,12 @@ export default function Shop() {
             </ShopHeader>
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
-                    <img src="/images/shop/leftArrow.png" alt="Open Right Panel" className="absolute top-2/4 left-0 w-8 h-40" />
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onAddFromCart={handleAddToCart}/>
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart} playerGold={playerGold}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay}/>
-                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay}/>
+                <MidContainer product={currentDisplay} onAddToCart={addToCart} player={player!}/>
+                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>
     );

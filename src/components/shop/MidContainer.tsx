@@ -12,10 +12,15 @@ import { Shield } from "@/_common/interfaces/Shield";
 import ProductWeaponDisplay from "./WeaponModifierDisplay";
 import GoldComponent from "./GoldComponent";
 import ProductDefenseDisplay from "./DefensiveModifierDisplay";
+import { Player } from "@/_common/interfaces/Player";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
+    onAddToCart: (product: Product) => void;
+    player: Player
 }
+
+type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
 
 const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;
@@ -25,7 +30,7 @@ const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Sh
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product }) => {
+const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
 
@@ -40,6 +45,8 @@ const MidContainer: React.FC<Props> = ({ product }) => {
         setModalOpen(false);
         setModalContent(null);
     };
+
+    const canAfford = product ? player.gold >= product.value : false;
 
     if (!product) {
         return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
@@ -98,13 +105,13 @@ const MidContainer: React.FC<Props> = ({ product }) => {
             <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
                 <ShopButton
                     label="BUY"
-                    imageSrc="/images/shop/store_button.webp"
-                    onClick={handleBuyClick}
+                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                    onClick={canAfford ? handleBuyClick : null}
                 />
                 <ShopButton
                     label="ADD TO CART"
-                    imageSrc="/images/shop/store_button.webp"
-                    onClick={() => console.log("Add to Cart")}
+                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                    onClick={canAfford ? () => product && onAddToCart(product) : null}
                 />
             </div>
         </div>
