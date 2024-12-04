@@ -258,7 +258,7 @@ export default function Shop() {
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer product={currentDisplay} onAddToCart={addToCart}/>
-                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay}/>
+                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>
     );
