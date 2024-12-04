@@ -13,6 +13,10 @@ import ProductWeaponDisplay from "./WeaponModifierDisplay";
 import GoldComponent from "./GoldComponent";
 import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
+import { Ingredient } from "@/_common/interfaces/Ingredient";
+import UpdateQtyButton from "./UpdateQtyButton";
+import IncrementDecrement from "./UpdateQtyButton";
+
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
@@ -33,10 +37,11 @@ const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Sh
 const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
+    const [quantity, setQuantity] = useState(1);
 
     const handleBuyClick = () => {
         if (product) {
-            setModalContent({ name: product.name, value: product.value });
+            setModalContent({ name: product.name, value: product.value * quantity });
             setModalOpen(true);
         }
     };
@@ -46,7 +51,15 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
         setModalContent(null);
     };
 
-    const canAfford = product ? player.gold >= product.value : false;
+    const handleQuantityChange = (value: number) => {
+        setQuantity(value);
+    };
+
+    const isProductEquipment = !!product && 
+    ["Weapon", "Helmet", "Armor", "Boot", "Ring", "Artifact", "Shield"].includes(product.name);
+
+
+    const canAfford = product ? player.gold >= product.value * quantity : false;
 
     if (!product) {
         return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
@@ -102,7 +115,18 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
             )}
 
             <ProductImage imageSrc={product.image} altText="Center" />
-            <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
+            
+            
+            <div className="flex flex-col items-center justify-center h-[50%] -mb-32">
+                {!isProductEquipment && (
+                    <IncrementDecrement
+                        initialValue={quantity}
+                        onValueChange={handleQuantityChange}
+                    />
+                )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center h-[70%] sm:space-y-0 sm:space-x-4">
                 <ShopButton
                     label="BUY"
                     imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
