@@ -33,6 +33,8 @@ interface Equipment {
     boot: Boot,
     ring: Ring,
 }
+type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+
 
 export default function Shop() {
     const router = useRouter();
@@ -50,10 +52,25 @@ export default function Shop() {
     const [shields, setShields] = useState<Shield[]>([]);
     const [artifacts, setArtifacts] = useState<Artifact[]>([]);
     const [weapons, setWeapons] = useState<Weapon[]>([]);
+    const [inventory, setInventory] = useState<Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[]>();
     const [currentAttributes, setCurrentAttributes] = useState<Modifier>();
-    const [displayProducts, setDisplayProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(weapons);
+    const [displayProducts, setDisplayProducts] = useState<Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
+    const [cart, setCart] = useState<Product[]>([]);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+    const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
+        setCart((prevCart) => prevCart.filter((item) => item !== product));
+    };
+
+    const addToCart = (product: Product) => {
+        setCart((prevCart) => [...prevCart, product]);
+    };
+
+    const onClearCart = () => {
+        setCart([]);
+    };
 
     const toggleRightPanel = () => setIsRightPanelOpen((prev) => !prev);
 
@@ -79,6 +96,7 @@ export default function Shop() {
                         setPlayerEquipment(equipment)
                         console.log('Users character fetch complete:', response)
                         setPlayer(response);
+                        setInventory(setInventoryItems(response));
 
                     } else if (res.status === 404) {
                         //   const response = await res.json();
@@ -89,6 +107,18 @@ export default function Shop() {
                 } catch (error) {
                     setError('An error occurred while checking registration');
                 }
+            };
+
+            const setInventoryItems = (player: Player) => {
+                const products: Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[] = [];
+            
+                Object.values(player?.inventory).map((productTypes) => {
+                    productTypes.map((product) => {
+                        products.push(product[0]);
+                    });
+                });
+
+                return products;
             };
 
             const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
@@ -168,11 +198,13 @@ export default function Shop() {
         if (player) calculateAllAttributes(player, setCurrentAttributes);
     }, [player]);
 
-    //MUST CHANGE VALUES TO DETECT ANY ITEM THAT IS SELECTED IN THE SHOP NOT THE DEFAULT VALUE OF HELMETS
     useEffect(() => {
-        console.log('helmets array: ',helmets)
-        setCurrentDisplay(helmets[0])
-    }, [helmets]);
+        setCurrentDisplay(displayProducts[0]);
+    }, [displayProducts]);
+
+    useEffect(() => {
+        setCurrentDisplay(weapons[0])
+    }, [weapons]);
 
     const displaySelectedShopProducts = (category: String) => {
         switch (category){
@@ -201,15 +233,14 @@ export default function Shop() {
             case 'ingredient':
                 setDisplayProducts(ingredients);
             break;
+            case 'inventory':
+                setDisplayProducts(inventory!);
+            break;
         }
     };
 
-    useEffect(() => {
-        setCurrentDisplay(armors[3])
-    }, [helmets])
-
     if (loading) {
-        return <Loading />;
+        return <Loading/>;
     }
 
     return (
@@ -220,12 +251,11 @@ export default function Shop() {
             </ShopHeader>
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
-                    <img src="/images/shop/leftArrow.png" alt="Open Right Panel" className="absolute top-2/4 left-0 w-8 h-40" />
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} />
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay}/>
+                <MidContainer product={currentDisplay} onAddToCart={addToCart}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>

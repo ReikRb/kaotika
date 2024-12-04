@@ -12,6 +12,7 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
     const [isCartActive, setIsCartActive] = useState(false);
 
     useEffect(() => {
+        console.log(activeCategory);
         displaySelectedShopProducts(activeCategory);
     }, [activeCategory]);
 
@@ -21,6 +22,8 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
 
     const handleActionChange = (category: string) => {
         setActiveAction(category);
+        setShopType('equipment');
+        setActiveCategory(category === 'buy' ? 'weapon' : 'inventory');
     };
 
     const handleShopTypeChange = (type: string) => {
