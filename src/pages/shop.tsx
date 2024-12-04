@@ -257,7 +257,7 @@ export default function Shop() {
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart} playerGold={playerGold}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay} onAddToCart={addToCart}/>
+                <MidContainer product={currentDisplay} onAddToCart={addToCart} player={player!}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>

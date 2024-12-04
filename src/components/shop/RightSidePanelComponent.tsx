@@ -56,27 +56,31 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
 
                 {cart.length > 0 && (
                     <div className="border-t-2 border-medievalSepia p-4">
-                        <div className="flex justify-between items-center mb-4">
-                            <p className="text-3xl font-bold ">Your Gold</p>
-                            <p className="text-3xl font-bold">Cost</p>
-                            <p className="text-3xl font-bold">Remaining Gold</p>
+
+                        <div className="flex-1 bg-medievalSepia bg-opacity-15 rounded-xl p-2">
+                            <div className="flex justify-between items-center mb-2">
+                                <p className="text-3xl font-bold ">Your Gold</p>
+                                <p className="text-3xl font-bold">Cost</p>
+                                <p className="text-3xl font-bold">Remaining Gold</p>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <p className="text-3xl font-extralight">{playerGold}</p>
+                                <p className="text-6xl "> - </p>
+                                <p className="text-3xl font-extralight">{calculateTotal()}</p>
+                                <p className="text-6xl"> = </p>
+                                <GoldComponent amount={calculateRemaining(calculateTotal())} />
+                            </div>
                         </div>
-                        <div className="flex justify-between items-center mb-4">
-                            <p className="text-3xl font-extralight">{playerGold}</p>
-                            <p className="text-6xl "> - </p>
-                            <p className="text-3xl font-extralight">{calculateTotal()}</p>
-                            <p className="text-6xl"> = </p>
-                            <GoldComponent amount={calculateRemaining(calculateTotal())} />
-                        </div>
+
                         <div className="flex justify-between">
-                            <div className="relative w-40 h-20 cursor-pointer" onClick={onClearCart}>
+                            <div className="relative w-40 h-20 cursor-pointer mt-2" onClick={onClearCart}>
                                 <img src="/images/shop/cartButtons.webp" alt="Delete All" className="absolute w-full h-full" />
                                 <p className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
                                     Delete All
                                 </p>
                             </div>
 
-                            <div className="relative w-40 h-20 cursor-pointer" onClick={() => console.log('Buy action triggered')}
+                            <div className="relative w-40 h-20 cursor-pointer mt-2" onClick={() => console.log('Buy action triggered')}
                             >
                                 <img src="/images/shop/cartButtons.webp" alt="Buy" className="absolute w-full h-full"
                                 />
