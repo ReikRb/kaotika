@@ -9,6 +9,7 @@ import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
 import CartProductsContainer from './CartProductsContainer';
 import GoldComponent from './GoldComponent';
+import { Player } from '@/_common/interfaces/Player';
 
 interface RightSidePanelProps {
     isOpen: boolean;
@@ -16,20 +17,36 @@ interface RightSidePanelProps {
     cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
     onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
     onClearCart: () => void;
-    playerGold: number;
+    player: Player;
 }
 
-const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onClearCart, playerGold }) => {
+const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onClearCart, player }) => {
     const [ArrowImage, setArrowImage] = useState('');
+    const [buyButtonImage, setBuyButtonImage] = useState('/images/shop/cartButtons.webp');
+
     const calculateTotal = () =>
         cart.reduce((total, product) => total + (product.value || 0), 0);
 
     const calculateRemaining = (total: number) =>
-        playerGold - total;
+        player.gold - total;
+
+    const canAfford = (total: number) => player.gold >= total;
+
+    const handleBuyClick = () => {
+        console.log('- Products bought -');
+    };
 
     useEffect(() => {
         setArrowImage('/images/shop/leftArrow.png');
     }, []);
+
+    useEffect(() => {
+        if (canAfford(calculateTotal())) {
+            setBuyButtonImage('/images/shop/cartButtons.webp');
+        } else {
+            setBuyButtonImage('/images/shop/cartButtonsDisabled.webp');
+        }
+    }, [cart, player.gold]);
 
     return (
         <div className={`fixed top-[20%] right-0 h-[80%] w-[40.5rem] bg-black border-1 border-sepia z-50 transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}
@@ -64,7 +81,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
                                 <p className="text-3xl font-bold">Remaining Gold</p>
                             </div>
                             <div className="flex justify-between items-center">
-                                <p className="text-3xl font-extralight">{playerGold}</p>
+                                <p className="text-3xl font-extralight">{player.gold}</p>
                                 <p className="text-6xl "> - </p>
                                 <p className="text-3xl font-extralight">{calculateTotal()}</p>
                                 <p className="text-6xl"> = </p>
@@ -80,10 +97,13 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
                                 </p>
                             </div>
 
-                            <div className="relative w-40 h-20 cursor-pointer mt-2" onClick={() => console.log('Buy action triggered')}
+                            <div
+                                className={`relative w-40 h-20 mt-2 ${
+                                    canAfford(calculateTotal()) ? 'cursor-pointer' : 'cursor-not-allowed'
+                                }`}
+                                onClick={canAfford(calculateTotal()) ? handleBuyClick : undefined}
                             >
-                                <img src="/images/shop/cartButtons.webp" alt="Buy" className="absolute w-full h-full"
-                                />
+                                <img src={buyButtonImage} alt="Buy" className="absolute w-full h-full" />
                                 <p className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
                                     Buy
                                 </p>
