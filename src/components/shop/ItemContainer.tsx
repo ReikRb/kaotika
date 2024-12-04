@@ -58,22 +58,39 @@ const ItemContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
         
     },[product])
 
+    const renderEffect = (item: string) => {
+
+        const effect = item.replace(/_/g, ' ');
+        const firstLetter = effect.charAt(0);
+        const rest = effect.slice(1);
+        return firstLetter.toUpperCase() + rest;
+    }
+
     return (
         <>
-            <div>
-                {currentAttributes && product ? (
+            <div className="w-full row-span-7 row-start-0 grid grid-rows-10 p-[4%]">
+                {product && currentAttributes ? (
                     <>
-                        <h1 className={`text-center text-3xl mt-3 mb-2 ${product.isUnique ? "text-purple-500" : "text-darkSepia"}`}>{product.name}</h1>
-                        <p className="text-center text-2xl mb-2">{product.description}</p>
-                        <ShopProgressBar label="Charisma" value={currentAttributes.charisma} itemValue={modifierValue.charisma} maxValue={300} />
-                        <ShopProgressBar label="Constitution" value={currentAttributes.constitution} itemValue={modifierValue.constitution} maxValue={300} />
-                        <ShopProgressBar label="Dexterity" value={currentAttributes.dexterity} itemValue={modifierValue.dexterity} maxValue={300} />
-                        <ShopProgressBar label="Insanity" value={currentAttributes.insanity} itemValue={modifierValue.insanity} maxValue={300} />
-                        <ShopProgressBar label="Intelligence" value={currentAttributes.intelligence} itemValue={modifierValue.intelligence} maxValue={300} />
-                        <ShopProgressBar label="Strength" value={currentAttributes.strength} itemValue={modifierValue.strength} maxValue={500} />
-                    </>
-                ) : <h1 className={`text-center text-3xl mb-2 "text-darkSepia"}`}>Something went wrong. Please reload.</h1>
-                }
+                        <div className="flex flex-col place-content-around row-span-3 row-start-0">
+                            <h2 className={`text-center 2xl:text-3xl lg:text-xl sm:text-sm pb-[2%] ${product.isUnique ? "text-purple-500" : "text-darkSepia"}`}>{product.name}</h2>
+                            <p className="text-center 2xl:text-2xl lg:text-lg sm:text-sm">{product.description}</p>
+                        </div>
+                        {product.type === 'ingredient' ? (
+                            <div className="flex justify-center place-items-center row-span-7 row-start-4">
+                                <p className="2xl:text-4xl lg:text-2xl sm:text-lg text-white">{renderEffect(product.effects[0])}</p>
+                            </div>
+                        ) : (
+                            <div className="row-span-7 row-start-4 place-content-center">
+                                <ShopProgressBar label="Charisma" value={currentAttributes.charisma} itemValue={modifierValue.charisma} maxValue={300}/>
+                                <ShopProgressBar label="Constitution" value={currentAttributes.constitution} itemValue={modifierValue.constitution} maxValue={300}/>
+                                <ShopProgressBar label="Dexterity" value={currentAttributes.dexterity} itemValue={modifierValue.dexterity} maxValue={300}/>
+                                <ShopProgressBar label="Insanity" value={currentAttributes.insanity} itemValue={modifierValue.insanity} maxValue={300}/>
+                                <ShopProgressBar label="Intelligence" value={currentAttributes.intelligence} itemValue={modifierValue.intelligence} maxValue={300}/>
+                                <ShopProgressBar label="Strength" value={currentAttributes.strength} itemValue={modifierValue.strength} maxValue={500}/>
+                            </div>
+                        )}
+                    </>     
+                ) : <h2 className={`text-center 2xl:text-3xl lg:text-xl sm:text-sm mb-2 "text-darkSepia"}`}>Something went wrong. Please reload.</h2>}
             </div>
         </>
     );
