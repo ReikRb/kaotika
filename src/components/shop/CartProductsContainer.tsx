@@ -6,8 +6,8 @@ import { Ring } from "@/_common/interfaces/Ring";
 import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
-import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
+import ProductCard from "./ProductCard";
 
 interface CartProductsContainerProps {
     cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
@@ -16,7 +16,7 @@ interface CartProductsContainerProps {
 
 const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, onRemoveFromCart }) => {
     return (
-        <div className="w-full h-full overflow-y-auto space-y-4 p-4 bg-gray-950 bg-opacity-50">
+        <div className="w-[100%] h-full overflow-y-auto space-y-4 p-4 bg-gray-950 bg-opacity-50">
             {cart.map((product, i) => (
                 <ProductCard
                     key={i.toString()}

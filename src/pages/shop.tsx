@@ -59,6 +59,7 @@ export default function Shop() {
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
     const [cart, setCart] = useState<Product[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [playerGold, setPlayerGold] = useState(null);
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
         setCart((prevCart) => prevCart.filter((item) => item !== product));
@@ -96,6 +97,7 @@ export default function Shop() {
                         setPlayerEquipment(equipment)
                         console.log('Users character fetch complete:', response)
                         setPlayer(response);
+                        setPlayerGold(response.gold);
                         setInventory(setInventoryItems(response));
 
                     } else if (res.status === 404) {
@@ -252,7 +254,7 @@ export default function Shop() {
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart}/>                
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart} playerGold={playerGold}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer product={currentDisplay} onAddToCart={addToCart}/>
