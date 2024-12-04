@@ -153,7 +153,7 @@ export default function Shop() {
                             setMethod(result);
 
                             console.log(`Saving ${categoryName} data in local storage.`)
-                            sessionStorage.setItem(categoryName, JSON.stringify(response));
+                            sessionStorage.setItem(categoryName, JSON.stringify(result));
 
                         } else if (res.status === 404) {
                             //   const response = await res.json();
