@@ -8,16 +8,18 @@ const RequiredLevel: React.FC<{ level: number }> = ({ level }) => (
     </div>
 );
 
-const RequirementsSection: React.FC<{ gold: number; level: number }> = ({ gold, level }) => (
+const RequirementsSection: React.FC<{ gold: number; level?: number }> = ({ gold, level }) => (
     <div className="flex flex-col items-center justify-center h-[12%] relative">
-        <div className="relative h-32 w-96">
-            <img src="/images/shop/Req_Bg.webp" alt="Center" className="h-full w-full" />
-            <div className="absolute left-5 top-1/2 transform -translate-y-1/2">
+        <div className="relative h-[70%] w-[80%] ml-[4%] mt-[2%]">
+            <img src="/images/shop/Req_Bg.webp" alt="Requirements to buy this product" className="h-full w-full" />
+            <div className={`absolute top-1/2 transform -translate-y-1/2 ${level !== undefined ? "left-5" : "left-1/2 -translate-x-1/2"}`}>
                 <GoldComponent amount={gold} />
             </div>
-            <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
-                <RequiredLevel level={level} />
-            </div>
+            {level !== undefined && (
+                <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
+                    <RequiredLevel level={level} />
+                </div>
+            )}
         </div>
     </div>
 );
