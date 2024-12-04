@@ -19,7 +19,7 @@ const UserComponent: React.FC<User> = ({ name, gold, level }) => {
             <div className="h-[50%] w-full text-center">
                 <p>{name}</p>
             </div>
-            <div className="flex inline-row w-full h-[50%] justify-center">
+            <div className="flex inline-row w-full h-[50%] pb-[5%] justify-center">
                 <div className="w-[20%] mr-[30%] self-center">
                     <GoldComponent amount={gold} fontSize="text-4xl"/>
                 </div>
