@@ -87,8 +87,8 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
 
   return (
     <>
-      <div className='flex flex-row text-2xl mt-[4.5%]'>
-        <p className='w-[38%] ml-[5%] text-start'>{label}</p>
+      <div className='flex flex-row place-content-around mr-[2%] mt-[1%] ml-[2%] 2xl:text-2xl lg:text-lg sm:text-sm'>
+        <p className='w-[38%] text-start'>{label}</p>
         <div className='flex flex-row w-2/4 text-end'>
           {itemValue! > 0
             ? <p className='w-11/12 text-end text-green-500'>{`(+${itemValue})`}</p>
@@ -102,9 +102,9 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
           }
         </div>
       </div>
-      <div className="flex inline-row ml-[5%] h-2 w-[90%] bg-gray-200 dark:bg-neutral-600 rounded-full">
-        <div className="h-2 rounded-l-sm" style={{ backgroundColor: barValues[0].color, width: `${barValues[0].value}%` }}/>
-        <div className="h-2 bg-red-600 rounded-r-sm" style={{ backgroundColor: barValues[1].color, width: `${barValues[1].value}%` }}/>
+      <div className="flex inline-row ml-[5%] h-[2.5%] w-[90%] bg-gray-200 dark:bg-neutral-600 rounded-full">
+        <div className="rounded-l-sm" style={{ backgroundColor: barValues[0].color, width: `${barValues[0].value}%` }}/>
+        <div className="bg-red-600 rounded-r-sm" style={{ backgroundColor: barValues[1].color, width: `${barValues[1].value}%` }}/>
       </div>
     </>
   )
