@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import DropDownComponent from './DropDownComponent';
 
 interface Props {
     displaySelectedShopProducts: Function;
@@ -46,6 +47,11 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
         { key: 'container', label: 'Containers' },
     ];
 
+    const shopOptions = [
+        { key: 'equipment', label: 'Equipment' },
+        { key: 'magical', label: 'Magical Stuff' },
+    ]
+
     const categoriesToDisplay =
         shopType === 'equipment' ? equipmentCategories : magicalCategories;
 
@@ -73,15 +79,7 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
 
                     {activeAction === 'buy' && (
                         <div className="flex items-center ">
-                            <span className="text-xl mx-2 block">SHOP</span>
-                            <select
-                                onChange={(e) => handleShopTypeChange(e.target.value)}
-                                value={shopType}
-                                className="block w-full bg-gray-200 text-black border border-gray-800 rounded-md py-1 pl-6 pr-10 text-2xl"
-                            >
-                                <option value="equipment">Equipment</option>
-                                <option value="magical">Magical Stuff</option>
-                            </select>
+                            <DropDownComponent options={shopOptions} selectedOption={shopType} handleFunction={handleShopTypeChange}/>
                             <nav className="flex items-center space-x-6 ml-6">
                                 {categoriesToDisplay.map((category) => (
                                     <button
