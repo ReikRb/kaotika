@@ -58,7 +58,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
 
             <div className="p-4 text-white flex flex-col h-full b">
                 <h2 className="text-4xl font-bold mb-4 text-center">CART</h2>
-                <div className="flex-1 overflow-y-auto bg-gray-900 bg-opacity-35 rounded-xl">
+                <div className="flex-1 w-full border-2 border-red-600 overflow-y-auto bg-gray-900 bg-opacity-35 rounded-xl">
                     {cart.length > 0 ? (
                         <CartProductsContainer
                             cart={cart}
