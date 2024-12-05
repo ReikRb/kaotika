@@ -4,13 +4,13 @@ import DropDownComponent from './DropDownComponent';
 
 interface Props {
     displaySelectedShopProducts: Function;
+    togglePanel: () => void;
 }
 
-const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
+const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, togglePanel}) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
     const [activeCategory, setActiveCategory] = useState<string>('weapon');
     const [shopType, setShopType] = useState<string>('equipment');
-    const [isCartActive, setIsCartActive] = useState(false);
 
     useEffect(() => {
         console.log(activeCategory);
@@ -95,7 +95,7 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts}) => {
                     )}
                     <div className="flex items-center">
                         <button
-                            onClick={() => handleCategoryChange('cart')}
+                            onClick={() => togglePanel()}
                             className={`flex items-center text-3xl px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
                         >
                             <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} />

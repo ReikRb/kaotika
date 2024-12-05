@@ -29,9 +29,9 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
     };
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center justify-center">
                         <button
-                className="relative cursor-pointer w-10 bg-[url('/images/shop/UpdateQtyBox.webp')] bg-contain bg-no-repeat text-white text-5xl flex items-center justify-center"
+                className="relative cursor-pointer w-20 bg-[url('/images/shop/UpdateQtyBox.webp')] bg-contain bg-no-repeat text-white text-5xl flex items-center justify-center"
                 onClick={handleIncrement}
             >
                 +
@@ -41,11 +41,12 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
                 type="number"
                 value={count}
                 min={1}
-                className="relative cursor-pointer w-20 h-[100%] text-center text-white text-3xl border border-medievalSepia rounded bg-black"
+                max={99}
+                className="relative cursor-pointer w-10 h-[70%] text-right text-white text-3xl border border-medievalSepia rounded bg-black"
                 onChange={handleInputChange}
             />
             <button
-                className="relative cursor-pointer w-10 bg-[url('/images/shop/UpdateQtyBox.webp')] bg-contain bg-no-repeat text-white text-5xl flex items-center justify-center"
+                className="relative cursor-pointer w-20 bg-[url('/images/shop/UpdateQtyBox.webp')] bg-contain bg-no-repeat text-white text-5xl flex items-center justify-center"
                 onClick={handleDecrement}
             >
                 -
