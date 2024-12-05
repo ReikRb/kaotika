@@ -4,10 +4,11 @@ import DropDownComponent from './DropDownComponent';
 
 interface Props {
     displaySelectedShopProducts: Function;
-    togglePanel: () => void;
+    buttonDisplayHandler: Function;
+    togglePanel: Function;
 }
 
-const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, togglePanel}) => {
+const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, buttonDisplayHandler, togglePanel}) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
     const [activeCategory, setActiveCategory] = useState<string>('weapon');
     const [shopType, setShopType] = useState<string>('equipment');
@@ -16,6 +17,10 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, toggle
         console.log(activeCategory);
         displaySelectedShopProducts(activeCategory);
     }, [activeCategory]);
+
+    useEffect(() => {
+        buttonDisplayHandler(activeAction === 'buy' ? true : false);
+    }, [activeAction])
 
     const handleCategoryChange = (category: string) => {
         setActiveCategory(category);
