@@ -72,7 +72,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
                <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
                    <div className="flex flex-col items-center justify-center md:space-y-8">
                        <p className="text-xl md:text-4xl font-bold">Are you sure you want to buy</p>
-                       <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">{modalContent.name}</p>
+                       <p className="text-2xl md:text-5xl font-extrabold text-yellow-300"> x{quantity} {modalContent.name}</p>
                        <div className="flex items-center justify-center space-x-2">
                             <p className="text-xl md:text-4xl font-bold">for</p>
                             <GoldComponent amount={modalContent.value} />
@@ -97,7 +97,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
            </div>
             )}
 
-            <RequirementsSection gold={product.value} level={product.min_lvl} />
+            <RequirementsSection gold={product.value * quantity} level={product.min_lvl} />
 
             {hasDefense(product) ? (
                 <ProductDefenseDisplay defense={product.defense} />

@@ -16,7 +16,7 @@ const RequiredLevel: React.FC<{ level: number }> = ({ level }) => (
 
 
 
-const RequirementsSection: React.FC<{ gold: number; level?: number; quantity: number }> = ({ gold, level, quantity }) => (
+const RequirementsSection: React.FC<{ gold: number; level?: number; }> = ({ gold, level }) => (
     <div className="flex flex-col items-center justify-center h-[12%] relative">
         <div className="relative h-[70%] w-[80%] ml-[4%] mt-[2%]">
             <img src="/images/shop/Req_Bg.webp" alt="Requirements to buy this product" className="h-full w-full" />
