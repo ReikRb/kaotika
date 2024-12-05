@@ -18,6 +18,7 @@ interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
     onAddToCart: (product: Product) => void;
     player: Player
+    displayBuyButtons: boolean;
 }
 
 type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
@@ -30,7 +31,7 @@ const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Sh
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
+const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBuyButtons }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
 
@@ -53,68 +54,83 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
     }
 
     return (
-        <div className="w-full sm:w-4/12 h-full flex flex-col relative">
-            {isModalOpen && modalContent && (
-               <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-               <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
-                   <div className="flex flex-col items-center justify-center md:space-y-8">
-                       <p className="text-xl md:text-4xl font-bold">Are you sure you want to buy</p>
-                       <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">{modalContent.name}</p>
-                       <div className="flex items-center justify-center space-x-2">
-                            <p className="text-xl md:text-4xl font-bold">for</p>
-                            <GoldComponent amount={modalContent.value} />
-                            <p className="text-xl md:text-4xl font-bold">?</p>
+        <>
+            <div className="w-full sm:w-4/12 h-full flex flex-col relative">
+                {isModalOpen && modalContent && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
+                            <div className="flex flex-col items-center justify-center md:space-y-8">
+                                <p className="text-xl md:text-4xl font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
+                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">{modalContent.name}</p>
+                                <div className="flex items-center justify-center space-x-2">
+                                    <p className="text-xl md:text-4xl font-bold">for</p>
+                                    <GoldComponent amount={modalContent.value} />
+                                    <p className="text-xl md:text-4xl font-bold">?</p>
+                                </div>
+                            </div>
+                            <div className="flex justify-center space-x-4 md:space-x-60">
+                                <button
+                                    className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
+                                    onClick={() => console.log("Confirmed purchase") }
+                                >
+                                    Confirm
+                                </button>
+                                <button
+                                    className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia"
+                                    onClick={handleCloseModal}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
-                   </div>
-                   <div className="flex justify-center space-x-4 md:space-x-60">
-                       <button
-                           className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                           onClick={() => console.log("Confirmed purchase")}
-                       >
-                           Confirm
-                       </button>
-                       <button
-                           className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia"
-                           onClick={handleCloseModal}
-                       >
-                           Cancel
-                       </button>
-                   </div>
-               </div>
-           </div>
-            )}
+                    </div>
+                )}
 
-            <RequirementsSection gold={product.value} level={product.min_lvl} />
+                <RequirementsSection gold={product.value} level={product.min_lvl} />
 
-            {hasDefense(product) ? (
-                <ProductDefenseDisplay defense={product.defense} />
-            ) : isWeapon(product) ? (
-                <ProductWeaponDisplay
-                    basePercentage={product.base_percentage}
-                    dieFaces={product.die_faces}
-                    dieModifier={product.die_modifier}
-                    dieNum={product.die_num}
-                />
-            ) : (
-                <div className="flex flex-col items-center justify-center h-[10%] relative">
-                    <div className="relative w-full"></div>
+                {hasDefense(product) ? (
+                    <ProductDefenseDisplay defense={product.defense} />
+                ) : isWeapon(product) ? (
+                    <ProductWeaponDisplay
+                        basePercentage={product.base_percentage}
+                        dieFaces={product.die_faces}
+                        dieModifier={product.die_modifier}
+                        dieNum={product.die_num}
+                    />
+                ) : (
+                    <div className="flex flex-col items-center justify-center h-[10%] relative">
+                        <div className="relative w-full"></div>
+                    </div>
+                )}
+
+                <ProductImage imageSrc={product.image} altText="Center" />
+                <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
+                    {displayBuyButtons
+                        ? (
+                            <>
+                                <ShopButton
+                                    label="BUY"
+                                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                    onClick={canAfford ? handleBuyClick : null}
+                                />
+                                <ShopButton
+                                    label="ADD TO CART"
+                                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                    onClick={canAfford ? () => product && onAddToCart(product) : null}
+                                />
+                            </>
+                        ) : (
+                            <ShopButton
+                                label="SELL"
+                                imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                onClick={handleBuyClick}
+                            />
+                        )}
+
+
                 </div>
-            )}
-
-            <ProductImage imageSrc={product.image} altText="Center" />
-            <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
-                <ShopButton
-                    label="BUY"
-                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                    onClick={canAfford ? handleBuyClick : null}
-                />
-                <ShopButton
-                    label="ADD TO CART"
-                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                    onClick={canAfford ? () => product && onAddToCart(product) : null}
-                />
             </div>
-        </div>
+        </>
     );
 };
 
