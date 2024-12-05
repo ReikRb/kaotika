@@ -7,6 +7,8 @@ import { Ring } from "@/_common/interfaces/Ring";
 import { Shield } from "@/_common/interfaces/Shield";
 import { Weapon } from "@/_common/interfaces/Weapon";
 import GoldComponent from "./GoldComponent";
+import { useEffect, useState } from "react";
+import IncrementDecrement from "./UpdateQtyButton";
 import { PRODUCT_CART, PRODUCT_SHOP } from "@/constants/constants";
 
 interface Product {
@@ -14,9 +16,11 @@ interface Product {
     isSelected: boolean;
     onClick: () => void;
     isInCart?: boolean
+    handleQuantityChange: (value: number) => void;
+    quantity: number;
 }
 
-const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false }) => {
+const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange }) => {
     return (
         <>
             <div
@@ -42,14 +46,25 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                                 )
                                 : null
                         }
-                        {
-                            isInCart ? (
-                                //ADD CART BUTTONS HERE
-                                <>
-                                </>
-                            ) : null
-                        }
+
                     </div>
+                    {
+                        isInCart ? (
+                            //ADD CART BUTTONS HERE
+                            <>
+                                {product.type === 'ingredient' ? (
+                                    <div className="flex flex-col place-items-center justify-center w-full mt-2 h-[33%]">
+                                        <IncrementDecrement
+                                            initialValue={quantity}
+                                            onValueChange={handleQuantityChange}
+                                        />
+                                    </div>
+                                ) : (
+                                    null
+                                )}
+                            </>
+                        ) : null
+                    }
                 </div>
             </div>
         </>

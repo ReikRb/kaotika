@@ -12,9 +12,12 @@ import ProductCard from "./ProductCard";
 interface CartProductsContainerProps {
     cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
     onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
+    handleQuantityChange: (value: number) => void;
+    quantity: number;
+ 
 }
 
-const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, onRemoveFromCart }) => {
+const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, quantity, handleQuantityChange }) => {
     return (
         <div className=" w-[100%] h-full place-items-center bg-gray-950 bg-opacity-50
             overflow-y-auto
@@ -22,7 +25,7 @@ const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, onR
             [&::-webkit-scrollbar-track]:bg-gray-950
             [&::-webkit-scrollbar-thumb]:bg-gray-800">
             {cart.map((product, i) => (
-                <ProductCard key={i.toString()} product={product} isSelected={false} isInCart={true} onClick={() => null}/>
+                <ProductCard key={i.toString()} product={product} isSelected={false} isInCart={true} quantity={quantity} handleQuantityChange={handleQuantityChange} onClick={() => null}/>
             ))}
         </div>
     );

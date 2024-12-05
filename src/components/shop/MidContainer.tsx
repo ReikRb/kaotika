@@ -21,6 +21,8 @@ interface Props {
     onBuy: () => void;
     onAddToCart: (product: Product) => void;
     player: Player
+    quantity: number;
+    handleQuantityChange: (value: number) => void;
     displayBuyButtons: boolean;
 }
 
@@ -38,10 +40,9 @@ const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | S
     return "effects" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, displayBuyButtons  }) => {
+const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, quantity, handleQuantityChange, displayBuyButtons }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
-    const [quantity, setQuantity] = useState(1);
 
     const handleBuyClick = () => {
         if (product) {
@@ -61,9 +62,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, di
         setModalContent(null);
     };
 
-    const handleQuantityChange = (value: number) => {
-        setQuantity(value);
-    };
+    
 
     const canAfford = product ? player.gold >= product.value * quantity : false;
 
