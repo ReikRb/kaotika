@@ -59,6 +59,7 @@ export default function Shop() {
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
     const [cart, setCart] = useState<Product[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
 
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
@@ -261,7 +262,7 @@ export default function Shop() {
         <ShopContainer>
             <ShopHeader>
                 <MainHeader/>
-                <ShopOptionsHeader displaySelectedShopProducts={displaySelectedShopProducts}/>
+                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel}/>
             </ShopHeader>
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
@@ -269,7 +270,7 @@ export default function Shop() {
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart} player={player}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!}/>
+                <MidContainer product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!} displayBuyButtons={displayBuyButtons}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>
