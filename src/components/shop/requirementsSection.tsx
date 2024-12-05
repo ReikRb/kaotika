@@ -1,6 +1,12 @@
 import React from "react";
 import GoldComponent from "./GoldComponent";
 
+interface Props {
+    gold: number;
+    quantity: number;
+}
+
+
 const RequiredLevel: React.FC<{ level: number }> = ({ level }) => (
     <div className="flex items-center space-x-2">
         <span className="text-gray-200 text-2xl">Req Level:</span>
@@ -8,7 +14,9 @@ const RequiredLevel: React.FC<{ level: number }> = ({ level }) => (
     </div>
 );
 
-const RequirementsSection: React.FC<{ gold: number; level?: number }> = ({ gold, level }) => (
+
+
+const RequirementsSection: React.FC<{ gold: number; level?: number; }> = ({ gold, level }) => (
     <div className="flex flex-col items-center justify-center h-[12%] relative">
         <div className="relative h-[70%] w-[80%] ml-[4%] mt-[2%]">
             <img src="/images/shop/Req_Bg.webp" alt="Requirements to buy this product" className="h-full w-full" />

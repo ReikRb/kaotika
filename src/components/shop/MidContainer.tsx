@@ -13,31 +13,40 @@ import ProductWeaponDisplay from "./WeaponModifierDisplay";
 import GoldComponent from "./GoldComponent";
 import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
+import { Ingredient } from "@/_common/interfaces/Ingredient";
+import UpdateQtyButton from "./UpdateQtyButton";
+import IncrementDecrement from "./UpdateQtyButton";
+
 
 interface Props {
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
+    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null;
     onAddToCart: (product: Product) => void;
     player: Player
     displayBuyButtons: boolean;
 }
 
-type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
 
-const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is (Helmet | Armor | Boot | Shield) => {
+const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;
 };
 
-const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield): product is Weapon => {
+const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is Weapon => {
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBuyButtons }) => {
+const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is Ingredient => {
+    return "effects" in product;
+};
+
+const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBuyButtons  }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
+    const [quantity, setQuantity] = useState(1);
 
     const handleBuyClick = () => {
         if (product) {
-            setModalContent({ name: product.name, value: product.value });
+            setModalContent({ name: product.name, value: product.value * quantity });
             setModalOpen(true);
         }
     };
@@ -47,7 +56,11 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBu
         setModalContent(null);
     };
 
-    const canAfford = product ? player.gold >= product.value : false;
+    const handleQuantityChange = (value: number) => {
+        setQuantity(value);
+    };
+
+    const canAfford = product ? player.gold >= product.value * quantity : false;
 
     if (!product) {
         return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
@@ -61,7 +74,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBu
                         <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
                             <div className="flex flex-col items-center justify-center md:space-y-8">
                                 <p className="text-xl md:text-4xl font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
-                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">{modalContent.name}</p>
+                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
                                 <div className="flex items-center justify-center space-x-2">
                                     <p className="text-xl md:text-4xl font-bold">for</p>
                                     <GoldComponent amount={modalContent.value} />
@@ -86,7 +99,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBu
                     </div>
                 )}
 
-                <RequirementsSection gold={product.value} level={product.min_lvl} />
+                <RequirementsSection gold={product.value * quantity} level={product.min_lvl} />
 
                 {hasDefense(product) ? (
                     <ProductDefenseDisplay defense={product.defense} />
@@ -104,7 +117,19 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, displayBu
                 )}
 
                 <ProductImage imageSrc={product.image} altText="Center" />
-                <div className="flex flex-col sm:flex-row items-center justify-center h-[30%] space-y-4 sm:space-y-0 sm:space-x-4">
+                <div className="flex flex-col items-center justify-center h-[50%] -mb-32">
+                {isMagical(product) ? (
+                    <IncrementDecrement
+                        initialValue={quantity}
+                        onValueChange={handleQuantityChange}
+                    />
+                ) : (
+                    <div className="flex flex-col items-center justify-center h-[10%] relative">
+                    <div className="relative w-full"></div>
+                </div>
+                )}
+            </div>
+                <div className="flex flex-col sm:flex-row items-center justify-center h-[70%] sm:space-y-0 sm:space-x-4">
                     {displayBuyButtons
                         ? (
                             <>

@@ -249,7 +249,7 @@ export default function Shop() {
         <ShopContainer>
             <ShopHeader>
                 <MainHeader/>
-                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts}/>
+                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel}/>
             </ShopHeader>
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
