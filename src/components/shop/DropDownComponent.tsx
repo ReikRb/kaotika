@@ -17,8 +17,8 @@ const DropDownComponent: React.FC<Props> = ({options, selectedOption, handleFunc
                 onChange={(e) => handleFunction(e.target.value)}
                 value={selectedOption}
                 className="block w-full bg-gray-200 text-black border border-gray-800 rounded-md py-1 pl-6 pr-10 text-2xl">
-                {options.map((option) => {
-                    return <option value={option.key}>{option.label}</option>;
+                {options.map((option, i) => {
+                    return <option key={i} value={option.key}>{option.label}</option>;
                 })}
             </select>
         </>
