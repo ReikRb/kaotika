@@ -30,7 +30,11 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) 
 
     return (
         <>
-            <div className="w-[73%] ml-[13%] bg-gray-950 bg-opacity-50 row-span-8 row-start-3 p-[2%] overflow-y-auto">
+            <div className="w-[73%] ml-[13%] bg-gray-950 bg-opacity-50 row-span-8 row-start-3 p-[2%]
+                overflow-y-auto
+                [&::-webkit-scrollbar]:w-2
+                [&::-webkit-scrollbar-track]:bg-gray-950
+                [&::-webkit-scrollbar-thumb]:bg-gray-800">
                 {products.map((product, i) => (
                     <ProductCard key={i.toString()} product={product} isSelected={selectedProduct === product} onClick={() => handleProductSelect(product)}/>
                 ))}

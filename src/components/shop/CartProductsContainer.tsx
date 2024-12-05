@@ -16,7 +16,11 @@ interface CartProductsContainerProps {
 
 const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, onRemoveFromCart }) => {
     return (
-        <div className=" w-[100%] h-full overflow-y-auto place-items-center bg-gray-950 bg-opacity-50">
+        <div className=" w-[100%] h-full place-items-center bg-gray-950 bg-opacity-50
+            overflow-y-auto
+            [&::-webkit-scrollbar]:w-2
+            [&::-webkit-scrollbar-track]:bg-gray-950
+            [&::-webkit-scrollbar-thumb]:bg-gray-800">
             {cart.map((product, i) => (
                 <ProductCard key={i.toString()} product={product} isSelected={false} isInCart={true} onClick={() => null}/>
             ))}
