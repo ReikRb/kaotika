@@ -8,12 +8,15 @@ import { Shield } from "@/_common/interfaces/Shield";
 import { Weapon } from "@/_common/interfaces/Weapon";
 import GoldComponent from "./GoldComponent";
 import { useEffect, useState } from "react";
+import IncrementDecrement from "./UpdateQtyButton";
 
 interface Product {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
     isSelected: boolean;
     onClick: () => void;
     isInCart?: boolean
+    handleQuantityChange: (value: number) => void;
+    quantity: number;
 }
 
 interface Styles {
@@ -29,7 +32,7 @@ interface Styles {
     levelValue: string;
 }
 
-const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false }) => {
+const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange }) => {
 
     const [componentStyles, setComponentStyles] = useState<Styles>({
         mainContainer: '',
@@ -107,7 +110,16 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                             isInCart ? (
                                 //ADD CART BUTTONS HERE
                                 <>
-                                
+                                    {product.type === 'ingredient' ? (
+                                            <div className="flex flex-col place-items-center justify-center w-full mt-2">
+                                                <IncrementDecrement
+                                                    initialValue={quantity}
+                                                    onValueChange={handleQuantityChange}
+                                                />
+                                            </div>
+                                    ) : (
+                                        null
+                                    )}
                                 </>
                             ) : null
                         }

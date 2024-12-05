@@ -14,7 +14,6 @@ import GoldComponent from "./GoldComponent";
 import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
-import UpdateQtyButton from "./UpdateQtyButton";
 import IncrementDecrement from "./UpdateQtyButton";
 
 
@@ -22,6 +21,8 @@ interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null;
     onAddToCart: (product: Product) => void;
     player: Player
+    quantity: number;
+    handleQuantityChange: (value: number) => void;
 }
 
 type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
@@ -38,10 +39,9 @@ const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | S
     return "effects" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
+const MidContainer: React.FC<Props> = ({ product, onAddToCart, player, quantity, handleQuantityChange }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
-    const [quantity, setQuantity] = useState(1);
 
     const handleBuyClick = () => {
         if (product) {
@@ -55,9 +55,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
         setModalContent(null);
     };
 
-    const handleQuantityChange = (value: number) => {
-        setQuantity(value);
-    };
+    
 
     const canAfford = product ? player.gold >= product.value * quantity : false;
 
