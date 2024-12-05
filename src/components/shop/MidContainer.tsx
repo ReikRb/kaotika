@@ -42,6 +42,12 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player }) 
         }
     };
 
+    const handleBuy = () => {
+        onBuy();
+        setModalOpen(false);
+        setModalContent(null);
+    };
+
     const handleCloseModal = () => {
         setModalOpen(false);
         setModalContent(null);
@@ -70,7 +76,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player }) 
                    <div className="flex justify-center space-x-4 md:space-x-60">
                        <button
                            className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                           onClick={onBuy}
+                           onClick={handleBuy}
                        >
                            Confirm
                        </button>

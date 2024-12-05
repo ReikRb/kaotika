@@ -67,7 +67,7 @@ export default function Shop() {
 
     const buy = async () => {
         try {
-            const res = await fetch(`/api/shop/buy?email=${player?.email}`);
+            const res = await fetch(`/api/shop/buy?email=${player}`);
 
             if (res.status === 200) {
                 const response = await res.json();
