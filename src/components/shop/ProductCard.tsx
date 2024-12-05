@@ -46,24 +46,25 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                                 )
                                 : null
                         }
-                        {
-                            isInCart ? (
-                                //ADD CART BUTTONS HERE
-                                <>
-                                {product.type === 'ingredient' ? (
-                                            <div className="flex flex-col place-items-center justify-center w-full mt-2">
-                                                <IncrementDecrement
-                                                    initialValue={quantity}
-                                                    onValueChange={handleQuantityChange}
-                                                />
-                                            </div>
-                                    ) : (
-                                        null
-                                    )}
-                                </>
-                            ) : null
-                        }
+
                     </div>
+                    {
+                        isInCart ? (
+                            //ADD CART BUTTONS HERE
+                            <>
+                                {product.type === 'ingredient' ? (
+                                    <div className="flex flex-col place-items-center justify-center w-full mt-2 h-[33%]">
+                                        <IncrementDecrement
+                                            initialValue={quantity}
+                                            onValueChange={handleQuantityChange}
+                                        />
+                                    </div>
+                                ) : (
+                                    null
+                                )}
+                            </>
+                        ) : null
+                    }
                 </div>
             </div>
         </>
