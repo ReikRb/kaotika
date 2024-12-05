@@ -41,6 +41,23 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
         }
     };
 
+    const handleConfirmPurchase = async () => {
+        try {
+            const res = await fetch(`/api/shop/buy`);
+
+            if (res.status === 200) {
+                const response = await res.json();
+                console.log('Purchase complete: ', response);
+                setModalOpen(false);
+                setModalContent(null);
+            } else if (res.status === 404) {
+                
+            }
+        } catch (error) {
+            console.log('Error in the purchase: ', error);
+        }
+    };
+
     const handleCloseModal = () => {
         setModalOpen(false);
         setModalContent(null);
@@ -69,7 +86,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
                    <div className="flex justify-center space-x-4 md:space-x-60">
                        <button
                            className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                           onClick={() => console.log("Confirmed purchase")}
+                           onClick={handleConfirmPurchase}
                        >
                            Confirm
                        </button>
@@ -106,12 +123,12 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
                 <ShopButton
                     label="BUY"
                     imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                    onClick={canAfford ? handleBuyClick : null}
+                    onClick={canAfford ? handleBuyClick : () => {}}
                 />
                 <ShopButton
                     label="ADD TO CART"
                     imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                    onClick={canAfford ? () => product && onAddToCart(product) : null}
+                    onClick={canAfford ? () => product && onAddToCart(product) : () => {}}
                 />
             </div>
         </div>
