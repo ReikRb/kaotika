@@ -16,6 +16,7 @@ import { Player } from "@/_common/interfaces/Player";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null;
+    onBuy: () => void;
     onAddToCart: (product: Product) => void;
     player: Player
 }
@@ -30,7 +31,7 @@ const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Sh
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
+const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
 
@@ -38,23 +39,6 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
         if (product) {
             setModalContent({ name: product.name, value: product.value });
             setModalOpen(true);
-        }
-    };
-
-    const handleConfirmPurchase = async () => {
-        try {
-            const res = await fetch(`/api/shop/buy`);
-
-            if (res.status === 200) {
-                const response = await res.json();
-                console.log('Purchase complete: ', response);
-                setModalOpen(false);
-                setModalContent(null);
-            } else if (res.status === 404) {
-                
-            }
-        } catch (error) {
-            console.log('Error in the purchase: ', error);
         }
     };
 
@@ -86,7 +70,7 @@ const MidContainer: React.FC<Props> = ({ product, onAddToCart, player }) => {
                    <div className="flex justify-center space-x-4 md:space-x-60">
                        <button
                            className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                           onClick={handleConfirmPurchase}
+                           onClick={onBuy}
                        >
                            Confirm
                        </button>

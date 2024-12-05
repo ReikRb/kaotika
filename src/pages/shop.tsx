@@ -65,6 +65,19 @@ export default function Shop() {
         setCart((prevCart) => prevCart.filter((item) => item !== product));
     };
 
+    const buy = async () => {
+        try {
+            const res = await fetch(`/api/shop/buy?email=${player?.email}`);
+
+            if (res.status === 200) {
+                const response = await res.json();
+                console.log('Purchase complete: ', response);
+            }
+        } catch (error) {
+            console.log('Error in the purchase: ', error);
+        }
+    };
+
     const addToCart = (product: Product) => {
         setCart((prevCart) => [...prevCart, product]);
     };
@@ -256,7 +269,7 @@ export default function Shop() {
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart} player={player}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer product={currentDisplay} onAddToCart={addToCart} player={player!}/>
+                <MidContainer product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>
