@@ -48,11 +48,11 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
     useEffect(() => {
 
         const shopStyles = {
-            mainContainer: `h-[41.75%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat ${isSelected ? "bg-[url('/images/shop/product_card_selected.webp')]" : "bg-[url('/images/shop/product_card_unselected.webp')]"} transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
-            imgContainer: "place-items-center w-[90%] h-[90%] ml-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
-            productImg: "place-items-center ml-[31%] mt-[30%] w-[37%]",
+            mainContainer: `h-[41.5%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat ${isSelected ? "bg-[url('/images/shop/product_card_selected.webp')]" : "bg-[url('/images/shop/product_card_unselected.webp')]"} transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
+            imgContainer: "flex justify-center place-items-center place-items-center mt-[2.8%] w-[90%] h-[90%] ml-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
+            productImg: "place-items-center self-center pb-[3%] w-[32%]",
             infoContainer: "text-center content-center ml-[2%] w-[80%] space-y-[7%] inline-block",
-            name: " text-2xl text-white mr-[15%]",
+            name: "text-2xl text-white mr-[15%]",
             requirementsContainer: "",
             goldContainer: 'w-[50%] ml-[25%] align-center',
             levelContainer: 'justify-center flex space-x-[15%] inline-row',
