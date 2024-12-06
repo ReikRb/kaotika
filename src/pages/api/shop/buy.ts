@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await mongoPlayer.save();
         } else {
             console.log(`Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}`);
-            return res.status(404).json(mongoPlayer);
+            return res.status(400).json({ player: mongoPlayer, error: `Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}` });
         }
         
         await DBDisconnect();
