@@ -88,6 +88,9 @@ export default function Shop() {
                 const response = await res.json();
                 setPlayer(response.player);
                 console.log(response.error);
+            } else if (res.status === 404) {
+                const response = await res.json();
+                console.log(response.error);
             } else {
                 console.log('Error in the purchase: ', error);
             }

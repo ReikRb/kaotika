@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (mongoPlayer) {
             return res.status(200).json(mongoPlayer);
         }else {
-            return res.status(404).json(mongoPlayer);
+            return res.status(404).json({ error: 'Player returned is not correct' });
         }
     } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });
