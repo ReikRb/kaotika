@@ -121,16 +121,16 @@ const playerSchema = new mongoose.Schema({
       }
     },
     inventory: {
-      helmets: { type: 'Array' },
-      weapons: { type: 'Array' },
-      armors: { type: 'Array' },
-      shields: { type: 'Array' },
-      artifacts: { type: 'Array' },
-      boots: { type: 'Array' },
-      rings: { type: 'Array' },
-      antidote_potions: { type: 'Array' },
-      healing_potions: { type: 'Array' },
-      enhancer_potions: { type: 'Array' }
+      helmets: Array,
+      weapons: Array,
+      armors: Array,
+      shields: Array,
+      artifacts: Array,
+      boots: Array,
+      rings: Array,
+      antidote_potions: Array,
+      healing_potions: Array,
+      enhancer_potions: Array
     },
     _id: { type: 'ObjectId' },
     name: { type: 'String' },
