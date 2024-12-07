@@ -17,7 +17,7 @@ interface CartProductsContainerProps {
  
 }
 
-const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, quantity, handleQuantityChange }) => {
+const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, quantity, handleQuantityChange, onRemoveFromCart }) => {
     return (
         <div className=" w-[100%] h-full place-items-center bg-gray-950 bg-opacity-50
             overflow-y-auto
@@ -25,7 +25,7 @@ const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, qua
             [&::-webkit-scrollbar-track]:bg-gray-950
             [&::-webkit-scrollbar-thumb]:bg-gray-800">
             {cart.map((product, i) => (
-                <ProductCard key={i.toString()} product={product} isSelected={false} isInCart={true} quantity={quantity} handleQuantityChange={handleQuantityChange} onClick={() => null}/>
+                <ProductCard key={i.toString()} product={product} isSelected={false} isInCart={true} quantity={quantity} handleRemoval={onRemoveFromCart(product)} handleQuantityChange={handleQuantityChange} onClick={() => null}/>
             ))}
         </div>
     );

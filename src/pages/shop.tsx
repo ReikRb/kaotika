@@ -64,7 +64,10 @@ export default function Shop() {
 
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
-        setCart((prevCart) => prevCart.filter((item) => item !== product));
+        console.log('arriving to cart removal button')
+        let newCart = [...cart]
+        newCart = newCart.filter((item) => item.name !== product.name)
+        setCart(newCart);
     };
 
     const buy = async () => {

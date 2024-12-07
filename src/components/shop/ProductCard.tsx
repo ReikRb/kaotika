@@ -10,17 +10,19 @@ import GoldComponent from "./GoldComponent";
 import { useEffect, useState } from "react";
 import IncrementDecrement from "./UpdateQtyButton";
 import { PRODUCT_CART, PRODUCT_SHOP } from "@/constants/constants";
+import ShopButton from "./shopButton";
 
 interface Product {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
     isSelected: boolean;
     onClick: () => void;
+    handleRemoval: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
     isInCart?: boolean
     handleQuantityChange: (value: number) => void;
     quantity: number;
 }
 
-const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange }) => {
+const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval }) => {
     return (
         <>
             <div
@@ -60,7 +62,11 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                                         />
                                     </div>
                                 ) : (
-                                    null
+                                    <ShopButton
+                                        label="Remove"
+                                        imageSrc={"/images/shop/store_button.webp"}
+                                        onClick={handleRemoval(product)}
+                                    />
                                 )}
                             </>
                         ) : null
