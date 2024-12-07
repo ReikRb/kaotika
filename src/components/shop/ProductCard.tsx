@@ -62,11 +62,14 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                                         />
                                     </div>
                                 ) : (
-                                    <ShopButton
-                                        label="Remove"
-                                        imageSrc={"/images/shop/store_button.webp"}
-                                        onClick={() => handleRemoval(product)}
-                                    />
+                                    // <ShopButton
+                                    //     label="Remove"
+                                    //     imageSrc={"/images/shop/store_button.webp"}
+                                    //     onClick={() => handleRemoval(product)}
+                                    // />
+                                    <div className="flex cursor-pointer text-2xl place-items-center justify-center h-[35%] w-[85%] bg-center bg-contain bg-no-repeat bg-[url('/images/shop/store_button.webp')]" onClick={() => handleRemoval(product)}>
+                                        <p>Remove</p>
+                                    </div>
                                 )}
                             </>
                         ) : null
