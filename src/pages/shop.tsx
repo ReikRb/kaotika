@@ -72,11 +72,35 @@ export default function Shop() {
 
     const buy = async () => {
         try {
-            const res = await fetch(`/api/shop/buy?email=${player}`);
-
+            const res = await fetch(`/api/shop/buy`,{
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    email: player?.email,
+                    products: [currentDisplay],
+                }),
+            });
+            
             if (res.status === 200) {
                 const response = await res.json();
-                console.log('Purchase complete: ', response);
+                setInventory(setInventoryItems(response));
+                setPlayer(response);
+                console.log('Purchase complete: ', response);                     
+            } else if (res.status === 400) {
+                const response = await res.json();
+                setPlayer(response.player);
+                console.log(response.error);
+            } else if (res.status === 409) {
+                const response = await res.json();
+                setPlayer(response.player);
+                console.log(response.error);
+            } else if (res.status === 404) {
+                const response = await res.json();
+                console.log(response.error);
+            } else {
+                console.log('Error in the purchase: ', error);
             }
         } catch (error) {
             console.log('Error in the purchase: ', error);
@@ -93,6 +117,18 @@ export default function Shop() {
 
     const handleQuantityChange = (value: number) => {
         setQuantity(value);
+    };
+
+    const setInventoryItems = (player: Player) => {
+        const products: Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[] = [];
+    
+        Object.values(player?.inventory).map((productTypes) => {
+            productTypes.map((product) => {
+                products.push(product);
+            });
+        });
+
+        return products;
     };
 
     const toggleRightPanel = () => setIsRightPanelOpen((prev) => !prev);
@@ -130,18 +166,6 @@ export default function Shop() {
                 } catch (error) {
                     setError('An error occurred while checking registration');
                 }
-            };
-
-            const setInventoryItems = (player: Player) => {
-                const products: Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[] = [];
-            
-                Object.values(player?.inventory).map((productTypes) => {
-                    productTypes.map((product) => {
-                        products.push(product[0]);
-                    });
-                });
-
-                return products;
             };
 
             const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
@@ -275,7 +299,7 @@ export default function Shop() {
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange}/>                
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
