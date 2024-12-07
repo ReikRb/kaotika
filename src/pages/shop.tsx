@@ -23,6 +23,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import RightSidePanel from '@/components/shop/RightSidePanelComponent';
+import { fetchCategory } from '@/pages/api/shop/fetchCategory';
+import { filterCategoryData } from '@/helpers/filterCategoryData';
 
 interface Equipment {
     helmet: Helmet,
@@ -168,45 +170,13 @@ export default function Shop() {
                 }
             };
 
-            const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
-                let newData: any = []
-
-                data.map((element: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => {
-                    if (element.value > 0 && !element.isUnique) 
-                        newData = [...newData, element]
-                })
-
-                return newData;
-            }
-            const fetchCategory = async (categoryName: string) => {
-                try {
-                    console.log('Data not found in local storage. \nFetching : ', categoryName);
-                    const res = await fetch(`/api/shop/${categoryName}`);
-
-                    if (res.status === 200) {
-                        const response = await res.json();
-
-                        console.log(categoryName, ' fetch complete:', response)
-                        return response
-
-                    } else if (res.status === 404) {
-                        //   const response = await res.json();
-
-                    } else {
-                        setError(`An error occurred while fetching: ${categoryName}`);
-                    }
-                } catch (error) {
-                    setError(`An error occurred while fetching: ${categoryName}`);
-                }
-            }
-
             //If there is not cached data it will fetch the requested category and save it in the local storage
             const handleFetch = async (categoryName: string, setMethod: (element: []) => void) => {
                 const cachedData = sessionStorage.getItem(categoryName);
                 if (!cachedData) {
                     const response = await fetchCategory(categoryName)
                     
-                    const result = filter(response)
+                    const result = filterCategoryData(response)
                     console.log(categoryName, ' after filtering:', result)
 
                     setMethod(result);
@@ -220,7 +190,6 @@ export default function Shop() {
                     setMethod(parsedData);
                 }
             };
-
             const handleFetches = async () => {
                 try {
                     setLoading(true);
