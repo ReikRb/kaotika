@@ -129,7 +129,7 @@ export const MOCK_ARTIFACTS_COLLECTION = [{
     },
     "min_lvl": 6,
     "isActive": true,
-    "isUnique": false
+    "isUnique": true
   },
   {
     "_id": {
@@ -139,7 +139,7 @@ export const MOCK_ARTIFACTS_COLLECTION = [{
     "description": "Glows with a dark, eerie light.",
     "type": "artifact",
     "image": "/images/equipment/artifacts/artifact_5.png",
-    "value": 150,
+    "value": 0,
     "modifiers": {
       "intelligence": 7,
       "dexterity": 2,
@@ -160,7 +160,7 @@ export const MOCK_ARTIFACTS_COLLECTION = [{
     "description": "Blessed with divine vision.",
     "type": "artifact",
     "image": "/images/equipment/artifacts/artifact_6.png",
-    "value": 180,
+    "value": -50,
     "modifiers": {
       "intelligence": 8,
       "dexterity": 4,
@@ -171,7 +171,7 @@ export const MOCK_ARTIFACTS_COLLECTION = [{
     },
     "min_lvl": 12,
     "isActive": true,
-    "isUnique": false
+    "isUnique": true
   }]
 
 export const MOCK_ARMORS_COLLECTION = [{
