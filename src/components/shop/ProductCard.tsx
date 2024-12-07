@@ -65,7 +65,7 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                                     <ShopButton
                                         label="Remove"
                                         imageSrc={"/images/shop/store_button.webp"}
-                                        onClick={handleRemoval(product)}
+                                        onClick={() => handleRemoval(product)}
                                     />
                                 )}
                             </>

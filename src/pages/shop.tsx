@@ -300,7 +300,7 @@ export default function Shop() {
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                 </button>
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange}/>                
-                <CollapseSidepanelButton direction='right' executeFunction={(() => {console.log('right')})}/>
+                <CollapseSidepanelButton direction='right' executeFunction={(() => {})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
