@@ -1,14 +1,4 @@
-import { Armor } from "@/_common/interfaces/Armor"
-import { Artifact } from "@/_common/interfaces/Artifact"
-import { Boot } from "@/_common/interfaces/Boot"
-import { Helmet } from "@/_common/interfaces/Helmet"
-import { Ingredient } from "@/_common/interfaces/Ingredient"
-import { Player } from "@/_common/interfaces/Player"
-import { Ring } from "@/_common/interfaces/Ring"
-import { Shield } from "@/_common/interfaces/Shield"
-import { Weapon } from "@/_common/interfaces/Weapon"
-
-export const MOCK_HELMET_COLLECTION: Helmet[] = [{
+export const MOCK_HELMET_COLLECTION = [{
     "_id": {
       "$oid": "66f3b3ddc8cdd090db911d7e"
     },
@@ -53,7 +43,7 @@ export const MOCK_HELMET_COLLECTION: Helmet[] = [{
     "isActive": true
   }]
 
-export const MOCK_BOOTS_COLLECTION: Boot[] = [{
+export const MOCK_BOOTS_COLLECTION = [{
     "_id": {
       "$oid": "66f694d84a8f1157dab87bb9"
     },
@@ -120,7 +110,7 @@ export const MOCK_BOOTS_COLLECTION: Boot[] = [{
     "isUnique": false
   }]
 
-export const MOCK_ARTIFACTS_COLLECTION: Artifact[] = [{
+export const MOCK_ARTIFACTS_COLLECTION = [{
     "_id": {
       "$oid": "66f66acd4a8f1157dab87b58"
     },
@@ -184,7 +174,7 @@ export const MOCK_ARTIFACTS_COLLECTION: Artifact[] = [{
     "isUnique": false
   }]
 
-export const MOCK_ARMORS_COLLECTION: Armor[] = [{
+export const MOCK_ARMORS_COLLECTION = [{
     "_id": {
       "$oid": "66f289b5e5be15925dc0abdd"
     },
@@ -251,7 +241,7 @@ export const MOCK_ARMORS_COLLECTION: Armor[] = [{
     "isActive": true
   }]    
 
-export const MOCK_INGREDIENTS_COLLECTION: Ingredient[] = [{
+export const MOCK_INGREDIENTS_COLLECTION = [{
     "_id": {
       "$oid": "6702b39d76863c206a48cccb"
     },
@@ -278,7 +268,7 @@ export const MOCK_INGREDIENTS_COLLECTION: Ingredient[] = [{
     "type": "ingredient"
   }]
 
-export const MOCK_RINGS_COLLECTION: Ring[] = [{
+export const MOCK_RINGS_COLLECTION = [{
     "_id": {
       "$oid": "66f3c85ec8cdd090db911db4"
     },
@@ -321,7 +311,7 @@ export const MOCK_RINGS_COLLECTION: Ring[] = [{
     "isActive": true
   }]
 
-export const MOCK_SHIELDS_COLLECTION: Shield[] = [{
+export const MOCK_SHIELDS_COLLECTION = [{
     "_id": {
       "$oid": "66f27c81c114335cadf45d70"
     },
@@ -366,7 +356,7 @@ export const MOCK_SHIELDS_COLLECTION: Shield[] = [{
     "isActive": true
   }]
 
-export const MOCK_WEAPONS_COLLECTION: Weapon[] = [{
+export const MOCK_WEAPONS_COLLECTION = [{
     "_id": {
       "$oid": "66f97720f9a28c1fef4dfc9c"
     },
@@ -417,7 +407,7 @@ export const MOCK_WEAPONS_COLLECTION: Weapon[] = [{
     "isActive": true
   }]
 
-export const MOCK_PLAYER: Player = {
+export const MOCK_PLAYER = {
     "_id": {
       "$oid": "66deaf67e81b70f650f226b8"
     },
