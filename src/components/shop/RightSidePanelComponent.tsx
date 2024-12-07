@@ -16,7 +16,7 @@ interface RightSidePanelProps {
     togglePanel: () => void;
     cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
     onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
-    onBuy: (products: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => void;
+    onBuy: (products: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[], isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
@@ -36,7 +36,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     const canAfford = (total: number) => player.gold >= total;
 
     const handleBuyClick = () => {
-        onBuy(cart);
+        onBuy(cart, true);
     };
 
     useEffect(() => {

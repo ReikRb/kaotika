@@ -70,7 +70,7 @@ export default function Shop() {
         setCart(newCart);
     };
 
-    const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+    const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[], isInCart: boolean) => {
         try {
             const res = await fetch(`/api/shop/buy`,{
                 headers: {
@@ -87,6 +87,7 @@ export default function Shop() {
                 const response = await res.json();
                 setInventory(setInventoryItems(response));
                 setPlayer(response);
+                isInCart ? onClearCart() : null;
                 console.log('Purchase complete: ', response);                     
             } else if (res.status === 400) {
                 const response = await res.json();

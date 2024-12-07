@@ -18,7 +18,7 @@ import IncrementDecrement from "./UpdateQtyButton";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
-    onBuy: (products: Product[]) => void;
+    onBuy: (products: Product[], isInCart: boolean) => void;
     onAddToCart: (product: Product) => void;
     player: Player
     quantity: number;
@@ -52,7 +52,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
     };
 
     const handleBuy = () => {
-        onBuy([product]);
+        onBuy([product], false);
         setModalOpen(false);
         setModalContent(null);
     };
