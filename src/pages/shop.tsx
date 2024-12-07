@@ -70,7 +70,7 @@ export default function Shop() {
         setCart(newCart);
     };
 
-    const buy = async () => {
+    const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
         try {
             const res = await fetch(`/api/shop/buy`,{
                 headers: {
@@ -79,7 +79,7 @@ export default function Shop() {
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    products: [currentDisplay],
+                    products: products,
                 }),
             });
             
