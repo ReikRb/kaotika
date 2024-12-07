@@ -16,13 +16,14 @@ interface RightSidePanelProps {
     togglePanel: () => void;
     cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
     onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
+    onBuy: (products: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[], isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
     handleQuantityChange: (value: number) => void;
 }
 
-const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onClearCart, player, quantity, handleQuantityChange }) => {
+const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onBuy, onClearCart, player, quantity, handleQuantityChange }) => {
     const [ArrowImage, setArrowImage] = useState('');
     const [buyButtonImage, setBuyButtonImage] = useState('/images/shop/cartButtons.webp');
 
@@ -35,7 +36,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     const canAfford = (total: number) => player.gold >= total;
 
     const handleBuyClick = () => {
-        console.log('- Products bought -');
+        onBuy(cart, true);
     };
 
     useEffect(() => {

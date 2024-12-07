@@ -72,7 +72,7 @@ export default function Shop() {
         setCart(newCart);
     };
 
-    const buy = async () => {
+    const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[], isInCart: boolean) => {
         try {
             const res = await fetch(`/api/shop/buy`,{
                 headers: {
@@ -81,7 +81,7 @@ export default function Shop() {
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    products: [currentDisplay],
+                    products: products,
                 }),
             });
             
@@ -89,6 +89,7 @@ export default function Shop() {
                 const response = await res.json();
                 setInventory(setInventoryItems(response));
                 setPlayer(response);
+                isInCart ? onClearCart() : null;
                 console.log('Purchase complete: ', response);                     
             } else if (res.status === 400) {
                 const response = await res.json();
@@ -104,6 +105,44 @@ export default function Shop() {
             } else {
                 console.log('Error in the purchase: ', error);
             }
+        } catch (error) {
+            console.log('Error in the purchase: ', error);
+        }
+    };
+
+    const sell = async (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
+        try {
+            const res = await fetch(`/api/shop/sell`,{
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    email: player?.email,
+                    products: product,
+                }),
+            });
+            
+            // if (res.status === 200) {
+            //     const response = await res.json();
+            //     setInventory(setInventoryItems(response));
+            //     setPlayer(response);
+            //     isInCart ? onClearCart() : null;
+            //     console.log('Purchase complete: ', response);                     
+            // } else if (res.status === 400) {
+            //     const response = await res.json();
+            //     setPlayer(response.player);
+            //     console.log(response.error);
+            // } else if (res.status === 409) {
+            //     const response = await res.json();
+            //     setPlayer(response.player);
+            //     console.log(response.error);
+            // } else if (res.status === 404) {
+            //     const response = await res.json();
+            //     console.log(response.error);
+            // } else {
+            //     console.log('Error in the purchase: ', error);
+            // }
         } catch (error) {
             console.log('Error in the purchase: ', error);
         }
@@ -275,7 +314,7 @@ export default function Shop() {
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
+                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>

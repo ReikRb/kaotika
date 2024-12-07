@@ -17,8 +17,9 @@ import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
 
 interface Props {
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null;
-    onBuy: () => void;
+    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
+    onBuy: (products: Product[], isInCart: boolean) => void;
+    onSell: (product: Product) => void;
     onAddToCart: (product: Product) => void;
     player: Player
     quantity: number;
@@ -40,11 +41,11 @@ const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | S
     return "effects" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, quantity, handleQuantityChange, displayBuyButtons }) => {
+const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, player, quantity, handleQuantityChange, displayBuyButtons }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
 
-    const handleBuyClick = () => {
+    const handleOpenModal = () => {
         if (product) {
             setModalContent({ name: product.name, value: product.value * quantity });
             setModalOpen(true);
@@ -52,7 +53,13 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
     };
 
     const handleBuy = () => {
-        onBuy();
+        onBuy([product], false);
+        setModalOpen(false);
+        setModalContent(null);
+    };
+
+    const handleSell = () => {
+        onSell(product);
         setModalOpen(false);
         setModalContent(null);
     };
@@ -61,8 +68,6 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
         setModalOpen(false);
         setModalContent(null);
     };
-
-    
 
     const canAfford = product ? player.gold >= product.value * quantity : false;
 
@@ -88,7 +93,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                             <div className="flex justify-center space-x-4 md:space-x-60">
                                 <button
                                     className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                                    onClick={handleBuy}
+                                    onClick={displayBuyButtons ? handleBuy : handleSell}
                                 >
                                     Confirm
                                 </button>
@@ -140,7 +145,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                                 <ShopButton
                                     label="BUY"
                                     imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford ? handleBuyClick : () => {}}
+                                    onClick={canAfford ? handleOpenModal : () => {}}
                                 />
                                 <ShopButton
                                     label="ADD TO CART"
@@ -152,7 +157,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                             <ShopButton
                                 label="SELL"
                                 imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                onClick={handleBuyClick}
+                                onClick={handleOpenModal}
                             />
                         )}
 
