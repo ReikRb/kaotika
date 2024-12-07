@@ -20,18 +20,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     try {
         await DBConnect();
         let mongoPlayer = await PlayerModel.findOne({ email: email });
+        const productInInventory = isProductInTheInventory(mongoPlayer, products);
+        const goldSufficient = isGoldSufficient(mongoPlayer, value);
+        console.log('Is product in the inventory: ', productInInventory);
+        console.log('Is sufficient gold: ', goldSufficient);
 
-        if (value <= mongoPlayer.gold) {
-            console.log('Player inventory: ', mongoPlayer.inventory);
-            console.log('Player gold: ', mongoPlayer.gold);
-            updatePlayerInventory(mongoPlayer, products);
-            updatePlayerGold(mongoPlayer, value);
-            console.log('Updated player inventory: ', mongoPlayer.inventory);
-            console.log('Updated player gold: ', mongoPlayer.gold);
-            await mongoPlayer.save();
+        if (productInInventory) {
+            if (goldSufficient) {
+                console.log('Player inventory: ', mongoPlayer.inventory);
+                console.log('Player gold: ', mongoPlayer.gold);
+                updatePlayerInventory(mongoPlayer, products);
+                updatePlayerGold(mongoPlayer, value);
+                console.log('Updated player inventory: ', mongoPlayer.inventory);
+                console.log('Updated player gold: ', mongoPlayer.gold);
+                await mongoPlayer.save();
+            } else {
+                console.log(`Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}`);
+                return res.status(400).json({ player: mongoPlayer, error: `Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}` });
+            }
         } else {
-            console.log(`Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}`);
-            return res.status(400).json({ player: mongoPlayer, error: `Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}` });
+            console.log('Product already exist in inventory');
+            return res.status(409).json({ player: mongoPlayer, error: 'Product already exist in inventory' });
         }
         
         await DBDisconnect();
@@ -54,6 +63,20 @@ const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] | Boot[]
     });
 
     return value;
+}
+
+const isProductInTheInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+    return Object.values(player.inventory).every((items) => {
+        return items.every((item) => {
+            return products.every((product) => {
+                return item._id !== product._id;
+            });
+        });
+    });
+}
+
+const isGoldSufficient = (player: Player, value: number) => {
+    return player.gold >= value ? true : false;
 }
 
 const updatePlayerInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
