@@ -178,37 +178,41 @@ export default function Shop() {
 
                 return newData;
             }
+            const fetchCategory = async (categoryName: string) => {
+                try {
+                    console.log('Data not found in local storage. \nFetching : ', categoryName);
+                    const res = await fetch(`/api/shop/${categoryName}`);
 
-            //If there is not cached data it will fetch the requested category and save it in the local storage
-            const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
-                const cachedData = sessionStorage.getItem(categoryName);
-                if (!cachedData) {
-                    try {
-                        console.log('Data not found in local storage. \nFetching : ', categoryName);
-                        const res = await fetch(`/api/shop/${categoryName}`);
+                    if (res.status === 200) {
+                        const response = await res.json();
 
-                        if (res.status === 200) {
-                            const response = await res.json();
+                        console.log(categoryName, ' fetch complete:', response)
+                        return response
 
-                            console.log(categoryName, ' fetch complete:', response)
+                    } else if (res.status === 404) {
+                        //   const response = await res.json();
 
-                            const result = filter(response)
-                            console.log(categoryName, ' after filtering:', result)
-
-                            setMethod(result);
-
-                            console.log(`Saving ${categoryName} data in local storage.`)
-                            sessionStorage.setItem(categoryName, JSON.stringify(result));
-
-                        } else if (res.status === 404) {
-                            //   const response = await res.json();
-
-                        } else {
-                            setError(`An error occurred while fetching: ${categoryName}`);
-                        }
-                    } catch (error) {
+                    } else {
                         setError(`An error occurred while fetching: ${categoryName}`);
                     }
+                } catch (error) {
+                    setError(`An error occurred while fetching: ${categoryName}`);
+                }
+            }
+
+            //If there is not cached data it will fetch the requested category and save it in the local storage
+            const handleFetch = async (categoryName: string, setMethod: (element: []) => void) => {
+                const cachedData = sessionStorage.getItem(categoryName);
+                if (!cachedData) {
+                    const response = await fetchCategory(categoryName)
+                    
+                    const result = filter(response)
+                    console.log(categoryName, ' after filtering:', result)
+
+                    setMethod(result);
+
+                    console.log(`Saving ${categoryName} data in local storage.`)
+                    sessionStorage.setItem(categoryName, JSON.stringify(result));
                 } else {
                     const parsedData = JSON.parse(cachedData!)
                     console.log(`Data of ${categoryName} found in Local Storage: `, parsedData);
@@ -220,14 +224,14 @@ export default function Shop() {
             const handleFetches = async () => {
                 try {
                     setLoading(true);
-                    await fetchCategory('ingredients', setIngredients);
-                    await fetchCategory('armors', setArmors);
-                    await fetchCategory('boots', setBoots);
-                    await fetchCategory('helmets', setHelmets);
-                    await fetchCategory('rings', setRings);
-                    await fetchCategory('shields', setShields);
-                    await fetchCategory('artifacts', setArtifacts);
-                    await fetchCategory('weapons', setWeapons);
+                    await handleFetch('ingredients', setIngredients);
+                    await handleFetch('armors', setArmors);
+                    await handleFetch('boots', setBoots);
+                    await handleFetch('helmets', setHelmets);
+                    await handleFetch('rings', setRings);
+                    await handleFetch('shields', setShields);
+                    await handleFetch('artifacts', setArtifacts);
+                    await handleFetch('weapons', setWeapons);
                     await fetchPlayerData();
                 } catch (error) {
                     console.error('An error ocurred fetching the data: ', error);
