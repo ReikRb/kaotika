@@ -1,7 +1,7 @@
 import { fetchCategory } from "../../pages/api/shop/helpers/fetchCategory";
 import { MOCK_HELMET_COLLECTION } from "../mocks";
 
-jest.mock('../../pages/api/shop/fetchCategory', () => ({ 
+jest.mock('../../pages/api/shop/helpers/fetchCategory', () => ({ 
   fetchCategory: jest.fn(), 
 }));
 
