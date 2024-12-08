@@ -165,7 +165,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                         ) : (
                             <ShopButton
                                 label="SELL"
-                                imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                imageSrc={"/images/shop/store_button.webp"}
                                 onClick={handleOpenModal}
                             />
                         )}
