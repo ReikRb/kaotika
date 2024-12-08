@@ -298,17 +298,15 @@ export default function Shop() {
     return (
         <ShopContainer>
             <ShopHeader>
-                <MainHeader />
-                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel} />
+                <MainHeader/>
+                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel}/>
             </ShopHeader>
             <MainContainer>
-                <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
-                </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange} />
-                <CollapseSidepanelButton direction='right' executeFunction={(() => { })} />
-                <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} />
-                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
-                <RightContainer products={displayProducts} category={shopCategory} onProductSelect={setCurrentDisplay} player={player!} />
+                <CollapseSidepanelButton direction='right' executeFunction={(() => { })}/>
+                <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!}/>
+                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
+                <RightContainer products={displayProducts} category={shopCategory} onProductSelect={setCurrentDisplay} player={player!}/>
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
             </MainContainer>
         </ShopContainer>
     );
