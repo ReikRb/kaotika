@@ -61,9 +61,9 @@ export default function Shop() {
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
     const [cart, setCart] = useState<Product[]>([]);
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState(1);
     const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
+    const [shopCategory, setShopCategory] = useState<string>('weapon');
 
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
@@ -245,34 +245,47 @@ export default function Shop() {
         setCurrentDisplay(weapons[0])
     }, [weapons]);
 
-    const displaySelectedShopProducts = (category: String) => {
+    useEffect(() => {
+        if (shopCategory === 'inventory') setDisplayProducts(inventory!);
+    }, [inventory]);
+
+    const displaySelectedShopProducts = (category: string) => {
         switch (category) {
 
             case 'weapon':
+                setShopCategory(category);
                 setDisplayProducts(weapons);
                 break;
             case 'shield':
+                setShopCategory(category);
                 setDisplayProducts(shields);
                 break;
             case 'helmet':
+                setShopCategory(category);
                 setDisplayProducts(helmets);
                 break;
             case 'armor':
+                setShopCategory(category);
                 setDisplayProducts(armors);
                 break;
             case 'boot':
+                setShopCategory(category);
                 setDisplayProducts(boots);
                 break;
             case 'ring':
+                setShopCategory(category);
                 setDisplayProducts(rings);
                 break;
             case 'artifact':
+                setShopCategory(category);
                 setDisplayProducts(artifacts);
                 break;
             case 'ingredient':
+                setShopCategory(category);
                 setDisplayProducts(ingredients);
                 break;
             case 'inventory':
+                setShopCategory(category);
                 setDisplayProducts(inventory!);
                 break;
         }
