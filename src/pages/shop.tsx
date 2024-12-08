@@ -23,6 +23,9 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import RightSidePanel from '@/components/shop/RightSidePanelComponent';
+import { fetchCategory } from '@/pages/api/shop/helpers/fetchCategory';
+import { filterCategoryData } from '@/helpers/filterCategoryData';
+import { fetchPlayerData } from './api/shop/helpers/fetchPlayerData';
 
 interface Equipment {
     helmet: Helmet,
@@ -64,30 +67,30 @@ export default function Shop() {
 
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
-        console.log('arriving to cart removal button')
         let newCart = [...cart]
         newCart = newCart.filter((item) => item.product.name !== product.name)
         setCart(newCart);
     };
 
-    const buy = async () => {
+    const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[], isInCart: boolean) => {
         try {
-            const res = await fetch(`/api/shop/buy`,{
+            const res = await fetch(`/api/shop/buy`, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    products: [currentDisplay],
+                    products: products,
                 }),
             });
-            
+
             if (res.status === 200) {
                 const response = await res.json();
                 setInventory(setInventoryItems(response));
                 setPlayer(response);
-                console.log('Purchase complete: ', response);                     
+                isInCart ? onClearCart() : null;
+                console.log('Purchase complete: ', response);
             } else if (res.status === 400) {
                 const response = await res.json();
                 setPlayer(response.player);
@@ -102,6 +105,44 @@ export default function Shop() {
             } else {
                 console.log('Error in the purchase: ', error);
             }
+        } catch (error) {
+            console.log('Error in the purchase: ', error);
+        }
+    };
+
+    const sell = async (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
+        try {
+            const res = await fetch(`/api/shop/sell`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({
+                    email: player?.email,
+                    products: product,
+                }),
+            });
+
+            // if (res.status === 200) {
+            //     const response = await res.json();
+            //     setInventory(setInventoryItems(response));
+            //     setPlayer(response);
+            //     isInCart ? onClearCart() : null;
+            //     console.log('Purchase complete: ', response);                     
+            // } else if (res.status === 400) {
+            //     const response = await res.json();
+            //     setPlayer(response.player);
+            //     console.log(response.error);
+            // } else if (res.status === 409) {
+            //     const response = await res.json();
+            //     setPlayer(response.player);
+            //     console.log(response.error);
+            // } else if (res.status === 404) {
+            //     const response = await res.json();
+            //     console.log(response.error);
+            // } else {
+            //     console.log('Error in the purchase: ', error);
+            // }
         } catch (error) {
             console.log('Error in the purchase: ', error);
         }
@@ -126,7 +167,7 @@ export default function Shop() {
                 { product, quantity: product.type === 'ingredient' ? addedQuantity : 1 },
             ];
         });
-    };
+    }
 
     const onClearCart = () => {
         setCart([]);
@@ -148,7 +189,7 @@ export default function Shop() {
 
     const setInventoryItems = (player: Player) => {
         const products: Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[] = [];
-    
+
         Object.values(player?.inventory).map((productTypes) => {
             productTypes.map((product) => {
                 products.push(product);
@@ -162,80 +203,39 @@ export default function Shop() {
 
     useEffect(() => {
         if (session?.user?.email) {
-            const fetchPlayerData = async () => {
-                try {
-                    console.log('Fetching user character');
-                    const res = await fetch(`/api/shop/player?email=${session.user?.email}`);
-
-                    if (res.status === 200) {
-                        const response = await res.json();
-                        setCurrentEquipment(response.equipment);
-                        const equipment = {
-                            helmet: response.equipment.helmet,
-                            weapon: response.equipment.weapon,
-                            armor: response.equipment.armor,
-                            shield: response.equipment.shield,
-                            artifact: response.equipment.artifact,
-                            boot: response.equipment.boot,
-                            ring: response.equipment.ring,
-                        }
-                        setPlayerEquipment(equipment)
-                        console.log('Users character fetch complete:', response)
-                        setPlayer(response);
-                        setInventory(setInventoryItems(response));
-
-                    } else if (res.status === 404) {
-                        //   const response = await res.json();
-
-                    } else {
-                        setError('An error occurred while checking registration');
-                    }
-                } catch (error) {
-                    setError('An error occurred while checking registration');
+            const handlePlayerFetch = async () => {
+                const response = await fetchPlayerData(session.user?.email)
+                const equipment = {
+                    helmet: response.equipment.helmet,
+                    weapon: response.equipment.weapon,
+                    armor: response.equipment.armor,
+                    shield: response.equipment.shield,
+                    artifact: response.equipment.artifact,
+                    boot: response.equipment.boot,
+                    ring: response.equipment.ring,
                 }
+
+                setCurrentEquipment(response.equipment);
+
+                setPlayerEquipment(equipment)
+
+                setPlayer(response);
+                setInventory(setInventoryItems(response));
             };
 
-            const filter = (data: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[]) => {
-                let newData: any = []
-
-                data.map((element: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => {
-                    if (element.value > 0 && !element.isUnique) 
-                        newData = [...newData, element]
-                })
-
-                return newData;
-            }
-
             //If there is not cached data it will fetch the requested category and save it in the local storage
-            const fetchCategory = async (categoryName: string, setMethod: (element: []) => void) => {
+            const handleCategoryFetch = async (categoryName: string, setMethod: (element: []) => void) => {
                 const cachedData = sessionStorage.getItem(categoryName);
                 if (!cachedData) {
-                    try {
-                        console.log('Data not found in local storage. \nFetching : ', categoryName);
-                        const res = await fetch(`/api/shop/${categoryName}`);
+                    const response = await fetchCategory(categoryName)
 
-                        if (res.status === 200) {
-                            const response = await res.json();
+                    const result = filterCategoryData(response)
+                    console.log(categoryName, ' after filtering:', result)
 
-                            console.log(categoryName, ' fetch complete:', response)
+                    setMethod(result);
 
-                            const result = filter(response)
-                            console.log(categoryName, ' after filtering:', result)
-
-                            setMethod(result);
-
-                            console.log(`Saving ${categoryName} data in local storage.`)
-                            sessionStorage.setItem(categoryName, JSON.stringify(result));
-
-                        } else if (res.status === 404) {
-                            //   const response = await res.json();
-
-                        } else {
-                            setError(`An error occurred while fetching: ${categoryName}`);
-                        }
-                    } catch (error) {
-                        setError(`An error occurred while fetching: ${categoryName}`);
-                    }
+                    console.log(`Saving ${categoryName} data in local storage.`)
+                    sessionStorage.setItem(categoryName, JSON.stringify(result));
                 } else {
                     const parsedData = JSON.parse(cachedData!)
                     console.log(`Data of ${categoryName} found in Local Storage: `, parsedData);
@@ -247,15 +247,15 @@ export default function Shop() {
             const handleFetches = async () => {
                 try {
                     setLoading(true);
-                    await fetchCategory('ingredients', setIngredients);
-                    await fetchCategory('armors', setArmors);
-                    await fetchCategory('boots', setBoots);
-                    await fetchCategory('helmets', setHelmets);
-                    await fetchCategory('rings', setRings);
-                    await fetchCategory('shields', setShields);
-                    await fetchCategory('artifacts', setArtifacts);
-                    await fetchCategory('weapons', setWeapons);
-                    await fetchPlayerData();
+                    await handleCategoryFetch('ingredients', setIngredients);
+                    await handleCategoryFetch('armors', setArmors);
+                    await handleCategoryFetch('boots', setBoots);
+                    await handleCategoryFetch('helmets', setHelmets);
+                    await handleCategoryFetch('rings', setRings);
+                    await handleCategoryFetch('shields', setShields);
+                    await handleCategoryFetch('artifacts', setArtifacts);
+                    await handleCategoryFetch('weapons', setWeapons);
+                    await handlePlayerFetch();
                 } catch (error) {
                     console.error('An error ocurred fetching the data: ', error);
                 } finally {
@@ -281,56 +281,56 @@ export default function Shop() {
     }, [weapons]);
 
     const displaySelectedShopProducts = (category: String) => {
-        switch (category){
+        switch (category) {
 
             case 'weapon':
                 setDisplayProducts(weapons);
-            break;
+                break;
             case 'shield':
                 setDisplayProducts(shields);
-            break;
+                break;
             case 'helmet':
                 setDisplayProducts(helmets);
-            break;
+                break;
             case 'armor':
                 setDisplayProducts(armors);
-            break;
+                break;
             case 'boot':
                 setDisplayProducts(boots);
-            break;
+                break;
             case 'ring':
                 setDisplayProducts(rings);
-            break;
+                break;
             case 'artifact':
                 setDisplayProducts(artifacts);
-            break;
+                break;
             case 'ingredient':
                 setDisplayProducts(ingredients);
-            break;
+                break;
             case 'inventory':
                 setDisplayProducts(inventory!);
-            break;
+                break;
         }
     };
 
     if (loading) {
-        return <Loading/>;
+        return <Loading />;
     }
 
     return (
         <ShopContainer>
             <ShopHeader>
-                <MainHeader/>
-                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel}/>
+                <MainHeader />
+                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel} />
             </ShopHeader>
             <MainContainer>
-            <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
+                <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={(product: Product, qty: number) => handleQuantityChange(product, qty)}/>                
-                <CollapseSidepanelButton direction='right' executeFunction={(() => {})}/>
-                <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onAddToCart={(product: Product, quantity: number) => addToCart(product, quantity)} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
-                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={(product: Product, qty: number) => handleQuantityChange(product, qty)}/>
+                <CollapseSidepanelButton direction='right' executeFunction={(() => { })} />
+                <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} />
+                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={(product: Product, quantity: number) => addToCart(product, quantity)} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
+                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!} />
             </MainContainer>
         </ShopContainer>
     );

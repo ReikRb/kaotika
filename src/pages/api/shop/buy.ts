@@ -21,11 +21,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await DBConnect();
         let mongoPlayer = await PlayerModel.findOne({ email: email });
         const productInInventory = isProductInTheInventory(mongoPlayer, products);
+        const productEquiped = isProductEquiped(mongoPlayer, products);
         const goldSufficient = isGoldSufficient(mongoPlayer, value);
-        console.log('Is product in the inventory: ', productInInventory);
-        console.log('Is sufficient gold: ', goldSufficient);
+        console.log('Products is not in the inventory: ', productInInventory);
+        console.log('Products is not equiped: ', productInInventory);
+        console.log('Gold is sufficient: ', goldSufficient);
 
-        if (productInInventory) {
+        if (productInInventory && productEquiped) {
             if (goldSufficient) {
                 console.log('Player inventory: ', mongoPlayer.inventory);
                 console.log('Player gold: ', mongoPlayer.gold);
@@ -39,8 +41,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 return res.status(400).json({ player: mongoPlayer, error: `Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}` });
             }
         } else {
-            console.log('Product already exist in inventory');
-            return res.status(409).json({ player: mongoPlayer, error: 'Product already exist in inventory' });
+            console.log('Player already has the product');
+            return res.status(409).json({ player: mongoPlayer, error: 'Player already has the product' });
         }
         
         await DBDisconnect();
@@ -71,6 +73,14 @@ const isProductInTheInventory = (player: Player, products: Weapon[] | Helmet[] |
             return products.every((product) => {
                 return item._id !== product._id;
             });
+        });
+    });
+}
+
+const isProductEquiped = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+    return Object.values(player.equipment).every((item) => {
+        return products.every((product) => {
+            return item?._id !== product._id;
         });
     });
 }
