@@ -29,8 +29,12 @@ const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
     return (
         <>
             <div className="w-4/12 grid grid-rows-10">
-                <ItemContainer currentAttributes={currentAttributes} currentEquipment={currentEquipment} product={product}/>       
-                <MerchantComponent/>
+                <div className="w-full row-span-7 row-start-0 grid grid-rows-10 p-[4%]">
+                    <ItemContainer currentAttributes={currentAttributes} currentEquipment={currentEquipment} product={product}/>
+                </div>
+                <div className="w-full row-span-3 row-start-8 flex p-[2%]">
+                    <MerchantComponent/>
+                </div>
             </div>
         </>
     );
