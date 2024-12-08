@@ -52,6 +52,17 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         { key: 'gold', label: 'Gold' },
     ];
 
+    const inventorySortOptions = [
+        { key: 'gold', label: 'Gold' },
+        { key: 'min_lvl', label: 'Level' },
+        { key: 'intelligence', label: 'Intelligence' },
+        { key: 'dexterity', label: 'Dexterity' },
+        { key: 'insanity', label: 'Insanity' },
+        { key: 'charisma', label: 'Charisma' },
+        { key: 'constitution', label: 'Constitution' },
+        { key: 'strength', label: 'Strength' },
+    ];
+
     useEffect(() => {
         setSortedProducts(products);
         sortProducts('gold');
@@ -99,6 +110,8 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
                 return defensiveEquipmentSortOptions;
             case 'ingredient':
                 return ingredientsSortOptions;
+            case 'inventory':
+                return inventorySortOptions;
         };
     };
 
