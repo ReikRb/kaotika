@@ -117,32 +117,23 @@ export default function Shop() {
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    products: product,
+                    product: product,
                 }),
             });
             
-            // if (res.status === 200) {
-            //     const response = await res.json();
-            //     setInventory(setInventoryItems(response));
-            //     setPlayer(response);
-            //     isInCart ? onClearCart() : null;
-            //     console.log('Purchase complete: ', response);                     
-            // } else if (res.status === 400) {
-            //     const response = await res.json();
-            //     setPlayer(response.player);
-            //     console.log(response.error);
-            // } else if (res.status === 409) {
-            //     const response = await res.json();
-            //     setPlayer(response.player);
-            //     console.log(response.error);
-            // } else if (res.status === 404) {
-            //     const response = await res.json();
-            //     console.log(response.error);
-            // } else {
-            //     console.log('Error in the purchase: ', error);
-            // }
+            if (res.status === 200) {
+                const response = await res.json();
+                setInventory(setInventoryItems(response));
+                setPlayer(response);
+                console.log('Sell complete: ', response);                     
+            } else if (res.status === 404) {
+                const response = await res.json();
+                console.log(response.error);
+            } else {
+                console.log('Error in the Sell: ', error);
+            }
         } catch (error) {
-            console.log('Error in the purchase: ', error);
+            console.log('Error in the Sell: ', error);
         }
     };
 
