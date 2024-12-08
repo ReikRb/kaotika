@@ -70,13 +70,13 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, button
                     <div className="flex items-center">
                         <button
                             onClick={() => handleActionChange('buy')}
-                            className={`text-3xl px-1 py-2 hover:underline ${activeAction === 'buy' ? 'underline text-yellow-500' : ''}`}
+                            className={`2xl:2xl:text-4xl lg:text-2xl sm:text-lg px-1 py-2 hover:underline ${activeAction === 'buy' ? 'underline text-yellow-500' : ''}`}
                         >
                             Buy
                         </button>
                         <button
                             onClick={() => handleActionChange('sell')}
-                            className={`text-3xl px-1 py-2 mx-6 hover:underline ${activeAction === 'sell' ? 'underline text-yellow-500 ' : ''}`}
+                            className={`2xl:2xl:text-4xl lg:text-2xl sm:text-lg px-1 py-2 mx-6 hover:underline ${activeAction === 'sell' ? 'underline text-yellow-500 ' : ''}`}
                         >
                             Sell
                         </button>
@@ -90,7 +90,7 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, button
                                     <button
                                         key={category.key}
                                         onClick={() => handleCategoryChange(category.key)}
-                                        className={`text-3xl px-1 py-2 hover:underline ${activeCategory === category.key ? 'underline text-medievalSepia' : ''}`}
+                                        className={`2xl:2xl:text-4xl lg:text-2xl sm:text-lg px-1 py-2 hover:underline ${activeCategory === category.key ? 'underline text-medievalSepia' : ''}`}
                                     >
                                         {category.label}
                                     </button>
@@ -101,7 +101,7 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, button
                     <div className="flex items-center">
                         <button
                             onClick={() => togglePanel()}
-                            className={`flex items-center text-3xl px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
+                            className={`flex items-center 2xl:2xl:text-4xl lg:text-2xl sm:text-lg px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
                         >
                             <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} />
                             <span className="ml-2 ">Cart</span>

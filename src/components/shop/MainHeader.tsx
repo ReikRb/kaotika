@@ -15,34 +15,34 @@ const MainHeader: React.FC = () => {
   if (session?.user?.email?.endsWith(MENTOR_EMAIL)){
     navigation = (<nav className="flex-1 text-center">
       <Link href="/dashboard">
-        <span className={router.pathname == "/dashboard" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Converter</span>
+        <span className={router.pathname == "/dashboard" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Converter</span>
       </Link>
       <Link href="/acolytes">
-        <span className={router.pathname == "/acolytes" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Bonifications</span>
+        <span className={router.pathname == "/acolytes" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Bonifications</span>
       </Link>
       <Link href="/player">
-        <span className={router.pathname == "/player" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Player</span>
+        <span className={router.pathname == "/player" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Player</span>
       </Link>
       <Link href="/hall">
-        <span className={router.pathname == "/hall" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Hall of Fame</span>
+        <span className={router.pathname == "/hall" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Hall of Fame</span>
       </Link>
       <Link href="/shop">
-        <span className={router.pathname == "/shop" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Aivan's Store</span>
+        <span className={router.pathname == "/shop" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Aivan's Store</span>
       </Link>
     </nav>);
   } else {
-    navigation = (<nav className="flex-1 text-center">     
+    navigation = (<nav className="text-center row-span-1 row-start-0">     
       <Link href="/player">
-        <span className={router.pathname == "/player" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Player</span>
+        <span className={router.pathname == "/player" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Player</span>
       </Link>
       <Link href="/results">
-        <span className={router.pathname == "/results" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Results</span>
+        <span className={router.pathname == "/results" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Results</span>
       </Link>
       <Link href="/hall">
-        <span className={router.pathname == "/hall" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Hall of Fame</span>
+        <span className={router.pathname == "/hall" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Hall of Fame</span>
       </Link>
       <Link href="/shop">
-        <span className={router.pathname == "/shop" ? "text-4xl mx-6 underline" :"text-4xl mx-6 hover:underline"}>Aivan's Store</span>
+        <span className={router.pathname == "/shop" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Aivan's Store</span>
       </Link>
     </nav>);
   }
