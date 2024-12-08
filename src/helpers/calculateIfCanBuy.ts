@@ -8,7 +8,7 @@ import { Ring } from "@/_common/interfaces/Ring";
 import { Shield } from "@/_common/interfaces/Shield";
 import { Weapon } from "@/_common/interfaces/Weapon";
 
-export const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+export const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[] | (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => {
     let value = 0;
 
     products.map((product) => {
@@ -18,7 +18,7 @@ export const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] |
     return value;
 }
 
-export const isProductInTheInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+export const isProductInTheInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[] | (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => {
     return Object.values(player.inventory).every((items) => {
         return items.every((item) => {
             return products.every((product) => {
@@ -28,7 +28,7 @@ export const isProductInTheInventory = (player: Player, products: Weapon[] | Hel
     });
 }
 
-export const isProductEquiped = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+export const isProductEquiped = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[] | (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => {
     return Object.values(player.equipment).every((item) => {
         return products.every((product) => {
             return item?._id !== product._id;

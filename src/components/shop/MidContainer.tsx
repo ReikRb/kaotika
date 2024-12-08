@@ -15,6 +15,7 @@ import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
+import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from "@/helpers/calculateIfCanBuy";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
@@ -69,7 +70,15 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         setModalContent(null);
     };
 
-    const canAfford = product ? player.gold >= product.value * quantity : false;
+    const canAfford = () => {
+        const value = calculatePurchaseValue([product]);
+
+        return (
+            isProductInTheInventory(player, [product]) &&
+            isProductEquiped(player, [product]) &&
+            isGoldSufficient(player, value)
+        );
+    };
 
     if (!product) {
         return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
@@ -144,19 +153,19 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                             <>
                                 <ShopButton
                                     label="BUY"
-                                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford ? handleOpenModal : () => {}}
+                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                    onClick={canAfford() ? handleOpenModal : () => {}}
                                 />
                                 <ShopButton
                                     label="ADD TO CART"
-                                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford ? () => product && onAddToCart(product) : () => {}}
+                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                    onClick={canAfford() ? () => product && onAddToCart(product) : () => {}}
                                 />
                             </>
                         ) : (
                             <ShopButton
                                 label="SELL"
-                                imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
                                 onClick={handleOpenModal}
                             />
                         )}
