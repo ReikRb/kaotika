@@ -14,12 +14,12 @@ import { Player } from '@/_common/interfaces/Player';
 interface RightSidePanelProps {
     isOpen: boolean;
     togglePanel: () => void;
-    cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
+    cart: { product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number }[];
     onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
-    handleQuantityChange: (value: number) => void;
+    handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
 }
 
 const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onClearCart, player, quantity, handleQuantityChange }) => {
@@ -27,7 +27,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     const [buyButtonImage, setBuyButtonImage] = useState('/images/shop/cartButtons.webp');
 
     const calculateTotal = () =>
-        cart.reduce((total, product) => total + ((product.value * quantity) || 0), 0);
+        cart.reduce((total, cart) => total + (cart.product.value * cart.quantity), 0);
 
     const calculateRemaining = (total: number) =>
         player.gold - total;

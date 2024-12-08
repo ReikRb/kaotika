@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ShopButton from "./shopButton";
 import RequirementsSection from "./requirementsSection";
 import ProductImage from "./ProductImage";
@@ -19,10 +19,10 @@ import IncrementDecrement from "./UpdateQtyButton";
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null;
     onBuy: () => void;
-    onAddToCart: (product: Product) => void;
+    onAddToCart: (product: Product, quantity: number) => void;
     player: Player
     quantity: number;
-    handleQuantityChange: (value: number) => void;
+    handleQuantityChange: (product: Product, quantity: number) => void;
     displayBuyButtons: boolean;
 }
 
@@ -43,10 +43,11 @@ const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | S
 const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, quantity, handleQuantityChange, displayBuyButtons }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
-
+    const [localQuantity, setLocalQuantity] = useState(1);
+    
     const handleBuyClick = () => {
         if (product) {
-            setModalContent({ name: product.name, value: product.value * quantity });
+            setModalContent({ name: product.name, value: product.value * localQuantity});
             setModalOpen(true);
         }
     };
@@ -62,9 +63,19 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
         setModalContent(null);
     };
 
-    
+    const handleLocalQuantityChange = (newQuantity: number) => {
+        setLocalQuantity(newQuantity);
+      };
 
-    const canAfford = product ? player.gold >= product.value * quantity : false;
+      
+
+      useEffect(() => {
+        if (product) {
+          setLocalQuantity(quantity);
+        }
+      }, [product, quantity]);
+
+    const canAfford = product ? player.gold >= product.value * localQuantity : false;
 
     if (!product) {
         return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
@@ -78,7 +89,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                         <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
                             <div className="flex flex-col items-center justify-center md:space-y-8">
                                 <p className="text-xl md:text-4xl font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
-                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
+                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">x{localQuantity} {modalContent.name}</p>
                                 <div className="flex items-center justify-center space-x-2">
                                     <p className="text-xl md:text-4xl font-bold">for</p>
                                     <GoldComponent amount={modalContent.value} />
@@ -103,7 +114,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                     </div>
                 )}
 
-                <RequirementsSection gold={product.value * quantity} level={product.min_lvl} />
+                <RequirementsSection gold={product.value * localQuantity} level={product.min_lvl} />
 
                 {hasDefense(product) ? (
                     <ProductDefenseDisplay defense={product.defense} />
@@ -124,8 +135,10 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                 <div className="flex flex-col items-center justify-center h-[50%] -mb-32">
                 {isMagical(product) ? (
                     <IncrementDecrement
-                        initialValue={quantity}
-                        onValueChange={handleQuantityChange}
+                        initialValue={localQuantity}
+                        onValueChange={(_, newQuantity) => handleLocalQuantityChange(newQuantity)}
+                        isInCart={false} 
+                        product={product}  
                     />
                 ) : (
                     <div className="flex flex-col items-center justify-center h-[10%] relative">
@@ -145,7 +158,13 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onAddToCart, player, qu
                                 <ShopButton
                                     label="ADD TO CART"
                                     imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford ? () => product && onAddToCart(product) : () => {}}
+                                    onClick={canAfford ? () => { 
+                                        if (product) {
+                                            onAddToCart(product, localQuantity);
+                                            setLocalQuantity(1);
+                                        }
+                                    } : () => {}}
+                                    
                                 />
                             </>
                         ) : (

@@ -57,7 +57,7 @@ export default function Shop() {
     const [displayProducts, setDisplayProducts] = useState<Ingredient[] | Armor[] | Boot[] | Helmet[] | Ring[] | Shield[] | Artifact[] | Weapon[]>(weapons);
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
-    const [cart, setCart] = useState<Product[]>([]);
+    const [cart, setCart] = useState<{ product: Product, quantity: number }[]>([]);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState(1);
     const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
@@ -66,7 +66,7 @@ export default function Shop() {
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
         console.log('arriving to cart removal button')
         let newCart = [...cart]
-        newCart = newCart.filter((item) => item.name !== product.name)
+        newCart = newCart.filter((item) => item.product.name !== product.name)
         setCart(newCart);
     };
 
@@ -107,16 +107,43 @@ export default function Shop() {
         }
     };
 
-    const addToCart = (product: Product) => {
-        setCart((prevCart) => [...prevCart, product]);
+    const addToCart = (product: Product, addedQuantity: number) => {
+        setCart((prevCart) => {
+            const existingItem = prevCart.find((item) => item.product.name === product.name);
+            if (existingItem) {
+                if (product.type === 'ingredient') {
+                    return prevCart.map((item) =>
+                        item.product.name === product.name
+                            ? { ...item, quantity: item.quantity + addedQuantity }
+                            : item
+                    );
+                } else {
+                    return prevCart;
+                }
+            }
+            return [
+                ...prevCart,
+                { product, quantity: product.type === 'ingredient' ? addedQuantity : 1 },
+            ];
+        });
     };
 
     const onClearCart = () => {
         setCart([]);
     };
 
-    const handleQuantityChange = (value: number) => {
-        setQuantity(value);
+    const handleQuantityChange = (product: Product, quantity: number) => {
+        setCart((prevCart) =>
+            prevCart.map((item) =>
+                item.product.name === product.name
+                    ? { ...item, quantity: quantity }
+                    : item
+            )
+        );
+
+        if (quantity === 0) {
+            setCart((prevCart) => prevCart.filter((item) => item.product.name !== product.name));
+        }
     };
 
     const setInventoryItems = (player: Player) => {
@@ -299,10 +326,10 @@ export default function Shop() {
             <MainContainer>
             <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange}/>                
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={(product: Product, qty: number) => handleQuantityChange(product, qty)}/>                
                 <CollapseSidepanelButton direction='right' executeFunction={(() => {})}/>
                 <LeftContainer currentAttributes={currentAttributes!}  currentEquipment={playerEquipment!} product={currentDisplay!}/>
-                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
+                <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onAddToCart={(product: Product, quantity: number) => addToCart(product, quantity)} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange}/>
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!}/>
             </MainContainer>
         </ShopContainer>

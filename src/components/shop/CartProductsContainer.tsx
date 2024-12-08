@@ -10,9 +10,9 @@ import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
 interface CartProductsContainerProps {
-    cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
+    cart: { product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number }[];
     onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
-    handleQuantityChange: (value: number) => void;
+    handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
     quantity: number;
  
 }
@@ -25,7 +25,7 @@ const CartProductsContainer: React.FC<CartProductsContainerProps> = ({ cart, qua
             [&::-webkit-scrollbar-track]:bg-gray-950
             [&::-webkit-scrollbar-thumb]:bg-gray-800">
             {cart.map((product, i) => (
-                <ProductCard key={i.toString()} product={product} isSelected={false} isInCart={true} quantity={quantity} handleRemoval={() => onRemoveFromCart(product)} handleQuantityChange={handleQuantityChange} onClick={() => null}/>
+                <ProductCard key={i.toString()} product={product.product} quantity={product.quantity} isSelected={false} isInCart={true} handleRemoval={() => onRemoveFromCart(product.product)} handleQuantityChange={handleQuantityChange} onClick={() => null}/>
             ))}
         </div>
     );

@@ -18,11 +18,12 @@ interface Product {
     onClick: () => void;
     handleRemoval: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
     isInCart?: boolean
-    handleQuantityChange: (value: number) => void;
+    handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
     quantity: number;
 }
 
 const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval }) => {
+    
     return (
         <>
             <div
@@ -36,7 +37,7 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                     <p className={isInCart ? PRODUCT_CART.name : PRODUCT_SHOP.name}>{product.name}</p>
                     <div className={isInCart ? PRODUCT_CART.requirementsContainer : PRODUCT_SHOP.requirementsContainer}>
                         <div className={isInCart ? PRODUCT_CART.goldContainer : PRODUCT_SHOP.goldContainer}>
-                            <GoldComponent amount={product.value} />
+                            <GoldComponent amount={isInCart ? product.value * quantity : product.value} />
                         </div>
                         {
                             product.type !== 'ingredient'
@@ -58,8 +59,16 @@ const ProductCard: React.FC<Product> = ({ product, onClick, isSelected, isInCart
                                     <div className="flex flex-col place-items-center justify-center w-full mt-2 h-[33%]">
                                         <IncrementDecrement
                                             initialValue={quantity}
-                                            onValueChange={handleQuantityChange}
-                                        />
+                                            onValueChange={(product, newQuantity) => {
+                                                if (newQuantity === 0) {
+                                                    handleRemoval(product);
+                                                } else {
+                                                    handleQuantityChange(product, newQuantity);
+                                                }
+                                            }} 
+                                            isInCart={true}
+                                            product={product}                                        
+                                            />
                                     </div>
                                 ) : (
                                     // <ShopButton
