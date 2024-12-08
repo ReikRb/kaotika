@@ -34,28 +34,29 @@ const ItemContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
     })
 
     useEffect(()=>{
-        const equipmentArray = Object.values(currentEquipment)
-        const item:any = equipmentArray.find((item) => item.type === product.type)
-        
-        const resultValue = {
-            intelligence: 0,
-            dexterity: 0,
-            constitution: 0,
-            insanity: 0,
-            charisma: 0,
-            strength: 0
-        }
-        if (item) {
-            resultValue.charisma = product.modifiers.charisma - item.modifiers.charisma
-            resultValue.strength = product.modifiers.strength - item.modifiers.strength
-            resultValue.insanity = product.modifiers.insanity - item.modifiers.insanity
-            resultValue.dexterity = product.modifiers.dexterity - item.modifiers.dexterity
-            resultValue.intelligence = product.modifiers.intelligence - item.modifiers.intelligence
-            resultValue.constitution = product.modifiers.constitution - item.modifiers.constitution
-        }
+        if (product) { 
+            const equipmentArray = Object.values(currentEquipment)
+            const item:any = equipmentArray.find((item) => item.type === product.type)
+            
+            const resultValue = {
+                intelligence: 0,
+                dexterity: 0,
+                constitution: 0,
+                insanity: 0,
+                charisma: 0,
+                strength: 0
+            }
+            if (item) {
+                resultValue.charisma = product.modifiers.charisma - item.modifiers.charisma
+                resultValue.strength = product.modifiers.strength - item.modifiers.strength
+                resultValue.insanity = product.modifiers.insanity - item.modifiers.insanity
+                resultValue.dexterity = product.modifiers.dexterity - item.modifiers.dexterity
+                resultValue.intelligence = product.modifiers.intelligence - item.modifiers.intelligence
+                resultValue.constitution = product.modifiers.constitution - item.modifiers.constitution
+            }
 
-        setModifierValue(resultValue)
-        
+            setModifierValue(resultValue)
+        }
     },[product])
 
     const renderEffect = (item: string) => {
