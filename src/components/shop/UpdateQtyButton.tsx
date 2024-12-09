@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-interface IncrementDecrementProps {
+interface Props {
     initialValue?: number;
     onValueChange: (value: number) => void;
-}
+};
 
-const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 1, onValueChange }) => {
+const IncrementDecrement: React.FC<Props> = ({ initialValue = 1, onValueChange }) => {
     const [count, setCount] = useState(initialValue);
 
     const handleIncrement = () => {

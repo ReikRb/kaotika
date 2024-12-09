@@ -4,15 +4,15 @@ import React, { useEffect, useState } from 'react';
 
 interface Props {
   label: string;
-  value: number | undefined;
-  itemValue: number | undefined;
+  value: number;
+  itemValue: number;
   maxValue: number;
-}
+};
 
 interface BarValue {
   value: number;
   color: string;
-}
+};
 
 const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue }) => {
   const [newValue, setNewValue] = useState(0)

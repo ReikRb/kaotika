@@ -315,8 +315,8 @@ export default function Shop() {
                 <CollapseSidepanelButton direction='right' executeFunction={(() => { })} />
                 <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} message={merchantMessage} />
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
-                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!} setMerchantMessage={handleMerchantMessage} />
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange} />
+                <RightContainer products={displayProducts} category={shopCategory} onProductSelect={setCurrentDisplay} player={player!} setMerchantMessage={handleMerchantMessage} />
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
             </MainContainer>
         </ShopContainer>
     );

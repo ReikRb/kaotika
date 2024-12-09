@@ -1,17 +1,15 @@
 import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
 import { Product, Products } from "@/_common/types/Product";
-import { getRandomMessage } from "@/helpers/getRandomMessage";
 import { MERCHANT_MESSAGES } from "@/constants/constants";
 
 interface Props {
     products: Products;
     onProductSelect: (product: Product) => void;
     setMerchantMessage: Function;
-}
+};
 
 const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, setMerchantMessage }) => {
-
     const [selectedProduct, setSelectedProduct] = useState<Product>(products[0]);
 
     useEffect(() => {
@@ -21,8 +19,7 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
     const handleProductSelect = (product: Product) => {
         setSelectedProduct(product);
         onProductSelect(product);
-        
-        setMerchantMessage(MERCHANT_MESSAGES.selectNewProduct)
+        setMerchantMessage(MERCHANT_MESSAGES.selectNewProduct);
     };
 
     return (

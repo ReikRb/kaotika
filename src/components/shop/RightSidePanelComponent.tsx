@@ -23,7 +23,7 @@ interface RightSidePanelProps {
     player: Player;
     quantity: number;
     handleQuantityChange: (value: number) => void;
-}
+};
 
 const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onBuy, onClearCart, player, quantity, handleQuantityChange }) => {
     const [ArrowImage, setArrowImage] = useState('');

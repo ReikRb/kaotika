@@ -1,10 +1,10 @@
 import GoldComponent from "./GoldComponent";
 
-interface User {
+interface Props {
     name: string;
     gold: number;
     level: number;
-}
+};
 
 const RequiredLevel: React.FC<{ level: number, fontSize?: string }> = ({ level, fontSize='text-2xl' }) => (
     <div className="flex items-center space-x-2">
@@ -13,7 +13,7 @@ const RequiredLevel: React.FC<{ level: number, fontSize?: string }> = ({ level, 
     </div>
 );
 
-const UserComponent: React.FC<User> = ({ name, gold, level }) => {
+const UserComponent: React.FC<Props> = ({ name, gold, level }) => {
     return (
         <div className=" justify-center text-5xl  w-[90%] h-[180%] ml-[4%] mt-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/Req_Bg.webp')]">
             <div className="h-[50%] w-full text-center">

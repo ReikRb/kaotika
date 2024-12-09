@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-interface LayoutProps {
+interface Props {
   children: ReactNode;
-}
+};
 
-const ShopHeader: React.FC<LayoutProps> = ({ children }) => {
+const ShopHeader: React.FC<Props> = ({ children }) => {
   return (
     <div className="w-screen row-span-2 row-start-0 bg-black">
         {children}

@@ -1,12 +1,12 @@
 import React from "react";
 
-interface ButtonProps {
+interface Props {
     label: string;
     canAfford: Function;
     onClick: () => void;
-}
+};
 
-const ShopButton: React.FC<ButtonProps> = ({ label, canAfford, onClick }) => {
+const ShopButton: React.FC<Props> = ({ label, canAfford, onClick }) => {
     return (
         <div className={canAfford() ? 
             "w-5/12 h-full flex items-center justify-center cursor-pointer hover:opacity-80 focus:opacity-80 bg-[url('/images/shop/store_button.webp')] bg-contain bg-center bg-no-repeat"

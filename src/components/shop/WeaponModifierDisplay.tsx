@@ -5,7 +5,7 @@ interface Props {
     dieFaces: number;
     dieModifier: number;
     dieNum: number;
-}
+};
 
 const ProductAttack: React.FC<Props> = ({ basePercentage, dieFaces, dieModifier, dieNum }) => (
     <>

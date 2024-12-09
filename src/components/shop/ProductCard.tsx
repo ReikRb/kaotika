@@ -1,25 +1,26 @@
-import { Armor } from "@/_common/interfaces/Armor";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Ingredient } from "@/_common/interfaces/Ingredient";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Shield } from "@/_common/interfaces/Shield";
-import { Weapon } from "@/_common/interfaces/Weapon";
+import { Product } from "@/_common/types/Product";
 import GoldComponent from "./GoldComponent";
 import IncrementDecrement from "./UpdateQtyButton";
+import { Weapon } from "@/_common/interfaces/Weapon";
+import { Shield } from "@/_common/interfaces/Shield";
+import { Helmet } from "@/_common/interfaces/Helmet";
+import { Armor } from "@/_common/interfaces/Armor";
+import { Boot } from "@/_common/interfaces/Boot";
+import { Ring } from "@/_common/interfaces/Ring";
+import { Artifact } from "@/_common/interfaces/Artifact";
 
-interface Product {
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
+interface Props {
+    product: Product;
     isSelected: boolean;
     onClick: () => void;
-    handleRemoval?: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
-    isInCart?: boolean
+    handleRemoval?: (product: Product) => void;
+    isInCart?: boolean;
     handleQuantityChange?: (value: number) => void;
     quantity?: number;
     index: number;
-}
-export const PRODUCT_CART = {
+};
+
+const PRODUCT_CART = {
     mainContainer: "flex h-[53%] w-[90%] row-span-3 row-start-8 place-items-center justify-center mt-[3%] ml-[5%] bg-contain bg-center bg-no-repeat",
     imgContainer: "flex w-[35%] justify-center place-items-center h-[90%]  bg-contain bg-center bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
     productImg: 'w-[40%]',
@@ -30,8 +31,9 @@ export const PRODUCT_CART = {
     levelContainer: "justify-end flex space-x-[50%] inline-row",
     levelRequirement: "text-xl w-[2%] text-white",
     levelValue: "text-4xl pr-[12%]"
-}
-export const PRODUCT_SHOP = {
+};
+
+const PRODUCT_SHOP = {
     mainContainer: `h-[41.5%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
     imgContainer: "flex justify-center place-items-center place-items-center mt-[2.8%] w-[90%] h-[90%] ml-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
     productImg: "place-items-center self-center pb-[3%] w-[32%]",
@@ -42,8 +44,13 @@ export const PRODUCT_SHOP = {
     levelContainer: 'justify-center flex space-x-[15%] inline-row',
     levelRequirement: 'text-xl w-[20%] text-white',
     levelValue: 'text-4xl self-center'
-}
-const ProductCard: React.FC<Product> = ({ index, product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval }) => {
+};
+
+const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact) => {
+    return "min_lvl" in product;
+};
+
+const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval }) => {
     return (
         <>
             <div
@@ -65,7 +72,7 @@ const ProductCard: React.FC<Product> = ({ index, product, onClick, isSelected, i
                                 ? (
                                     <div className={isInCart ? PRODUCT_CART.levelContainer : PRODUCT_SHOP.levelContainer}>
                                         <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_text_${index}`} className={isInCart ? PRODUCT_CART.levelRequirement : PRODUCT_SHOP.levelRequirement}>{`Req. Lvl.`}</p>
-                                        <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_value_${index}`}className={isInCart ? PRODUCT_CART.levelValue : PRODUCT_SHOP.levelValue}>{product.min_lvl}</p>
+                                        <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_value_${index}`}className={isInCart ? PRODUCT_CART.levelValue : PRODUCT_SHOP.levelValue}>{isEquipment(product) ? product.min_lvl : null}</p>
                                     </div>
                                 )
                                 : null

@@ -18,7 +18,7 @@ interface Props {
     onProductSelect: (product: Product) => void;
     player: Player;
     setMerchantMessage: Function;
-}
+};
 
 const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;
