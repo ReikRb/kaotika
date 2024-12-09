@@ -8,6 +8,7 @@ import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
+import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from '@/helpers/calculateIfCanBuy';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const PlayerModel = require("../../../database/models/playerSchema");
 
@@ -55,38 +56,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });
     }
-}
-
-const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
-    let value = 0;
-
-    products.map((product) => {
-        value += product.value;
-    });
-
-    return value;
-}
-
-const isProductInTheInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
-    return Object.values(player.inventory).every((items) => {
-        return items.every((item) => {
-            return products.every((product) => {
-                return item._id !== product._id;
-            });
-        });
-    });
-}
-
-const isProductEquiped = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
-    return Object.values(player.equipment).every((item) => {
-        return products.every((product) => {
-            return item?._id !== product._id;
-        });
-    });
-}
-
-const isGoldSufficient = (player: Player, value: number) => {
-    return player.gold >= value ? true : false;
 }
 
 const updatePlayerInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
