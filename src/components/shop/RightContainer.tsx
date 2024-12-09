@@ -121,7 +121,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
             </div>
             
             <div className="w-4/12 grid grid-rows-10">
-                <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/>
+                {/* <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/> */}
                 <UserComponent name={player.nickname} gold={player.gold} level={player.level}/>
                 <ProductsCardsContainer products={sortedProducts} onProductSelect={onProductSelect} />
             </div>
