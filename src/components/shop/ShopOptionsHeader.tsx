@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import DropDownComponent from './DropDownComponent';
+import { MERCHANT_MESSAGES } from '@/constants/constants';
 
 interface Props {
     displaySelectedShopProducts: Function;
     buttonDisplayHandler: Function;
     togglePanel: Function;
+    handleMerchantMessage: Function;
 }
 
-const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, buttonDisplayHandler, togglePanel}) => {
+const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, buttonDisplayHandler, togglePanel, handleMerchantMessage}) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
     const [activeCategory, setActiveCategory] = useState<string>('weapon');
     const [shopType, setShopType] = useState<string>('equipment');
@@ -24,17 +26,20 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, button
 
     const handleCategoryChange = (category: string) => {
         setActiveCategory(category);
+        handleMerchantMessage(MERCHANT_MESSAGES.changeShopTab)
     };
 
     const handleActionChange = (category: string) => {
         setActiveAction(category);
         setShopType('equipment');
         setActiveCategory(category === 'buy' ? 'weapon' : 'inventory');
+        handleMerchantMessage(category === 'buy' ? MERCHANT_MESSAGES.buyTab : MERCHANT_MESSAGES.sellTab)
     };
 
     const handleShopTypeChange = (type: string) => {
         setShopType(type);
         setActiveCategory(type === 'equipment' ? 'weapon' : 'ingredient');
+        handleMerchantMessage(type === 'equipment' ? MERCHANT_MESSAGES.equipmentShop : MERCHANT_MESSAGES.MagicShop)
     };
 
     const equipmentCategories = [

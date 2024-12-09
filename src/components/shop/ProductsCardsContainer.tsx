@@ -8,14 +8,17 @@ import { Shield } from "@/_common/interfaces/Shield";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
+import { getRandomMessage } from "@/helpers/getRandomMessage";
+import { MERCHANT_MESSAGES } from "@/constants/constants";
 
 interface Props {
     products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
     onProductSelect: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => void;
+    setMerchantMessage: Function;
 
 }
 
-const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) => {
+const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, setMerchantMessage }) => {
 
     const [selectedProduct, setSelectedProduct] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null>(null);
 
@@ -26,6 +29,8 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) 
     const handleProductSelect = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
         setSelectedProduct(product);
         onProductSelect(product);
+        
+        setMerchantMessage(MERCHANT_MESSAGES.selectNewProduct)
     };
 
     return (

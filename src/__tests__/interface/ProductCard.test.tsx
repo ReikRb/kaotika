@@ -128,7 +128,7 @@ describe('ProductCard Component', () => {
         expect(removeButton).toBeNull();
     })
 
-    it('should render the ingredient correctly in the shop view', () => {
+    it('should render the ingredient correctly in the cart view', () => {
         const mockProps = {
             product: mockIngredient,
             isSelected: false,

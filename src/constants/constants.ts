@@ -41,15 +41,20 @@ export const PRODUCT_SHOP = {
 }
 
 export const MERCHANT_MESSAGES = {
-    removeItem: ['removeItem1', 'removeItem2'],
-    removeAllItems:['removeAllItems1','removeAllItems2'],
-    buyItem:['buyItem1', 'buyItems2'],
-    buyAllItems:['buyAllItems1', 'buyAllItems2'],
-    equipmentShop:['equipmentShop1', 'equipmentShop2'],
-    MagicShop:['magicShop1', 'magicShop2'],
-    addToCart:['addTocart1', 'addToCart2'],
-    inssufficientMoney:['Not Enough Money', ''],
-    alreadyInCart: [],
-    selectNewProduct: [],
-    changeShopTab: []
+    removeItem: ['Better you add more products to that cart!', ],
+    removeAllItems:['Time to fill that cart once again!',], //Not implemented
+    buyItem:['Please come again!', 'Thanks for your coins... Idiot...'],
+    buyAllItems:['buyAllItems1', 'buyAllItems2'], //Not implemented
+    sellItem:["It's a pleasure to make deals with you. Please come again.", "Next time, try offering me more valuable items", "Don't you have any unique item for me?"],
+    equipmentShop:['Best gear you will ever find', 'We do not sell uniques to your kind do not be absurd.'],
+    MagicShop:['Best ingredients that you will ever find', "Someone once told me, there's a tower with special ingredients which cannot be find elsewhere... Never saw him again" ],
+    addToCart:["You won't regret it", 'the cart feels lonely... add more products... NOW!!!'],
+    inssufficientMoney:['Not Enough Money', 'HAHAHAHA Are You Poor? Because You can not afford that!'], //Not implemented
+    alreadyInCart: ['You have that equipment already added to the cart.', 'Are you blind? You can not add this again!'],//Not implemented
+    selectNewProduct: ['That fits you well... You Should buy it.', 'It is like if you were stealing me with that price. Do a favor to yourself and buy it.'],
+    changeShopTab: ['Perhaps this is more of your liking.', 'If you look it... YOU BUY IT!'],
+    loading: ['PLEASE WAIT IM THINKING', "I'm counting the coins please wait a moment."],
+    errorTransaction:['Something happened while making our deal. Please try again.'],
+    buyTab:["Don't waste my time and buy something already!"],
+    sellTab:['You looking to sell some of your items? You came to the right spot!', "Someone told you that I buy to low prices? Tell me their names so you won't hear them again... hehehe"]
 }

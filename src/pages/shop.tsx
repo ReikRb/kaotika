@@ -26,6 +26,8 @@ import RightSidePanel from '@/components/shop/RightSidePanelComponent';
 import { fetchCategory } from '@/pages/api/shop/helpers/fetchCategory';
 import { filterCategoryData } from '@/helpers/filterCategoryData';
 import { fetchPlayerData } from './api/shop/helpers/fetchPlayerData';
+import { MERCHANT_MESSAGES } from '@/constants/constants';
+import { getRandomMessage } from '@/helpers/getRandomMessage';
 
 interface Equipment {
     helmet: Helmet,
@@ -64,19 +66,25 @@ export default function Shop() {
     const [quantity, setQuantity] = useState(1);
     const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
     const [shopCategory, setShopCategory] = useState<string>('weapon');
-    const [merchantMessage, setMerchantMessage] = useState("Welcome To Aivan's Store.\n Do not come in if you won't buy anything!")
+    const [merchantMessage, setMerchantMessage] = useState("Welcome To Aivan's Store. Do not come in if you won't buy anything!")
 
-
+    const handleMerchantMessage = (array: string[]) => {
+        const message = getRandomMessage(array)
+        setMerchantMessage(message)
+    }
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
         console.log('arriving to cart removal button')
         let newCart = [...cart]
         newCart = newCart.filter((item) => item.name !== product.name)
         setCart(newCart);
-        setMerchantMessage('Better you add more products to that cart!')
+        
+        handleMerchantMessage(MERCHANT_MESSAGES.removeItem)
     };
 
     const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[], isInCart: boolean) => {
         try {
+            handleMerchantMessage(MERCHANT_MESSAGES.loading)
+
             const res = await fetch(`/api/shop/buy`, {
                 headers: {
                     'Content-Type': 'application/json'
@@ -94,21 +102,28 @@ export default function Shop() {
                 setPlayer(response);
                 isInCart ? onClearCart() : null;
                 console.log('Purchase complete: ', response);
+
+                handleMerchantMessage(MERCHANT_MESSAGES.buyItem)
             } else if (res.status === 400) {
+                setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
                 const response = await res.json();
                 setPlayer(response.player);
                 console.log(response.error);
             } else if (res.status === 409) {
+                setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
                 const response = await res.json();
                 setPlayer(response.player);
                 console.log(response.error);
             } else if (res.status === 404) {
+                setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
                 const response = await res.json();
                 console.log(response.error);
             } else {
+                setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
                 console.log('Error in the purchase: ', error);
             }
         } catch (error) {
+            setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
             console.log('Error in the purchase: ', error);
         }
     };
@@ -130,24 +145,32 @@ export default function Shop() {
                 const response = await res.json();
                 setInventory(setInventoryItems(response));
                 setPlayer(response);
-                console.log('Sell complete: ', response);                     
+                console.log('Sell complete: ', response); 
+                
+                handleMerchantMessage(MERCHANT_MESSAGES.sellItem)
             } else if (res.status === 404) {
                 const response = await res.json();
                 console.log(response.error);
+                setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
             } else {
                 console.log('Error in the Sell: ', error);
+                setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
             }
         } catch (error) {
             console.log('Error in the Sell: ', error);
+            setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
         }
     };
 
     const addToCart = (product: Product) => {
         setCart((prevCart) => [...prevCart, product]);
+
+        handleMerchantMessage(MERCHANT_MESSAGES.addToCart)
     };
 
     const onClearCart = () => {
         setCart([]);
+        handleMerchantMessage(MERCHANT_MESSAGES.removeAllItems)
     };
 
     const handleQuantityChange = (value: number) => {
@@ -244,10 +267,6 @@ export default function Shop() {
     }, [displayProducts]);
 
     useEffect(() => {
-        setCurrentDisplay(weapons[0])
-    }, [weapons]);
-
-    useEffect(() => {
         if (shopCategory === 'inventory') setDisplayProducts(inventory!);
     }, [inventory]);
 
@@ -301,7 +320,7 @@ export default function Shop() {
         <ShopContainer>
             <ShopHeader>
                 <MainHeader />
-                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel} />
+                <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel} handleMerchantMessage={handleMerchantMessage} />
             </ShopHeader>
             <MainContainer>
                 <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
@@ -310,7 +329,7 @@ export default function Shop() {
                 <CollapseSidepanelButton direction='right' executeFunction={(() => { })} />
                 <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} message={merchantMessage} />
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
-                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!} />
+                <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!} setMerchantMessage={handleMerchantMessage} />
             </MainContainer>
         </ShopContainer>
     );

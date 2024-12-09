@@ -14,10 +14,11 @@ interface Props {
     products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
     onProductSelect: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => void;
     player: Player
+    setMerchantMessage: Function;
 
 }
 
-const RightContainer: React.FC<Props> = ({ products, onProductSelect, player }) => {
+const RightContainer: React.FC<Props> = ({ products, onProductSelect, player, setMerchantMessage }) => {
     return (
         <>
             <div className="w-[5.6%] h-[100%] bg-contain bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]">
@@ -25,7 +26,7 @@ const RightContainer: React.FC<Props> = ({ products, onProductSelect, player }) 
 
             <div className="w-4/12 grid grid-rows-10">
                 <UserComponent name={player.nickname} gold={player.gold} level={player.level}/>
-                <ProductsCardsContainer products={products} onProductSelect={onProductSelect} />
+                <ProductsCardsContainer products={products} onProductSelect={onProductSelect} setMerchantMessage={setMerchantMessage} />
             </div>
         </>
     );
