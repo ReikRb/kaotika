@@ -6,21 +6,19 @@ import { Weapon } from "@/_common/interfaces/Weapon";
 import { Helmet } from "@/_common/interfaces/Helmet";
 import { Armor } from "@/_common/interfaces/Armor";
 import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
 import ProductWeaponDisplay from "./WeaponModifierDisplay";
-import GoldComponent from "./GoldComponent";
 import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
 import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from "@/helpers/calculateIfCanBuy";
 import ConfirmationComponent from "./ConfirmationComponent";
+import { Product, Products } from "@/_common/types/Product";
 
 interface Props {
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
-    onBuy: (products: Product[], isInCart: boolean) => void;
+    product: Product;
+    onBuy: (products: Products, isInCart: boolean) => void;
     onSell: (product: Product) => void;
     onAddToCart: (product: Product) => void;
     player: Player
@@ -29,17 +27,15 @@ interface Props {
     displayBuyButtons: boolean;
 }
 
-type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
-
-const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is (Helmet | Armor | Boot | Shield) => {
+const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;
 };
 
-const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is Weapon => {
+const isWeapon = (product: Product): product is Weapon => {
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is Ingredient => {
+const isMagical = (product: Product): product is Ingredient => {
     return "effects" in product;
 };
 
@@ -93,9 +89,13 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                         <ConfirmationComponent displayBuyButtons={displayBuyButtons} quantity={quantity} modalContent={modalContent} handleBuy={handleBuy} handleSell={handleSell} handleCloseModal={handleCloseModal}/>
                     </div>
                 )}
-                <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
-                    <RequirementsSection gold={product.value * quantity} level={product.min_lvl}/>
-                </div>
+                {isMagical(product) ? (
+                    <div/>
+                ) : (
+                    <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
+                        <RequirementsSection gold={product.value * quantity} level={product.min_lvl}/>
+                    </div>
+                )}
                 {isMagical(product) ? (
                     <div/>
                 ) : (

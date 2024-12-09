@@ -1,26 +1,13 @@
 import { Modifier } from "@/_common/interfaces/Modifier";
 import ShopProgressBar from "./ShopProgressBar";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Weapon } from "@/_common/interfaces/Weapon";
-import { Armor } from "@/_common/interfaces/Armor";
-import { Shield } from "@/_common/interfaces/Shield";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
 import { useEffect, useState } from "react";
+import { Equipment } from "@/_common/interfaces/Equipment";
+import { Product } from "@/_common/types/Product";
 
 interface Props {
     currentAttributes: Modifier;
-    currentEquipment: {
-        helmet: Helmet,
-        weapon: Weapon,
-        armor: Armor,
-        shield: Shield,
-        artifact: Artifact,
-        boot: Boot,
-        ring: Ring,
-      }
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+    currentEquipment: Equipment;
+    product: Product;
   }
 
 const ItemContainer: React.FC<Props> = ({currentAttributes, currentEquipment, product}) => {

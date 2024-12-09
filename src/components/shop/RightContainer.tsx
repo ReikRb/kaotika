@@ -1,27 +1,27 @@
 import ProductsCardsContainer from "./ProductsCardsContainer";
-import { Weapon } from "@/_common/interfaces/Weapon";
+import UserComponent from "./UserComponent";
+import { Player } from "@/_common/interfaces/Player";
+import { useEffect, useState } from "react";
+import { Product, Products } from "@/_common/types/Product";
 import { Helmet } from "@/_common/interfaces/Helmet";
 import { Armor } from "@/_common/interfaces/Armor";
 import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
-import { Ingredient } from "@/_common/interfaces/Ingredient";
-import UserComponent from "./UserComponent";
-import { Player } from "@/_common/interfaces/Player";
+import { Weapon } from "@/_common/interfaces/Weapon";
+import { Artifact } from "@/_common/interfaces/Artifact";
+import { Ring } from "@/_common/interfaces/Ring";
 import DropDownComponent from "./DropDownComponent";
-import { useEffect, useState } from "react";
 
 interface Props {
-    products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
+    products: Products;
     category: string;
-    onProductSelect: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => void;
+    onProductSelect: (product: Product) => void;
     player: Player;
 }
 
 const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, player }) => {
 
-    const [sortedProducts, setSortedProducts] = useState<Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]>(products);
+    const [sortedProducts, setSortedProducts] = useState<Products>(products);
     const [sortOption, setSortOption] = useState<string>('gold');
 
     const defensiveEquipmentSortOptions = [
@@ -55,6 +55,8 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
     const inventorySortOptions = [
         { key: 'gold', label: 'Gold' },
         { key: 'min_lvl', label: 'Level' },
+        { key: 'base_porcentage', label: 'Base Porcentage' },
+        { key: 'defense', label: 'Defense' },
         { key: 'intelligence', label: 'Intelligence' },
         { key: 'dexterity', label: 'Dexterity' },
         { key: 'insanity', label: 'Insanity' },
@@ -62,6 +64,22 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         { key: 'constitution', label: 'Constitution' },
         { key: 'strength', label: 'Strength' },
     ];
+
+    const defaultSortOptions = [
+        { key: 'gold', label: 'Gold' },
+    ];
+
+    const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
+        return "defense" in product;
+    };
+    
+    const isWeapon = (product: Product): product is Weapon => {
+        return "base_percentage" in product && "die_faces" in product;
+    };
+    
+    const isEquipment = (product: Product): product is (Weapon | Shield |Helmet | Armor | Boot | Ring | Artifact) => {
+        return "min_lvl" in product;
+    };
 
     useEffect(() => {
         setSortedProducts(products);
@@ -71,26 +89,30 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
     const sortProducts = (option: string) => {
         setSortOption(option);
         
-        const sortedProducts = [...products].sort((product, prevProduct) => {
+        const sortedProducts: Products = [...products].sort((product, prevProduct) => {
             switch (option) {
                 case 'gold':
                     return product.value - prevProduct.value;
                 case 'min_lvl':
-                    return product.min_lvl - prevProduct.min_lvl;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.min_lvl - prevProduct.min_lvl : 1;
+                case 'base_porcentage':
+                    return isWeapon(product) && isWeapon(prevProduct) ? product.base_percentage - prevProduct.base_percentage : 1;
                 case 'defense':
-                    return product.defense - prevProduct.defense;
+                    return hasDefense(product) && hasDefense(prevProduct) ? product.defense - prevProduct.defense : -1;
                 case 'intelligence':
-                    return product.modifiers.intelligence - prevProduct.modifiers.intelligence;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.modifiers.intelligence - prevProduct.modifiers.intelligence : 1;
                 case 'dexterity':
-                    return product.modifiers.dexterity - prevProduct.modifiers.dexterity;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.modifiers.dexterity - prevProduct.modifiers.dexterity : 1;
                 case 'insanity':
-                    return product.modifiers.insanity - prevProduct.modifiers.insanity;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.modifiers.insanity - prevProduct.modifiers.insanity : 1;
                 case 'charisma':
-                    return product.modifiers.charisma - prevProduct.modifiers.charisma;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.modifiers.charisma - prevProduct.modifiers.charisma : 1;
                 case 'constitution':
-                    return product.modifiers.constitution - prevProduct.modifiers.constitution;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.modifiers.constitution - prevProduct.modifiers.constitution : 1;
                 case 'strength':
-                    return product.modifiers.strength - prevProduct.modifiers.strength;
+                    return isEquipment(product) && isEquipment(prevProduct) ? product.modifiers.strength - prevProduct.modifiers.strength : 1;
+                default:
+                    return 0;
             };
         });
         
@@ -112,6 +134,8 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
                 return ingredientsSortOptions;
             case 'inventory':
                 return inventorySortOptions;
+            default:
+                return defaultSortOptions;
         };
     };
 
@@ -123,7 +147,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
             <div className="w-4/12 grid grid-rows-10">
                 {/* <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/> */}
                 <UserComponent name={player.nickname} gold={player.gold} level={player.level}/>
-                <ProductsCardsContainer products={sortedProducts} onProductSelect={onProductSelect} />
+                <ProductsCardsContainer products={sortedProducts} onProductSelect={onProductSelect}/>
             </div>
         </>
     );

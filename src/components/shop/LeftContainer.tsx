@@ -1,26 +1,13 @@
-import { Weapon } from "@/_common/interfaces/Weapon";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Armor } from "@/_common/interfaces/Armor";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Shield } from "@/_common/interfaces/Shield";
 import { Modifier } from "@/_common/interfaces/Modifier";
 import MerchantComponent from "./MerchantComponent";
 import ItemContainer from "./ItemContainer";
+import { Product } from "@/_common/types/Product";
+import { Equipment } from "@/_common/interfaces/Equipment";
 
 interface Props {
     currentAttributes: Modifier;
-    currentEquipment: {
-        helmet: Helmet,
-        weapon: Weapon,
-        armor: Armor,
-        shield: Shield,
-        artifact: Artifact,
-        boot: Boot,
-        ring: Ring,
-      }
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+    currentEquipment: Equipment
+    product: Product;
   }
 
 

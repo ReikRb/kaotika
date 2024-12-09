@@ -11,13 +11,14 @@ import CartProductsContainer from './CartProductsContainer';
 import GoldComponent from './GoldComponent';
 import { Player } from '@/_common/interfaces/Player';
 import { isGoldSufficient, isProductEquiped, isProductInTheInventory } from '@/helpers/calculateIfCanBuy';
+import { Product, Products } from '@/_common/types/Product';
 
 interface RightSidePanelProps {
     isOpen: boolean;
     togglePanel: () => void;
-    cart: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[];
-    onRemoveFromCart: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => void;
-    onBuy: (products: (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[], isInCart: boolean) => void;
+    cart: Products;
+    onRemoveFromCart: (product: Product) => void;
+    onBuy: (products: (Product)[], isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;

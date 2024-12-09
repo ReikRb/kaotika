@@ -1,29 +1,21 @@
-import { Weapon } from "@/_common/interfaces/Weapon";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Armor } from "@/_common/interfaces/Armor";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Shield } from "@/_common/interfaces/Shield";
-import { Ingredient } from "@/_common/interfaces/Ingredient";
 import ProductCard from "./ProductCard";
 import { useEffect, useState } from "react";
+import { Product, Products } from "@/_common/types/Product";
 
 interface Props {
-    products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[];
-    onProductSelect: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield) => void;
-
+    products: Products;
+    onProductSelect: (product: Product) => void;
 }
 
 const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) => {
 
-    const [selectedProduct, setSelectedProduct] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient | null>(null);
+    const [selectedProduct, setSelectedProduct] = useState<Product>(products[0]);
 
     useEffect(() => {
         setSelectedProduct(products[0]);
     }, [products]);
 
-    const handleProductSelect = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
+    const handleProductSelect = (product: Product) => {
         setSelectedProduct(product);
         onProductSelect(product);
     };
