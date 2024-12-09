@@ -21,16 +21,17 @@ interface Props {
         ring: Ring,
       }
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
+    message: string
   }
 
 
-const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, product}) => {
+const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, product, message}) => {
 
     return (
         <>
             <div className="w-4/12 grid grid-rows-10">
                 <ItemContainer currentAttributes={currentAttributes} currentEquipment={currentEquipment} product={product}/>       
-                <MerchantComponent/>
+                <MerchantComponent message={message}/>
             </div>
         </>
     );

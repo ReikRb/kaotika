@@ -64,6 +64,7 @@ export default function Shop() {
     const [quantity, setQuantity] = useState(1);
     const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
     const [shopCategory, setShopCategory] = useState<string>('weapon');
+    const [merchantMessage, setMerchantMessage] = useState("Welcome To Aivan's Store.\n Do not come in if you won't buy anything!")
 
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
@@ -71,6 +72,7 @@ export default function Shop() {
         let newCart = [...cart]
         newCart = newCart.filter((item) => item.name !== product.name)
         setCart(newCart);
+        setMerchantMessage('Better you add more products to that cart!')
     };
 
     const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[], isInCart: boolean) => {
@@ -306,7 +308,7 @@ export default function Shop() {
                 </button>
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={handleQuantityChange} />
                 <CollapseSidepanelButton direction='right' executeFunction={(() => { })} />
-                <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} />
+                <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} message={merchantMessage} />
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={addToCart} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
                 <RightContainer products={displayProducts} onProductSelect={setCurrentDisplay} player={player!} />
             </MainContainer>

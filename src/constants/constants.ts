@@ -39,3 +39,17 @@ export const PRODUCT_SHOP = {
     levelRequirement: 'text-xl w-[20%] text-white',
     levelValue: 'text-4xl self-center'
 }
+
+export const MERCHANT_MESSAGES = {
+    removeItem: ['removeItem1', 'removeItem2'],
+    removeAllItems:['removeAllItems1','removeAllItems2'],
+    buyItem:['buyItem1', 'buyItems2'],
+    buyAllItems:['buyAllItems1', 'buyAllItems2'],
+    equipmentShop:['equipmentShop1', 'equipmentShop2'],
+    MagicShop:['magicShop1', 'magicShop2'],
+    addToCart:['addTocart1', 'addToCart2'],
+    inssufficientMoney:['Not Enough Money', ''],
+    alreadyInCart: [],
+    selectNewProduct: [],
+    changeShopTab: []
+}
