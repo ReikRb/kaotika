@@ -16,6 +16,7 @@ import { Player } from "@/_common/interfaces/Player";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
 import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from "@/helpers/calculateIfCanBuy";
+import ConfirmationComponent from "./ConfirmationComponent";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
@@ -89,31 +90,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
             <div className="w-full sm:w-4/12 h-full flex flex-col relative">
                 {isModalOpen && modalContent && (
                     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
-                            <div className="flex flex-col items-center justify-center md:space-y-8">
-                                <p className="text-xl md:text-4xl font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
-                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
-                                <div className="flex items-center justify-center space-x-2">
-                                    <p className="text-xl md:text-4xl font-bold">for</p>
-                                    <GoldComponent amount={modalContent.value} />
-                                    <p className="text-xl md:text-4xl font-bold">?</p>
-                                </div>
-                            </div>
-                            <div className="flex justify-center space-x-4 md:space-x-60">
-                                <button
-                                    className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                                    onClick={displayBuyButtons ? handleBuy : handleSell}
-                                >
-                                    Confirm
-                                </button>
-                                <button
-                                    className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia"
-                                    onClick={handleCloseModal}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
+                        <ConfirmationComponent displayBuyButtons={displayBuyButtons} quantity={quantity} modalContent={modalContent} handleBuy={handleBuy} handleSell={handleSell} handleCloseModal={handleCloseModal}/>
                     </div>
                 )}
 
