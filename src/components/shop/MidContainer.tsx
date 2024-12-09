@@ -6,20 +6,19 @@ import { Weapon } from "@/_common/interfaces/Weapon";
 import { Helmet } from "@/_common/interfaces/Helmet";
 import { Armor } from "@/_common/interfaces/Armor";
 import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
 import { Shield } from "@/_common/interfaces/Shield";
 import ProductWeaponDisplay from "./WeaponModifierDisplay";
-import GoldComponent from "./GoldComponent";
 import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
 import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from "@/helpers/calculateIfCanBuy";
+import ConfirmationComponent from "./ConfirmationComponent";
+import { Product, Products } from "@/_common/types/Product";
 
 interface Props {
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
-    onBuy: (products: Product[], isInCart: boolean) => void;
+    product: Product;
+    onBuy: (products: Products, isInCart: boolean) => void;
     onSell: (product: Product) => void;
     onAddToCart: (product: Product) => void;
     player: Player
@@ -28,17 +27,15 @@ interface Props {
     displayBuyButtons: boolean;
 }
 
-type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
-
-const hasDefense = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is (Helmet | Armor | Boot | Shield) => {
+const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;
 };
 
-const isWeapon = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is Weapon => {
+const isWeapon = (product: Product): product is Weapon => {
     return "base_percentage" in product && "die_faces" in product;
 };
 
-const isMagical = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient): product is Ingredient => {
+const isMagical = (product: Product): product is Ingredient => {
     return "effects" in product;
 };
 
@@ -81,96 +78,56 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     };
 
     if (!product) {
-        return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
+        return <p className="w-4/12 h-full flex justify-center items-center 2xl:text-3xl lg:text-xl sm:text-base">Select a product to view details.</p>;
     }
 
     return (
         <>
-            <div className="w-full sm:w-4/12 h-full flex flex-col relative">
+            <div className="w-4/12 grid grid-rows-12">
                 {isModalOpen && modalContent && (
-                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="relative w-5/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-no-repeat text-white shadow-xl p-8 md:p-24 flex-col justify-center space-y-10">
-                            <div className="flex flex-col items-center justify-center md:space-y-8">
-                                <p className="text-xl md:text-4xl font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
-                                <p className="text-2xl md:text-5xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
-                                <div className="flex items-center justify-center space-x-2">
-                                    <p className="text-xl md:text-4xl font-bold">for</p>
-                                    <GoldComponent amount={modalContent.value} />
-                                    <p className="text-xl md:text-4xl font-bold">?</p>
-                                </div>
-                            </div>
-                            <div className="flex justify-center space-x-4 md:space-x-60">
-                                <button
-                                    className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia "
-                                    onClick={displayBuyButtons ? handleBuy : handleSell}
-                                >
-                                    Confirm
-                                </button>
-                                <button
-                                    className="bg-transparent hover:bg-black text-white text-2xl px-4 py-2 md:px-6 md:py-3 rounded-3xl border-2 border-medievalSepia"
-                                    onClick={handleCloseModal}
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50">
+                        <ConfirmationComponent displayBuyButtons={displayBuyButtons} quantity={quantity} modalContent={modalContent} handleBuy={handleBuy} handleSell={handleSell} handleCloseModal={handleCloseModal}/>
                     </div>
                 )}
-
-                <RequirementsSection gold={product.value * quantity} level={product.min_lvl} />
-
-                {hasDefense(product) ? (
-                    <ProductDefenseDisplay defense={product.defense} />
-                ) : isWeapon(product) ? (
-                    <ProductWeaponDisplay
-                        basePercentage={product.base_percentage}
-                        dieFaces={product.die_faces}
-                        dieModifier={product.die_modifier}
-                        dieNum={product.die_num}
-                    />
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-[10%] relative">
-                        <div className="relative w-full"></div>
-                    </div>
-                )}
-
-                <ProductImage imageSrc={product.image} altText="Center" />
-                <div className="flex flex-col items-center justify-center h-[50%] -mb-32">
                 {isMagical(product) ? (
-                    <IncrementDecrement
-                        initialValue={quantity}
-                        onValueChange={handleQuantityChange}
-                    />
+                    <div/>
                 ) : (
-                    <div className="flex flex-col items-center justify-center h-[10%] relative">
-                    <div className="relative w-full"></div>
-                </div>
+                    <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
+                        <RequirementsSection gold={product.value * quantity} level={product.min_lvl}/>
+                    </div>
                 )}
-            </div>
-                <div className="flex flex-col sm:flex-row items-center justify-center h-[70%] sm:space-y-0 sm:space-x-4">
-                    {displayBuyButtons
-                        ? (
-                            <>
-                                <ShopButton
-                                    label="BUY"
-                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford() ? handleOpenModal : () => {}}
-                                />
-                                <ShopButton
-                                    label="ADD TO CART"
-                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford() ? () => product && onAddToCart(product) : () => {}}
-                                />
-                            </>
+                {isMagical(product) ? (
+                    <div/>
+                ) : (
+                    <div className="w-full row-span-3 row-start-2 flex justify-center place-content-center pt-[2%]">
+                        {hasDefense(product) ? (
+                            <ProductDefenseDisplay defense={product.defense}/>
+                        ) : isWeapon(product) ? (
+                            <ProductWeaponDisplay basePercentage={product.base_percentage} dieFaces={product.die_faces} dieModifier={product.die_modifier} dieNum={product.die_num}/>
                         ) : (
-                            <ShopButton
-                                label="SELL"
-                                imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                onClick={handleOpenModal}
-                            />
+                            <div/>
                         )}
-
-
+                    </div>
+                )}
+                <div className={isMagical(product) ? "w-full row-span-5 row-start-3 flex justify-center place-content-center p-[2%]" : "w-full row-span-5 row-start-5 flex justify-center place-content-center p-[2%]"}>
+                    <ProductImage imageSrc={product.image} altText={product.name}/>
+                </div>
+                {isMagical(product) ? (
+                    <div className="w-full row-span-2 row-start-8 flex items-center justify-center p-[2%]">
+                        <IncrementDecrement initialValue={quantity} onValueChange={handleQuantityChange}/>
+                    </div>
+                ) : (
+                    <div/>
+                )}
+                <div className="w-full row-span-3 row-start-10 flex justify-around items-center p-[2%]">
+                    {displayBuyButtons ? (
+                        <>
+                            <ShopButton label="BUY" canAfford={canAfford} onClick={canAfford() ? handleOpenModal : () => {}}/>
+                            <ShopButton label="ADD TO CART" canAfford={canAfford} onClick={canAfford() ? () => product && onAddToCart(product) : () => {}}/>
+                        </>
+                    ) : (
+                        <ShopButton label="SELL" canAfford={() => {return true}} onClick={handleOpenModal}/>
+                    )}
                 </div>
             </div>
         </>

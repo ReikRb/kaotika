@@ -87,7 +87,7 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
 
   return (
     <>
-      <div className='flex flex-row place-content-around mr-[2%] mt-[1%] ml-[2%] 2xl:text-2xl lg:text-lg sm:text-sm'>
+      <div className='flex flex-row place-content-around mr-[2%] mt-[1%] ml-[2%] 2xl:text-3xl lg:text-xl sm:text-base'>
         <p className='w-[38%] text-start'>{label}</p>
         <div className='flex flex-row w-2/4 text-end'>
           {itemValue! > 0

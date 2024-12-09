@@ -1,27 +1,14 @@
-import { Weapon } from "@/_common/interfaces/Weapon";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Armor } from "@/_common/interfaces/Armor";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Shield } from "@/_common/interfaces/Shield";
 import { Modifier } from "@/_common/interfaces/Modifier";
 import MerchantComponent from "./MerchantComponent";
 import ItemContainer from "./ItemContainer";
+import { Product } from "@/_common/types/Product";
+import { Equipment } from "@/_common/interfaces/Equipment";
 
 interface Props {
     currentAttributes: Modifier;
-    currentEquipment: {
-        helmet: Helmet,
-        weapon: Weapon,
-        armor: Armor,
-        shield: Shield,
-        artifact: Artifact,
-        boot: Boot,
-        ring: Ring,
-      }
-    product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield;
-    message: string
+    currentEquipment: Equipment;
+    product: Product;
+    message: string;
   }
 
 
@@ -30,8 +17,12 @@ const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
     return (
         <>
             <div className="w-4/12 grid grid-rows-10">
-                <ItemContainer currentAttributes={currentAttributes} currentEquipment={currentEquipment} product={product}/>       
-                <MerchantComponent message={message}/>
+                <div className="w-full row-span-7 row-start-0 grid grid-rows-10 p-[4%]">
+                    <ItemContainer currentAttributes={currentAttributes} currentEquipment={currentEquipment} product={product}/>
+                </div>
+                <div className="w-full row-span-3 row-start-8 flex p-[2%]">
+                    <MerchantComponent message={message}/>
+                </div>
             </div>
         </>
     );
