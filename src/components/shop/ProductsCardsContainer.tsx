@@ -36,7 +36,7 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect }) 
                 [&::-webkit-scrollbar-track]:bg-gray-950
                 [&::-webkit-scrollbar-thumb]:bg-gray-800">
                 {products.map((product, i) => (
-                    <ProductCard key={i.toString()} product={product} isSelected={selectedProduct === product} onClick={() => handleProductSelect(product)}/>
+                    <ProductCard index ={i} key={i.toString()} product={product} isSelected={selectedProduct === product} onClick={() => handleProductSelect(product)}/>
                 ))}
             </div>
         </>
