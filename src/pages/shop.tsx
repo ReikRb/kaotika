@@ -30,7 +30,6 @@ import { Product, Products } from '@/_common/types/Product';
 import { Equipment } from '@/_common/interfaces/Equipment';
 
 export default function Shop() {
-    const router = useRouter();
     const { data: session } = useSession();
     const [player, setPlayer] = useState<Player>();
     const [loading, setLoading] = useState(true);

@@ -1,7 +1,7 @@
 interface Gold {
     amount: number
     fontSize?: string
-}
+};
 
 const GoldComponent: React.FC<Gold> = ({amount, fontSize='text-3xl'}) => {
     return (

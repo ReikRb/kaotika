@@ -19,6 +19,18 @@ interface Props {
     player: Player;
 }
 
+const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
+    return "defense" in product;
+};
+
+const isWeapon = (product: Product): product is Weapon => {
+    return "base_percentage" in product && "die_faces" in product;
+};
+
+const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact) => {
+    return "min_lvl" in product;
+};
+
 const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, player }) => {
 
     const [sortedProducts, setSortedProducts] = useState<Products>(products);
@@ -68,18 +80,6 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
     const defaultSortOptions = [
         { key: 'gold', label: 'Gold' },
     ];
-
-    const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
-        return "defense" in product;
-    };
-    
-    const isWeapon = (product: Product): product is Weapon => {
-        return "base_percentage" in product && "die_faces" in product;
-    };
-    
-    const isEquipment = (product: Product): product is (Weapon | Shield |Helmet | Armor | Boot | Ring | Artifact) => {
-        return "min_lvl" in product;
-    };
 
     useEffect(() => {
         setSortedProducts(products);

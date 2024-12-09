@@ -6,10 +6,9 @@ import { Equipment } from "@/_common/interfaces/Equipment";
 
 interface Props {
     currentAttributes: Modifier;
-    currentEquipment: Equipment
+    currentEquipment: Equipment;
     product: Product;
-  }
-
+};
 
 const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, product}) => {
 

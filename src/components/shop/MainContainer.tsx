@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 
 interface LayoutProps {
   children: ReactNode;
-}
+};
 
 const MainContainer: React.FC<LayoutProps> = ({ children }) => {
   return (

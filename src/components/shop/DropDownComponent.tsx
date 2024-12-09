@@ -2,12 +2,12 @@ interface Props {
     options: options[];
     selectedOption: string;
     handleFunction: Function;
-}
+};
 
 interface options {
     key: string;
     label: string;
-}
+};
 
 const DropDownComponent: React.FC<Props> = ({options, selectedOption, handleFunction}) => {
     return (
