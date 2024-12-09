@@ -15,6 +15,7 @@ import ProductDefenseDisplay from "./DefensiveModifierDisplay";
 import { Player } from "@/_common/interfaces/Player";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
+import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from "@/helpers/calculateIfCanBuy";
 
 interface Props {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
@@ -47,7 +48,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     const [localQuantity, setLocalQuantity] = useState(1);
     const handleOpenModal = () => {
         if (product) {
-            setModalContent({ name: product.name, value: product.value * localQuantity});
+            setModalContent({ name: product.name, value: product.value * localQuantity });
             setModalOpen(true);
         }
     };
@@ -71,17 +72,25 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
 
     const handleLocalQuantityChange = (newQuantity: number) => {
         setLocalQuantity(newQuantity);
-      };
+    };
 
-      
 
-      useEffect(() => {
+
+    useEffect(() => {
         if (product) {
-          setLocalQuantity(quantity);
+            setLocalQuantity(quantity);
         }
-      }, [product, quantity]);
+    }, [product, quantity]);
 
-    const canAfford = product ? player.gold >= product.value * localQuantity : false;
+    const canAfford = () => {
+        const value = calculatePurchaseValue([product], localQuantity);
+        
+        return (
+            isProductInTheInventory(player, [product]) &&
+            isProductEquiped(player, [product]) &&
+            isGoldSufficient(player, value)
+        );
+    };
 
     if (!product) {
         return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
@@ -139,44 +148,43 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
 
                 <ProductImage imageSrc={product.image} altText="Center" />
                 <div className="flex flex-col items-center justify-center h-[50%] -mb-32">
-                {isMagical(product) ? (
-                    <IncrementDecrement
-                        initialValue={localQuantity}
-                        onValueChange={(_, newQuantity) => handleLocalQuantityChange(newQuantity)}
-                        isInCart={false} 
-                        product={product}  
-                    />
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-[10%] relative">
-                    <div className="relative w-full"></div>
+                    {isMagical(product) ? (
+                        <IncrementDecrement
+                            initialValue={localQuantity}
+                            onValueChange={(_, newQuantity) => handleLocalQuantityChange(newQuantity)}
+                            isInCart={false}
+                            product={product}
+                        />
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-[10%] relative">
+                            <div className="relative w-full"></div>
+                        </div>
+                    )}
                 </div>
-                )}
-            </div>
                 <div className="flex flex-col sm:flex-row items-center justify-center h-[70%] sm:space-y-0 sm:space-x-4">
                     {displayBuyButtons
                         ? (
                             <>
                                 <ShopButton
                                     label="BUY"
-                                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford ? handleOpenModal : () => {}}
+                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                    onClick={canAfford() ? handleOpenModal : () => { }}
                                 />
                                 <ShopButton
                                     label="ADD TO CART"
-                                    imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford ? () => { 
+                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                    onClick={canAfford() ? () => {
                                         if (product) {
                                             onAddToCart(product, localQuantity);
                                             setLocalQuantity(1);
                                         }
-                                    } : () => {}}
-                                    
+                                    } : () => { }}
                                 />
                             </>
                         ) : (
                             <ShopButton
                                 label="SELL"
-                                imageSrc={canAfford ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
+                                imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
                                 onClick={handleOpenModal}
                             />
                         )}

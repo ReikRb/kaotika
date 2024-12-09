@@ -61,9 +61,9 @@ export default function Shop() {
     const [currentDisplay, setCurrentDisplay] = useState<Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | null>(null);
     const [isRightPanelOpen, setIsRightPanelOpen] = useState(false);
     const [cart, setCart] = useState<{ product: Product, quantity: number }[]>([]);
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [quantity, setQuantity] = useState(1);
     const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
+    const [shopCategory, setShopCategory] = useState<string>('weapon');
 
 
     const handleRemoveFromCart = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
@@ -72,16 +72,21 @@ export default function Shop() {
         setCart(newCart);
     };
 
-    const buy = async (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[], isInCart: boolean) => {
+    const buy = async (products: { product: Product; quantity: number }[], isInCart: boolean
+    ) => {
         try {
             const res = await fetch(`/api/shop/buy`, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                method: "POST",
+                method: 'POST',
                 body: JSON.stringify({
                     email: player?.email,
-                    products: products,
+                    products: products.map((item) => ({
+                        name: item.product.name,
+                        type: item.product.type,
+                        quantity: item.quantity,
+                    })),
                 }),
             });
 
@@ -89,21 +94,16 @@ export default function Shop() {
                 const response = await res.json();
                 setInventory(setInventoryItems(response));
                 setPlayer(response);
-                isInCart ? onClearCart() : null;
+                if (isInCart) onClearCart();
                 console.log('Purchase complete: ', response);
-            } else if (res.status === 400) {
-                const response = await res.json();
-                setPlayer(response.player);
-                console.log(response.error);
-            } else if (res.status === 409) {
-                const response = await res.json();
-                setPlayer(response.player);
-                console.log(response.error);
-            } else if (res.status === 404) {
-                const response = await res.json();
-                console.log(response.error);
             } else {
-                console.log('Error in the purchase: ', error);
+                const response = await res.json();
+                if (res.status === 400 || res.status === 409 || res.status === 404) {
+                    console.log(response.error);
+                    setPlayer(response.player);
+                } else {
+                    console.log('Error in the purchase: ', response.error || error);
+                }
             }
         } catch (error) {
             console.log('Error in the purchase: ', error);
@@ -119,32 +119,23 @@ export default function Shop() {
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    products: product,
+                    product: product,
                 }),
             });
 
-            // if (res.status === 200) {
-            //     const response = await res.json();
-            //     setInventory(setInventoryItems(response));
-            //     setPlayer(response);
-            //     isInCart ? onClearCart() : null;
-            //     console.log('Purchase complete: ', response);                     
-            // } else if (res.status === 400) {
-            //     const response = await res.json();
-            //     setPlayer(response.player);
-            //     console.log(response.error);
-            // } else if (res.status === 409) {
-            //     const response = await res.json();
-            //     setPlayer(response.player);
-            //     console.log(response.error);
-            // } else if (res.status === 404) {
-            //     const response = await res.json();
-            //     console.log(response.error);
-            // } else {
-            //     console.log('Error in the purchase: ', error);
-            // }
+            if (res.status === 200) {
+                const response = await res.json();
+                setInventory(setInventoryItems(response));
+                setPlayer(response);
+                console.log('Sell complete: ', response);
+            } else if (res.status === 404) {
+                const response = await res.json();
+                console.log(response.error);
+            } else {
+                console.log('Error in the Sell: ', error);
+            }
         } catch (error) {
-            console.log('Error in the purchase: ', error);
+            console.log('Error in the Sell: ', error);
         }
     };
 
@@ -280,34 +271,47 @@ export default function Shop() {
         setCurrentDisplay(weapons[0])
     }, [weapons]);
 
-    const displaySelectedShopProducts = (category: String) => {
+    useEffect(() => {
+        if (shopCategory === 'inventory') setDisplayProducts(inventory!);
+    }, [inventory]);
+
+    const displaySelectedShopProducts = (category: string) => {
         switch (category) {
 
             case 'weapon':
+                setShopCategory(category);
                 setDisplayProducts(weapons);
                 break;
             case 'shield':
+                setShopCategory(category);
                 setDisplayProducts(shields);
                 break;
             case 'helmet':
+                setShopCategory(category);
                 setDisplayProducts(helmets);
                 break;
             case 'armor':
+                setShopCategory(category);
                 setDisplayProducts(armors);
                 break;
             case 'boot':
+                setShopCategory(category);
                 setDisplayProducts(boots);
                 break;
             case 'ring':
+                setShopCategory(category);
                 setDisplayProducts(rings);
                 break;
             case 'artifact':
+                setShopCategory(category);
                 setDisplayProducts(artifacts);
                 break;
             case 'ingredient':
+                setShopCategory(category);
                 setDisplayProducts(ingredients);
                 break;
             case 'inventory':
+                setShopCategory(category);
                 setDisplayProducts(inventory!);
                 break;
         }
@@ -326,7 +330,7 @@ export default function Shop() {
             <MainContainer>
                 <button className="absolute top-0 right-0 h-full p-4" onClick={toggleRightPanel}>
                 </button>
-                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={(product: Product, qty: number) => handleQuantityChange(product, qty)}/>
+                <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player} quantity={quantity} handleQuantityChange={(product: Product, qty: number) => handleQuantityChange(product, qty)} />
                 <CollapseSidepanelButton direction='right' executeFunction={(() => { })} />
                 <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} />
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={(product: Product, quantity: number) => addToCart(product, quantity)} player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />

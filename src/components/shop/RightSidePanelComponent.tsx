@@ -10,6 +10,7 @@ import { Weapon } from '@/_common/interfaces/Weapon';
 import CartProductsContainer from './CartProductsContainer';
 import GoldComponent from './GoldComponent';
 import { Player } from '@/_common/interfaces/Player';
+import { isGoldSufficient, isProductEquiped, isProductInTheInventory } from '@/helpers/calculateIfCanBuy';
 
 interface RightSidePanelProps {
     isOpen: boolean;
@@ -33,7 +34,15 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     const calculateRemaining = (total: number) =>
         player.gold - total;
 
-    const canAfford = (total: number) => player.gold >= total;
+    const canAfford = () => {
+        const value = calculateTotal();
+
+        return (
+            isProductInTheInventory(player, cart) &&
+            isProductEquiped(player, cart) &&
+            isGoldSufficient(player, value)
+        );
+    };
 
     const handleBuyClick = () => {
         onBuy(cart, true);
@@ -44,7 +53,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     }, []);
 
     useEffect(() => {
-        if (canAfford(calculateTotal())) {
+        if (canAfford()) {
             setBuyButtonImage('/images/shop/cartButtons.webp');
         } else {
             setBuyButtonImage('/images/shop/cartButtonsDisabled.webp');
@@ -104,9 +113,9 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
 
                             <div
                                 className={`relative w-40 h-20 mt-2 ${
-                                    canAfford(calculateTotal()) ? 'cursor-pointer' : 'cursor-not-allowed'
+                                    canAfford() ? 'cursor-pointer' : 'cursor-not-allowed'
                                 }`}
-                                onClick={canAfford(calculateTotal()) ? handleBuyClick : undefined}
+                                onClick={canAfford() ? handleBuyClick : undefined}
                             >
                                 <img src={buyButtonImage} alt="Buy" className="absolute w-full h-full" />
                                 <p className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
