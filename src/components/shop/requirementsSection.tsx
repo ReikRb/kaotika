@@ -1,35 +1,22 @@
 import React from "react";
 import GoldComponent from "./GoldComponent";
 
-interface Props {
-    gold: number;
-    quantity: number;
-}
-
-
 const RequiredLevel: React.FC<{ level: number }> = ({ level }) => (
     <div className="flex items-center space-x-2">
-        <span className="text-gray-200 text-2xl">Req Level:</span>
-        <span className="text-amber-200 text-2xl">{level}</span>
+        <span className="text-gray-200 2xl:text-2xl lg:text-lg sm:text-base">Req Level:</span>
+        <span className="text-amber-200 2xl:text-2xl lg:text-lg sm:text-base">{level}</span>
     </div>
 );
 
-
-
 const RequirementsSection: React.FC<{ gold: number; level?: number; }> = ({ gold, level }) => (
-    <div className="flex flex-col items-center justify-center h-[12%] relative">
-        <div className="relative h-[70%] w-[80%] ml-[4%] mt-[2%]">
-            <img src="/images/shop/Req_Bg.webp" alt="Requirements to buy this product" className="h-full w-full" />
-            <div className={`absolute top-1/2 transform -translate-y-1/2 ${level !== undefined ? "left-5" : "left-1/2 -translate-x-1/2"}`}>
-                <GoldComponent amount={gold} />
-            </div>
+    <>
+        <div className="w-full flex justify-around place-content-center bg-[url('/images/shop/Req_Bg.webp')] bg-center bg-no-repeat [background-size:100%_100%]">
+            <GoldComponent amount={gold}/>
             {level !== undefined && (
-                <div className="absolute right-10 top-1/2 transform -translate-y-1/2">
-                    <RequiredLevel level={level} />
-                </div>
+                <RequiredLevel level={level}/>
             )}
         </div>
-    </div>
+    </>
 );
 
 export default RequirementsSection;

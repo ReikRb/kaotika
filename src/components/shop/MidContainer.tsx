@@ -82,72 +82,52 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     };
 
     if (!product) {
-        return <div className="w-full sm:w-4/12 h-full flex flex-col justify-center items-center">Select a product to view details</div>;
+        return <p className="w-4/12 h-full flex justify-center items-center 2xl:text-3xl lg:text-xl sm:text-base">Select a product to view details.</p>;
     }
 
     return (
         <>
-            <div className="w-full sm:w-4/12 h-full flex flex-col relative">
+            <div className="w-4/12 grid grid-rows-12">
                 {isModalOpen && modalContent && (
-                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50">
                         <ConfirmationComponent displayBuyButtons={displayBuyButtons} quantity={quantity} modalContent={modalContent} handleBuy={handleBuy} handleSell={handleSell} handleCloseModal={handleCloseModal}/>
                     </div>
                 )}
-
-                <RequirementsSection gold={product.value * quantity} level={product.min_lvl} />
-
-                {hasDefense(product) ? (
-                    <ProductDefenseDisplay defense={product.defense} />
-                ) : isWeapon(product) ? (
-                    <ProductWeaponDisplay
-                        basePercentage={product.base_percentage}
-                        dieFaces={product.die_faces}
-                        dieModifier={product.die_modifier}
-                        dieNum={product.die_num}
-                    />
+                <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
+                    <RequirementsSection gold={product.value * quantity} level={product.min_lvl}/>
+                </div>
+                {isMagical(product) ? (
+                    <div/>
                 ) : (
-                    <div className="flex flex-col items-center justify-center h-[10%] relative">
-                        <div className="relative w-full"></div>
+                    <div className="w-full row-span-3 row-start-2 flex justify-center place-content-center pt-[2%]">
+                        {hasDefense(product) ? (
+                            <ProductDefenseDisplay defense={product.defense}/>
+                        ) : isWeapon(product) ? (
+                            <ProductWeaponDisplay basePercentage={product.base_percentage} dieFaces={product.die_faces} dieModifier={product.die_modifier} dieNum={product.die_num}/>
+                        ) : (
+                            <div/>
+                        )}
                     </div>
                 )}
-
-                <ProductImage imageSrc={product.image} altText="Center" />
-                <div className="flex flex-col items-center justify-center h-[50%] -mb-32">
-                {isMagical(product) ? (
-                    <IncrementDecrement
-                        initialValue={quantity}
-                        onValueChange={handleQuantityChange}
-                    />
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-[10%] relative">
-                    <div className="relative w-full"></div>
+                <div className={isMagical(product) ? "w-full row-span-5 row-start-3 flex justify-center place-content-center p-[2%]" : "w-full row-span-5 row-start-5 flex justify-center place-content-center p-[2%]"}>
+                    <ProductImage imageSrc={product.image} altText={product.name}/>
                 </div>
+                {isMagical(product) ? (
+                    <div className="w-full row-span-2 row-start-8 flex items-center justify-center p-[2%]">
+                        <IncrementDecrement initialValue={quantity} onValueChange={handleQuantityChange}/>
+                    </div>
+                ) : (
+                    <div/>
                 )}
-            </div>
-                <div className="flex flex-col sm:flex-row items-center justify-center h-[70%] sm:space-y-0 sm:space-x-4">
-                    {displayBuyButtons
-                        ? (
-                            <>
-                                <ShopButton
-                                    label="BUY"
-                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford() ? handleOpenModal : () => {}}
-                                />
-                                <ShopButton
-                                    label="ADD TO CART"
-                                    imageSrc={canAfford() ? "/images/shop/store_button.webp" : "/images/shop/disabled_store_button.webp"}
-                                    onClick={canAfford() ? () => product && onAddToCart(product) : () => {}}
-                                />
-                            </>
-                        ) : (
-                            <ShopButton
-                                label="SELL"
-                                imageSrc={"/images/shop/store_button.webp"}
-                                onClick={handleOpenModal}
-                            />
-                        )}
-
-
+                <div className="w-full row-span-3 row-start-10 flex justify-around items-center p-[2%]">
+                    {displayBuyButtons ? (
+                        <>
+                            <ShopButton label="BUY" canAfford={canAfford} onClick={canAfford() ? handleOpenModal : () => {}}/>
+                            <ShopButton label="ADD TO CART" canAfford={canAfford} onClick={canAfford() ? () => product && onAddToCart(product) : () => {}}/>
+                        </>
+                    ) : (
+                        <ShopButton label="SELL" canAfford={() => {return true}} onClick={handleOpenModal}/>
+                    )}
                 </div>
             </div>
         </>
