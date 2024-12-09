@@ -312,9 +312,7 @@ export const MOCK_RINGS_COLLECTION = [{
   }]
 
 export const MOCK_SHIELDS_COLLECTION = [{
-    "_id": {
-      "$oid": "66f27c81c114335cadf45d70"
-    },
+    "_id": "66f27c81c114335cadf45d70",
     "name": "Knight's Shield",
     "description": "A sturdy shield for knights.",
     "type": "shield",
@@ -334,9 +332,7 @@ export const MOCK_SHIELDS_COLLECTION = [{
     "isActive": true
   },
   {
-    "_id": {
-      "$oid": "66f27c81c114335cadf45d71"
-    },
+    "_id": "66f27c81c114335cadf45d71",
     "name": "Wooden Shield",
     "description": "A basic wooden shield.",
     "type": "shield",
