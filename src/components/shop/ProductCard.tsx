@@ -7,9 +7,7 @@ import { Ring } from "@/_common/interfaces/Ring";
 import { Shield } from "@/_common/interfaces/Shield";
 import { Weapon } from "@/_common/interfaces/Weapon";
 import GoldComponent from "./GoldComponent";
-import { useEffect, useState } from "react";
 import IncrementDecrement from "./UpdateQtyButton";
-import ShopButton from "./shopButton";
 
 interface Product {
     product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;

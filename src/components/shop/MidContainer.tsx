@@ -25,7 +25,7 @@ interface Props {
     quantity: number;
     handleQuantityChange: (value: number) => void;
     displayBuyButtons: boolean;
-}
+};
 
 const hasDefense = (product: Product): product is (Helmet | Armor | Boot | Shield) => {
     return "defense" in product;

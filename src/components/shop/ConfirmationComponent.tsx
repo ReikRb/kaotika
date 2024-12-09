@@ -7,7 +7,7 @@ interface Props {
     handleBuy: VoidFunction
     handleSell: VoidFunction;
     handleCloseModal: VoidFunction;
-}
+};
 
 const ConfirmationComponent: React.FC<Props> = ({displayBuyButtons, quantity, modalContent, handleBuy, handleSell, handleCloseModal}) => {
     return (
