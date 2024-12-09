@@ -1,14 +1,7 @@
-import { Armor } from "@/_common/interfaces/Armor";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Ingredient } from "@/_common/interfaces/Ingredient";
 import { Player } from "@/_common/interfaces/Player";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Shield } from "@/_common/interfaces/Shield";
-import { Weapon } from "@/_common/interfaces/Weapon";
+import { Product, Products } from "@/_common/types/Product";
 
-export const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[] | (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => {
+export const calculatePurchaseValue = (products: Products) => {
     let value = 0;
 
     products.map((product) => {
@@ -16,26 +9,26 @@ export const calculatePurchaseValue = (products: Weapon[] | Helmet[] | Armor[] |
     });
 
     return value;
-}
+};
 
-export const isProductInTheInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[] | (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => {
+export const isProductInTheInventory = (player: Player, products:Products) => {
     return Object.values(player.inventory).every((items) => {
-        return items.every((item) => {
+        return items.every((item: Product) => {
             return products.every((product) => {
                 return item._id !== product._id;
             });
         });
     });
-}
+};
 
-export const isProductEquiped = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[] | (Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient)[]) => {
+export const isProductEquiped = (player: Player, products: Products) => {
     return Object.values(player.equipment).every((item) => {
         return products.every((product) => {
             return item?._id !== product._id;
         });
     });
-}
+};
 
 export const isGoldSufficient = (player: Player, value: number) => {
     return player.gold >= value ? true : false;
-}
+};

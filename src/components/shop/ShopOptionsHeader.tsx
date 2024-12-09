@@ -8,7 +8,7 @@ interface Props {
     buttonDisplayHandler: Function;
     togglePanel: Function;
     handleMerchantMessage: Function;
-}
+};
 
 const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, buttonDisplayHandler, togglePanel, handleMerchantMessage}) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
