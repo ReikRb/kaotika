@@ -1,4 +1,5 @@
 import React from 'react';
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import ProductCard from '@/components/shop/ProductCard';
 import { MOCK_SHIELDS_COLLECTION } from '../mocks';
