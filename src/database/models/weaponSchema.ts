@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const weaponSchema = new mongoose.Schema({
-    _id: { type: String },
     name: { type: String },
     description: { type: String },
     type: { type: String },
