@@ -118,7 +118,7 @@ export default function Shop() {
         }
     };
 
-    const sell = async (product: {product: Product, quantity: number}) => {
+    const sell = async (product: Product) => {
         try {
             const res = await fetch(`/api/shop/sell`, {
                 headers: {

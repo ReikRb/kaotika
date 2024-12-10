@@ -150,7 +150,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
                 <UserComponent name={player.nickname} gold={player.gold} level={player.level} />
                 <ProductsCardsContainer
                     isSelling={category === 'inventory' ? true : false}
-                    products={sortedProducts}
+                    products={products}
                     onProductSelect={onProductSelect}
                     setMerchantMessage={setMerchantMessage}
                 />
