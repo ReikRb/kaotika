@@ -1,12 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Armor } from '@/_common/interfaces/Armor';
-import { Artifact } from '@/_common/interfaces/Artifact';
-import { Boot } from '@/_common/interfaces/Boot';
-import { Helmet } from '@/_common/interfaces/Helmet';
-import { Ingredient } from '@/_common/interfaces/Ingredient';
-import { Ring } from '@/_common/interfaces/Ring';
-import { Shield } from '@/_common/interfaces/Shield';
-import { Weapon } from '@/_common/interfaces/Weapon';
 import CartProductsContainer from './CartProductsContainer';
 import GoldComponent from './GoldComponent';
 import { Player } from '@/_common/interfaces/Player';
@@ -16,13 +8,13 @@ import { Product, Products } from '@/_common/types/Product';
 interface RightSidePanelProps {
     isOpen: boolean;
     togglePanel: () => void;
-    cart: { product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number }[];
+    cart: { product: Product, quantity: number }[];
     onRemoveFromCart: (product: Product) => void;
-    onBuy: (products: (Product)[], isInCart: boolean) => void;
+    onBuy: (products: Products, isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
-    handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
+    handleQuantityChange: (product: Product, quantity: number) => void;
 }
 
 const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, cart, onRemoveFromCart, onBuy, onClearCart, player, quantity, handleQuantityChange }) => {

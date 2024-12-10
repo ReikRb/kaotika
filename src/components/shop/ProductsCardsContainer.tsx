@@ -7,7 +7,7 @@ interface Props {
     products: Products;
     onProductSelect: (product: Product) => void;
     setMerchantMessage: Function;
-    isSelling?: boolean
+    isSelling: boolean;
 };
 
 const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, setMerchantMessage, isSelling }) => {
@@ -38,6 +38,8 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
                     isSelected={selectedProduct === product} 
                     onClick={() => handleProductSelect(product)}
                     isSelling={isSelling}
+                    handleRemoval={() => {}}
+                    handleQuantityChange={() => {}}
                     />
                 ))}
             </div>

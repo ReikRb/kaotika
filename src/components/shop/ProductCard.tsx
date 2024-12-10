@@ -14,10 +14,10 @@ interface Props {
     product: Product;
     isSelected: boolean;
     onClick: () => void;
-    handleRemoval?: (product: Product) => void;
+    handleRemoval: (product: Product) => void;
     isInCart?: boolean;
     handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
-    quantity: number;
+    quantity?: number;
     index: number;
     isSelling?: boolean
 };
