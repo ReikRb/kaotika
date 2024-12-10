@@ -8,5 +8,5 @@ export interface Ingredient {
     effects: string[];
     image: string;
     type: string;
-    quantity: number;
+    qty: number;
 }
