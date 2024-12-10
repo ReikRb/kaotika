@@ -61,13 +61,6 @@ const playerSchema = new mongoose.Schema({
     tasks: { type: 'Array' },
     gold: { type: 'Number' },
     created_date: { type: 'Date' },
-    role: { type: 'String' },
-    socketId: { type: 'String', default: '' },
-    isInside: { type: 'Boolean', default: false },
-    searchValidated: { type: 'Boolean', default: false },
-    deviceToken: { type: 'String', default: '' },
-    location:{type: 'String', default: 'map'},
-    schoolLocation:{type: 'String', default: 'map'}
   });
 
 module.exports = mongoose.models.Player || mongoose.model('Player', playerSchema);
