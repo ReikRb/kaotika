@@ -16,8 +16,8 @@ const CollapseSidepanelButton: React.FC<Props> = ({direction, executeFunction}) 
 
     return (
         <>
-            <div className="h-full flex items-center border-2 border-red-600">
-                <img src={ArrowImage} alt="Arrow" className="h-1/6" onClick={executeFunction()}/>
+            <div className="h-full flex items-center">
+                <img src={ArrowImage} alt="Arrow" className="h-1/6 opacity-0" onClick={executeFunction()}/>
             </div>
         </>
     );

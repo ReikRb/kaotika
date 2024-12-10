@@ -102,7 +102,9 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                     </div>
                 )}
                 {isMagical(product) ? (
-                    <div />
+                    <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
+                        <RequirementsSection gold={product.value * localQuantity} />
+                    </div>
                 ) : (
                     <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
                         <RequirementsSection gold={product.value * localQuantity} level={product.min_lvl} />
@@ -149,8 +151,8 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                                         setLocalQuantity(1);
                                     }
                                 } : () => { }}
-                            />                        
-                            </>
+                            />
+                        </>
                     ) : (
                         <ShopButton label="SELL" canAfford={() => { return true }} onClick={handleOpenModal} />
                     )}

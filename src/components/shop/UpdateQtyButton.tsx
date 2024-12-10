@@ -25,13 +25,19 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
     }, [initialValue]);
 
     const handleIncrement = () => {
-        const newValue = count + 1;
+        let newValue = count + 1;
+        if (newValue > 99) {
+            newValue = 99;
+        }
         setCount(newValue);
         onValueChange(product, newValue);
     };
 
     const handleDecrement = () => {
-        const newValue = count - 1;
+        let newValue = count - 1;
+        if (!isInCart && newValue < 1) {
+            newValue = 1;
+        }
         if (newValue >= 0) {
             setCount(newValue);
             onValueChange(product, newValue);
@@ -39,7 +45,13 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = Math.max(0, parseInt(e.target.value) || 0);
+        let value = Math.max(0, parseInt(e.target.value) || 0);
+        if (!isInCart && value < 1) {
+            value = 1;
+        }
+        if (value > 99) {
+            value = 99;
+        }
         setCount(value);
         onValueChange(product, value);
     };
@@ -48,7 +60,7 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
         <div className="w-full flex items-center justify-center">
             <button
                 className="w-[20%] cursor-pointer bg-[url('/images/shop/UpdateQtyBox.png')] bg-contain bg-center bg-no-repeat text-white 2xl:text-4xl lg:text-3xl sm:text-2xl text-xl"
-                onClick={count < 99 ? handleIncrement : () => {}}>
+                onClick={count < 99 ? handleIncrement : () => { }}>
                 <p className="pb-[7%]">+</p>
             </button>
             <input
@@ -58,10 +70,10 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
                 max={99}
                 className="w-1/9 cursor-pointer text-center pb-[1%] text-white 2xl:text-4xl lg:text-3xl sm:text-1xl text-xl border border-x-sepia rounded bg-black
                 appearance-none [&::-webkit-inner-spin-button]:hidden"
-                onChange={handleInputChange}/>
+                onChange={handleInputChange} />
             <button
                 className="w-[20%] cursor-pointer bg-[url('/images/shop/UpdateQtyBox.png')] bg-contain bg-center bg-no-repeat text-white 2xl:text-4xl lg:text-3xl sm:text-2xl text-xl"
-                onClick={count > 1 ? handleDecrement : () => {}}>
+                onClick={handleDecrement}>
                 <p className="pb-[7%]">-</p>
             </button>
         </div>
