@@ -42,7 +42,7 @@ const IncrementDecrement: React.FC<Props> = ({ initialValue = 1, onValueChange }
                 min={1}
                 max={99}
                 className="w-1/9 cursor-pointer text-center pb-[1%] text-white 2xl:text-4xl lg:text-3xl sm:text-1xl text-xl border border-x-sepia rounded bg-black
-                appearance-none [&::-webkit-inner-spin-button]:hidden"
+                [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                 onChange={handleInputChange}/>
             <button
                 className="w-[20%] cursor-pointer bg-[url('/images/shop/UpdateQtyBox.png')] bg-contain bg-center bg-no-repeat text-white 2xl:text-4xl lg:text-3xl sm:text-2xl text-xl"
