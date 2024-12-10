@@ -15,6 +15,7 @@ export const isProductInTheInventory = (player: Player, products:Products) => {
     return Object.values(player.inventory).every((items) => {
         return items.every((item: Product) => {
             return products.every((product) => {
+                if (product.type === "ingredient") return true;
                 return item._id !== product._id;
             });
         });
