@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-interface LayoutProps {
+interface Props {
   children: ReactNode;
-}
+};
 
-const MainContainer: React.FC<LayoutProps> = ({ children }) => {
+const MainContainer: React.FC<Props> = ({ children }) => {
   return (
     <div className="w-screen row-span-8 row-start-3 flex">
         {children}

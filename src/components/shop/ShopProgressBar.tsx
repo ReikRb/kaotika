@@ -4,15 +4,15 @@ import React, { useEffect, useState } from 'react';
 
 interface Props {
   label: string;
-  value: number | undefined;
-  itemValue: number | undefined;
+  value: number;
+  itemValue: number;
   maxValue: number;
-}
+};
 
 interface BarValue {
   value: number;
   color: string;
-}
+};
 
 const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue }) => {
   const [newValue, setNewValue] = useState(0)
@@ -87,7 +87,7 @@ const ShopProgressBar: React.FC<Props> = ({ label, value, itemValue, maxValue })
 
   return (
     <>
-      <div className='flex flex-row place-content-around mr-[2%] mt-[1%] ml-[2%] 2xl:text-2xl lg:text-lg sm:text-sm'>
+      <div className='flex flex-row place-content-around mr-[2%] mt-[1%] ml-[2%] 2xl:text-3xl lg:text-xl sm:text-base'>
         <p className='w-[38%] text-start'>{label}</p>
         <div className='flex flex-row w-2/4 text-end'>
           {itemValue! > 0

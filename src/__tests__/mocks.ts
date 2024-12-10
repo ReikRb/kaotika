@@ -242,9 +242,7 @@ export const MOCK_ARMORS_COLLECTION = [{
   }]    
 
 export const MOCK_INGREDIENTS_COLLECTION = [{
-    "_id": {
-      "$oid": "6702b39d76863c206a48cccb"
-    },
+    "_id": "6702b39d76863c206a48cccb",
     "name": "Crimson Lotus",
     "description": "A sacred flower that boosts one's health noticeably.",
     "value": 110,
@@ -255,9 +253,7 @@ export const MOCK_INGREDIENTS_COLLECTION = [{
     "type": "ingredient"
   },
   {
-    "_id": {
-      "$oid": "6702b39d76863c206a48cccc"
-    },
+    "_id": "6702b39d76863c206a48cccc",
     "name": "Ironbark Berry",
     "description": "A hard berry that enhances hit points by a small amount.",
     "value": 25,

@@ -1,9 +1,9 @@
-interface Gold {
-    amount: number
-    fontSize?: string
-}
+interface Props {
+    amount: number;
+    fontSize?: string;
+};
 
-const GoldComponent: React.FC<Gold> = ({amount, fontSize='text-3xl'}) => {
+const GoldComponent: React.FC<Props> = ({amount, fontSize='text-3xl'}) => {
     return (
         <>
             <div className=" row-span-3 row-start-8 flex p-[2%]">

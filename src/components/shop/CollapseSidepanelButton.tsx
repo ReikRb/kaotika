@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 interface Props {
     direction: String;
     executeFunction: Function;
-}
+};
 
 const CollapseSidepanelButton: React.FC<Props> = ({direction, executeFunction}) => {
     const [ArrowImage, setArrowImage] = useState('');

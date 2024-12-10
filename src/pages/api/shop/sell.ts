@@ -2,11 +2,11 @@ import { Armor } from '@/_common/interfaces/Armor';
 import { Artifact } from '@/_common/interfaces/Artifact';
 import { Boot } from '@/_common/interfaces/Boot';
 import { Helmet } from '@/_common/interfaces/Helmet';
-import { Ingredient } from '@/_common/interfaces/Ingredient';
 import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
+import { Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const PlayerModel = require("../../../database/models/playerSchema");
@@ -37,11 +37,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
-const calculatePurchaseValue = (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
+const calculatePurchaseValue = (product: Product) => {
     return Math.floor(product.value / 3);
 }
 
-const updatePlayerInventory = (player: Player, product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient) => {
+const updatePlayerInventory = (player: Player, product: Product) => {
     switch(product.type) {
         case 'weapon':
             console.log('Player inventory weapons: ', player.inventory.weapons);

@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 
-interface LayoutProps {
+interface Props {
   children: ReactNode;
-}
+};
 
-const ShopContainer: React.FC<LayoutProps> = ({ children }) => {
+const ShopContainer: React.FC<Props> = ({ children }) => {
   return (
     <div className="w-screen h-screen grid grid-rows-10">
         {children}

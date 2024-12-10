@@ -2,11 +2,11 @@ import { Armor } from '@/_common/interfaces/Armor';
 import { Artifact } from '@/_common/interfaces/Artifact';
 import { Boot } from '@/_common/interfaces/Boot';
 import { Helmet } from '@/_common/interfaces/Helmet';
-import { Ingredient } from '@/_common/interfaces/Ingredient';
 import { Player } from '@/_common/interfaces/Player';
 import { Ring } from '@/_common/interfaces/Ring';
 import { Shield } from '@/_common/interfaces/Shield';
 import { Weapon } from '@/_common/interfaces/Weapon';
+import { Products } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from '@/helpers/calculateIfCanBuy';
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -58,7 +58,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 }
 
-const updatePlayerInventory = (player: Player, products: Weapon[] | Helmet[] | Armor[] | Boot[] | Ring[] | Artifact[] | Shield[] | Ingredient[]) => {
+const updatePlayerInventory = (player: Player, products: Products) => {
     products.map((product) => {
         switch(product.type) {
             case 'weapon':  

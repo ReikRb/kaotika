@@ -7,6 +7,7 @@ const ingredientSchema = new mongoose.Schema({
   effects: { type: Array, items: { type: String } },
   image: { type: String },
   type: { type: String },
+  quantity: { type: Number },
 });
 
 module.exports = mongoose.models.Ingredient || mongoose.model('Ingredient', ingredientSchema);
