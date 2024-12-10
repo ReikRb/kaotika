@@ -10,7 +10,7 @@ interface RightSidePanelProps {
     togglePanel: () => void;
     cart: { product: Product, quantity: number }[];
     onRemoveFromCart: (product: Product) => void;
-    onBuy: (products: Products, isInCart: boolean) => void;
+    onBuy: (productId: string, isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
