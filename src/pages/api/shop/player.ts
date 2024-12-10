@@ -11,9 +11,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        await DBConnect()
+        // await DBConnect()
+        // const player: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' });
+        // await DBDisconnect()
         const response = await populatePlayer()
-        await DBDisconnect()
         if (response) {
             return res.status(200).json(response);
         } else {
@@ -26,10 +27,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 }
 
-const populatePlayer = async () => {
-
-    
+export const populatePlayer = async () => {
+    await DBConnect()
     const playerPopulated: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' }).populate('profile').exec();
+    
 
     // Poblamos el equipo
     await playerPopulated.equipment.populate('armor');
@@ -51,7 +52,42 @@ const populatePlayer = async () => {
     await playerPopulated.inventory.populate('artifacts');
     await playerPopulated.inventory.populate('ingredients');
 
-    console.log('playerPopulated', playerPopulated);
-    return playerPopulated;
+    const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
+    return returnPlayer;
+}
+
+const updateIngredientsWithQuantity = async(playerPopulated: any) => {
+    //Asignamos ingredient y añadimos atributo quantity
+    const inputIngredientIds =  playerPopulated.inventory.ingredients;
+
+    const ingredientQuantites: any = [];
+
+    inputIngredientIds.forEach((ingredient:any) => {
+        const indexFound = ingredientQuantites.findIndex((item: any) => item._id.equals(ingredient._id));
+       
+        if (indexFound !== -1) {
+            ingredientQuantites[indexFound].qty++;
+        }
+        else {
+            ingredientQuantites.push({_id: ingredient._id, qty: 1 });
+        }
+    });
+
+
+    const {ingredients} = await playerPopulated.inventory.populate('ingredients', { 'profiles': 0 });
+
+   
+    await DBDisconnect()
+    const ingredientQuantitiesPopulated = ingredientQuantites.map((item:any) => {
+        const object = ingredients.filter((ingredient: any) => item._id.equals(ingredient._id))[0];
+       
+        return {...object.toObject(), qty: item.qty};
+
+    });
+
+    const returnPlayer = {...playerPopulated.toObject()};
+    returnPlayer.inventory.ingredients = ingredientQuantitiesPopulated;
+   
+    return returnPlayer;
 }
 

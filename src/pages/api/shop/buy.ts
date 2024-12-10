@@ -2,6 +2,7 @@ import { Player } from '@/_common/interfaces/Player';
 import { Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { populatePlayer } from './player';
 const PlayerModel = require("../../../database/models/playerSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -18,20 +19,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const productEquiped = isProductEquiped(mongoPlayer, productsData);
             const goldSufficient = isGoldSufficient(mongoPlayer, value);
             console.log('Products is not in the inventory: ', productInInventory);
-            console.log('Products is not equiped: ', productInInventory);
-            console.log('Gold is sufficient: ', goldSufficient);
+            // console.log('Products is not equiped: ', productInInventory);
+            // console.log('Gold is sufficient: ', goldSufficient);
 
             if (productInInventory && productEquiped) {
                 if (goldSufficient) {
-                    console.log('Player inventory: ', mongoPlayer.inventory);
-                    console.log('Player gold: ', mongoPlayer.gold);
+                    // console.log('Player inventory: ', mongoPlayer.inventory);
+                    // console.log('Player gold: ', mongoPlayer.gold);
                     updatePlayerInventory(mongoPlayer, productsData);
                     updatePlayerGold(mongoPlayer, value);
-                    console.log('Updated player inventory: ', mongoPlayer.inventory);
-                    console.log('Updated player gold: ', mongoPlayer.gold);
+                    // console.log('Updated player inventory: ', mongoPlayer.inventory);
+                    // console.log('Updated player gold: ', mongoPlayer.gold);
                     await mongoPlayer.save();
+                    const returnPlayer = await populatePlayer()
+                    console.log('PLAYER TO RETURN: ', returnPlayer);
+                    
                     await DBDisconnect();
-                    return res.status(200).json(mongoPlayer);
+                    return res.status(200).json(returnPlayer);
                 } else {
                     await DBDisconnect();
                     console.log(`Player gold insufficient: players gold is ${mongoPlayer.gold} and the product value is ${value}`);
@@ -77,7 +81,9 @@ const updatePlayerInventory = (player: any, productsData: {product: Product, qua
                 player.inventory.artifacts = [...player.inventory.artifacts, productData.product._id];
             break;
             case 'ingredient':
-                player.inventory.ingredients = [...player.inventory.ingredients, productData.product._id];
+                for (let index = 0; index < productData.quantity; index++) {
+                    player.inventory.ingredients = [...player.inventory.ingredients, productData.product._id];
+                }
             break;
         };
     });
@@ -101,8 +107,11 @@ const isProductInTheInventory = (player: Player, productsData: {product: Product
     return Object.values(player.inventory).every((items) => {
         return items.every((item: Product) => {
             return productsData.every((productData) => {
-                return item._id.toString() !== productData.product._id.toString();
-            });
+                if (productData.product.type !== 'ingredient') {
+                    return item._id.toString() !== productData.product._id.toString();
+                }
+                return true
+                });   
         });
     });
 };
