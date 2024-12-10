@@ -10,7 +10,7 @@ interface RightSidePanelProps {
     togglePanel: () => void;
     cart: {product: Product, quantity: number}[];
     onRemoveFromCart: (product: Product) => void;
-    onBuy: (products: {productId: string, quantity: number}[], isInCart: boolean) => void;
+    onBuy: (products: {product: Product, quantity: number}[], isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
@@ -38,18 +38,7 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     };
 
     const handleBuyClick = () => {
-        const products = getProductsId(cart);
-        onBuy(products, true);
-    };
-
-    const getProductsId = (cart: {product: Product, quantity: number}[]) => {
-        const products: {productId: string, quantity: number}[] = [];
-
-        cart.map((cart) => {
-            products.push({productId: cart.product._id, quantity: cart.quantity});
-        });
-
-        return products;
+        onBuy(cart, true);
     };
 
     useEffect(() => {

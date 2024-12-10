@@ -18,8 +18,8 @@ import { Product } from "@/_common/types/Product";
 
 interface Props {
     product: Product;
-    onBuy: (products: {productsId: string, quantity: number}[], isInCart: boolean) => void;
-    onSell: (products: {productsId: string, quantity: number}) => void;
+    onBuy: (products: {product: Product, quantity: number}[], isInCart: boolean) => void;
+    onSell: (product: {product: Product, quantity: number}) => void;
     onAddToCart: (product: Product, quantity: number) => void;
     player: Player;
     quantity: number;
@@ -51,13 +51,13 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     };
 
     const handleBuy = () => {
-        onBuy([{productsId: product._id, quantity: localQuantity}], false);
+        onBuy([{product: product, quantity: localQuantity}], false);
         setModalOpen(false);
         setModalContent(null);
     };
 
     const handleSell = () => {
-        onSell({productsId: product._id, quantity: localQuantity});
+        onSell({product: product, quantity: localQuantity});
         setModalOpen(false);
         setModalContent(null);
     };

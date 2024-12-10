@@ -70,7 +70,7 @@ export default function Shop() {
         handleMerchantMessage(MERCHANT_MESSAGES.removeItem)
     };
 
-    const buy = async (products: {productId: string, quantity: number}[], isInCart: boolean) => {
+    const buy = async (products: {product: Product, quantity: number}[], isInCart: boolean) => {
         try {
             handleMerchantMessage(MERCHANT_MESSAGES.loading)
             console.log(products);
@@ -118,7 +118,7 @@ export default function Shop() {
         }
     };
 
-    const sell = async (product: {productId: string, quantity: number}) => {
+    const sell = async (product: {product: Product, quantity: number}) => {
         try {
             const res = await fetch(`/api/shop/sell`, {
                 headers: {
