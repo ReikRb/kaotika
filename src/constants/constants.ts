@@ -48,10 +48,11 @@ export const MERCHANT_MESSAGES = {
     sellItem:["It's a pleasure to make deals with you. Please come again.", "Next time, try offering me more valuable items", "Don't you have any unique item for me?"],
     equipmentShop:['Best gear you will ever find', 'We do not sell uniques to your kind do not be absurd.'],
     MagicShop:['Best ingredients that you will ever find', "Someone once told me, there's a tower with special ingredients which cannot be find elsewhere... Never saw him again" ],
-    addToCart:["You won't regret it", 'the cart feels lonely... add more products... NOW!!!'],
+    addToCart:["You won't regret it", 'The cart feels lonely... add more products... NOW!!!'],
     inssufficientMoney:['Not Enough Money', 'HAHAHAHA Are You Poor? Because You can not afford that!'], //Not implemented
     alreadyInCart: ['You have that equipment already added to the cart.', 'Are you blind? You can not add this again!'],//Not implemented
     selectNewProduct: ['That fits you well... You Should buy it.', 'It is like if you were stealing me with that price. Do a favor to yourself and buy it.'],
+    selectNewSellProduct: ['You better not show me garbage.', "You don't want that? I'll buy it.", 'Are you trying to scam me? Better not...'],
     changeShopTab: ['Perhaps this is more of your liking.', 'If you look it... YOU BUY IT!'],
     loading: ['PLEASE WAIT IM THINKING', "I'm counting the coins please wait a moment."],
     errorTransaction:['Something happened while making our deal. Please try again.'],
