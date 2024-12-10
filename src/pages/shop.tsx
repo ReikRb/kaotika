@@ -70,10 +70,10 @@ export default function Shop() {
         handleMerchantMessage(MERCHANT_MESSAGES.removeItem)
     };
 
-    const buy = async (productId: string, isInCart: boolean) => {
+    const buy = async (products: {productId: string, quantity: number}[], isInCart: boolean) => {
         try {
             handleMerchantMessage(MERCHANT_MESSAGES.loading)
-console.log(productId);
+            console.log(products);
 
             const res = await fetch(`/api/shop/buy`, {
                 headers: {
@@ -82,7 +82,7 @@ console.log(productId);
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    products: productId,
+                    products: products,
                 }),
             });
 
@@ -118,7 +118,7 @@ console.log(productId);
         }
     };
 
-    const sell = async (productId: string) => {
+    const sell = async (product: {productId: string, quantity: number}) => {
         try {
             const res = await fetch(`/api/shop/sell`, {
                 headers: {
@@ -127,7 +127,7 @@ console.log(productId);
                 method: "POST",
                 body: JSON.stringify({
                     email: player?.email,
-                    product: productId,
+                    product: product,
                 }),
             });
 

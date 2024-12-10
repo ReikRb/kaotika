@@ -14,12 +14,12 @@ import { Ingredient } from "@/_common/interfaces/Ingredient";
 import IncrementDecrement from "./UpdateQtyButton";
 import { calculatePurchaseValue, isGoldSufficient, isProductEquiped, isProductInTheInventory } from "@/helpers/calculateIfCanBuy";
 import ConfirmationComponent from "./ConfirmationComponent";
-import { Product, Products } from "@/_common/types/Product";
+import { Product } from "@/_common/types/Product";
 
 interface Props {
     product: Product;
-    onBuy: (productId: string, isInCart: boolean) => void;
-    onSell: (productId: string) => void;
+    onBuy: (products: {productsId: string, quantity: number}[], isInCart: boolean) => void;
+    onSell: (products: {productsId: string, quantity: number}) => void;
     onAddToCart: (product: Product, quantity: number) => void;
     player: Player;
     quantity: number;
@@ -39,10 +39,10 @@ const isMagical = (product: Product): product is Ingredient => {
     return "effects" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, player, quantity, handleQuantityChange, displayBuyButtons }) => {
+const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, player, quantity, displayBuyButtons }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
-    const [localQuantity, setLocalQuantity] = useState(1);
+    const [localQuantity, setLocalQuantity] = useState<number>(1);
     const handleOpenModal = () => {
         if (product) {
             setModalContent({ name: product.name, value: product.value * localQuantity });
@@ -51,13 +51,13 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     };
 
     const handleBuy = () => {
-        onBuy([product._id, 1], false);
+        onBuy([{productsId: product._id, quantity: localQuantity}], false);
         setModalOpen(false);
         setModalContent(null);
     };
 
     const handleSell = () => {
-        onSell([product._id, 1]);
+        onSell({productsId: product._id, quantity: localQuantity});
         setModalOpen(false);
         setModalContent(null);
     };

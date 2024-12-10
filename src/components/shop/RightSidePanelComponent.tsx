@@ -8,9 +8,9 @@ import { Product, Products } from '@/_common/types/Product';
 interface RightSidePanelProps {
     isOpen: boolean;
     togglePanel: () => void;
-    cart: { product: Product, quantity: number }[];
+    cart: {product: Product, quantity: number}[];
     onRemoveFromCart: (product: Product) => void;
-    onBuy: (productId: string, isInCart: boolean) => void;
+    onBuy: (products: {productId: string, quantity: number}[], isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
@@ -31,14 +31,25 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
         const value = calculateTotal();
 
         return (
-            isProductInTheInventory(player, cart) &&
-            isProductEquiped(player, cart) &&
+            // isProductInTheInventory(player, cart) &&
+            // isProductEquiped(player, cart) &&
             isGoldSufficient(player, value)
         );
     };
 
     const handleBuyClick = () => {
-        onBuy(cart, true);
+        const products = getProductsId(cart);
+        onBuy(products, true);
+    };
+
+    const getProductsId = (cart: {product: Product, quantity: number}[]) => {
+        const products: {productId: string, quantity: number}[] = [];
+
+        cart.map((cart) => {
+            products.push({productId: cart.product._id, quantity: cart.quantity});
+        });
+
+        return products;
     };
 
     useEffect(() => {
