@@ -18,6 +18,7 @@ interface Props {
     handleQuantityChange?: (value: number) => void;
     quantity?: number;
     index: number;
+    isSelling?:boolean
 };
 
 const PRODUCT_CART = {
@@ -50,7 +51,7 @@ const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | A
     return "min_lvl" in product;
 };
 
-const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval }) => {
+const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval, isSelling=false }) => {
     return (
         <>
             <div
@@ -65,7 +66,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                     <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_name_${index}`} className={isInCart ? PRODUCT_CART.name : PRODUCT_SHOP.name}>{product.name}</p>
                     <div  className={isInCart ? PRODUCT_CART.requirementsContainer : PRODUCT_SHOP.requirementsContainer}>
                         <div data-testid={`${isInCart ? 'cart' : 'shop'}_card_value_${index}`} className={isInCart ? PRODUCT_CART.goldContainer : PRODUCT_SHOP.goldContainer}>
-                            <GoldComponent amount={product.value} />
+                            <GoldComponent amount={isSelling ? Math.floor(product.value/3) : product.value} />
                         </div>
                         {
                             product.type !== 'ingredient'

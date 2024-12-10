@@ -86,14 +86,21 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
             <div className="w-4/12 grid grid-rows-12">
                 {isModalOpen && modalContent && (
                     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50">
-                        <ConfirmationComponent displayBuyButtons={displayBuyButtons} quantity={quantity} modalContent={modalContent} handleBuy={handleBuy} handleSell={handleSell} handleCloseModal={handleCloseModal}/>
+                        <ConfirmationComponent 
+                        displayBuyButtons={displayBuyButtons} 
+                        quantity={quantity} 
+                        modalContent={modalContent} 
+                        handleBuy={handleBuy} 
+                        handleSell={handleSell} 
+                        handleCloseModal={handleCloseModal}
+                        />
                     </div>
                 )}
                 {isMagical(product) ? (
                     <div/>
                 ) : (
                     <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
-                        <RequirementsSection gold={product.value * quantity} level={product.min_lvl}/>
+                        <RequirementsSection gold={displayBuyButtons ? product.value * quantity : Math.floor(product.value * quantity/3)} level={product.min_lvl}/>
                     </div>
                 )}
                 {isMagical(product) ? (
