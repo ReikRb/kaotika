@@ -17,8 +17,9 @@ interface Props {
     handleRemoval?: (product: Product) => void;
     isInCart?: boolean;
     handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
-    quantity?: number;
+    quantity: number;
     index: number;
+    isSelling?: boolean
 };
 
 const PRODUCT_CART = {
@@ -51,7 +52,7 @@ const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | A
     return "min_lvl" in product;
 };
 
-const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isInCart = false, quantity, handleQuantityChange, handleRemoval }) => {
+const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isInCart = false, quantity = 1, handleQuantityChange, handleRemoval, isSelling = false }) => {
     return (
         <>
             <div
@@ -60,21 +61,26 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                 data-testid={`${isInCart ? 'cart' : 'shop'}_card_${index}`}
             >
                 <div className={isInCart ? PRODUCT_CART.imgContainer : PRODUCT_SHOP.imgContainer}>
-                    <img data-testid={`${isInCart ? 'cart' : 'shop'}_card_img_${index}`}className={isInCart ? PRODUCT_CART.productImg : PRODUCT_SHOP.productImg} src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
+                    <img data-testid={`${isInCart ? 'cart' : 'shop'}_card_img_${index}`} className={isInCart ? PRODUCT_CART.productImg : PRODUCT_SHOP.productImg} src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
                 </div>
                 <div className={isInCart ? PRODUCT_CART.infoContainer : PRODUCT_SHOP.infoContainer}>
                     <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_name_${index}`} className={isInCart ? PRODUCT_CART.name : PRODUCT_SHOP.name}>{product.name}</p>
-                    <div  className={isInCart ? PRODUCT_CART.requirementsContainer : PRODUCT_SHOP.requirementsContainer}>
+                    <div className={isInCart ? PRODUCT_CART.requirementsContainer : PRODUCT_SHOP.requirementsContainer}>
                         <div data-testid={`${isInCart ? 'cart' : 'shop'}_card_value_${index}`} className={isInCart ? PRODUCT_CART.goldContainer : PRODUCT_SHOP.goldContainer}>
-                        <GoldComponent amount={isInCart ? product.value * quantity : product.value} />
 
+
+                            {isSelling ?
+                                <GoldComponent amount={Math.floor(product.value / 3) * quantity} />
+                                :
+                                <GoldComponent amount={isInCart ? product.value * quantity : product.value} />
+                            }
                         </div>
                         {
                             product.type !== 'ingredient'
                                 ? (
                                     <div className={isInCart ? PRODUCT_CART.levelContainer : PRODUCT_SHOP.levelContainer}>
                                         <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_text_${index}`} className={isInCart ? PRODUCT_CART.levelRequirement : PRODUCT_SHOP.levelRequirement}>{`Req. Lvl.`}</p>
-                                        <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_value_${index}`}className={isInCart ? PRODUCT_CART.levelValue : PRODUCT_SHOP.levelValue}>{isEquipment(product) ? product.min_lvl : null}</p>
+                                        <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_value_${index}`} className={isInCart ? PRODUCT_CART.levelValue : PRODUCT_SHOP.levelValue}>{isEquipment(product) ? product.min_lvl : null}</p>
                                     </div>
                                 )
                                 : null
@@ -95,10 +101,10 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                                                 } else {
                                                     handleQuantityChange(product, newQuantity);
                                                 }
-                                            }} 
+                                            }}
                                             isInCart={true}
-                                            product={product}                                        
-                                            />
+                                            product={product}
+                                        />
                                     </div>
                                 ) : (
                                     <>

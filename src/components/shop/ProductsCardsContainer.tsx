@@ -7,9 +7,10 @@ interface Props {
     products: Products;
     onProductSelect: (product: Product) => void;
     setMerchantMessage: Function;
+    isSelling?: boolean
 };
 
-const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, setMerchantMessage }) => {
+const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, setMerchantMessage, isSelling }) => {
     const [selectedProduct, setSelectedProduct] = useState<Product>(products[0]);
 
     useEffect(() => {
@@ -30,7 +31,14 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
                 [&::-webkit-scrollbar-track]:bg-gray-950
                 [&::-webkit-scrollbar-thumb]:bg-gray-800">
                 {products.map((product, i) => (
-                    <ProductCard index ={i} key={i.toString()} product={product} isSelected={selectedProduct === product} onClick={() => handleProductSelect(product)}/>
+                    <ProductCard 
+                    index ={i} 
+                    key={i.toString()} 
+                    product={product} 
+                    isSelected={selectedProduct === product} 
+                    onClick={() => handleProductSelect(product)}
+                    isSelling={isSelling}
+                    />
                 ))}
             </div>
         </>

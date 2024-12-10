@@ -60,7 +60,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         { key: 'constitution', label: 'Constitution' },
         { key: 'strength', label: 'Strength' },
     ];
-    
+
     const ingredientsSortOptions = [
         { key: 'gold', label: 'Gold' },
     ];
@@ -89,7 +89,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
 
     const sortProducts = (option: string) => {
         setSortOption(option);
-        
+
         const sortedProducts: Products = [...products].sort((product, prevProduct) => {
             switch (option) {
                 case 'gold':
@@ -116,7 +116,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
                     return 0;
             };
         });
-        
+
         setSortedProducts(sortedProducts);
     };
 
@@ -144,11 +144,16 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         <>
             <div className="w-[5.6%] h-[100%] bg-contain bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]">
             </div>
-            
+
             <div className="w-4/12 grid grid-rows-10">
                 {/* <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/> */}
-                <UserComponent name={player.nickname} gold={player.gold} level={player.level}/>
-                <ProductsCardsContainer products={sortedProducts} onProductSelect={onProductSelect} setMerchantMessage={setMerchantMessage}/>
+                <UserComponent name={player.nickname} gold={player.gold} level={player.level} />
+                <ProductsCardsContainer
+                    isSelling={category === 'inventory' ? true : false}
+                    products={sortedProducts}
+                    onProductSelect={onProductSelect}
+                    setMerchantMessage={setMerchantMessage}
+                />
             </div>
         </>
     );

@@ -18,7 +18,7 @@ const ConfirmationComponent: React.FC<Props> = ({displayBuyButtons, quantity, mo
                     <p className="2xl:text-5xl lg:text-3xl sm:text-xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
                     <div className="flex items-center justify-center space-x-2">
                         <p className="2xl:text-4xl lg:text-xl sm:text-base font-bold">for</p>
-                        <GoldComponent amount={modalContent.value} />
+                        <GoldComponent amount={displayBuyButtons ? modalContent.value : Math.floor(modalContent.value/3)} />
                         <p className="2xl:text-4xl lg:text-xl sm:text-base font-bold">?</p>
                     </div>
                 </div>
