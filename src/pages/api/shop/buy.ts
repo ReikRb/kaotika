@@ -1,5 +1,5 @@
 import { Player } from '@/_common/interfaces/Player';
-import { Product, Products } from '@/_common/types/Product';
+import { Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const PlayerModel = require("../../../database/models/playerSchema");
@@ -50,71 +50,67 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await DBDisconnect();
         return res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
 
-const updatePlayerInventory = (player: Player, products: string) => {
-    products.map((product) => {
-        console.log(product.product._id);
-        
-        switch(product.product.type) {
+const updatePlayerInventory = (player: any, productsData: {product: Product, quantity: number}[]) => {
+    productsData.map((productData) => {
+        switch(productData.product.type) {
             case 'weapon':  
-                player.inventory.weapons = [...player.inventory.weapons, product.product._id];
-                console.log(player.inventory);
+                player.inventory.weapons = [...player.inventory.weapons, productData.product._id];
             break;
             case 'shield':
-                player.inventory.shields = [...player.inventory.shields, product.product._id];
+                player.inventory.shields = [...player.inventory.shields, productData.product._id];
             break;
             case 'helmet':
-                player.inventory.helmets = [...player.inventory.helmets, product.product._id];
+                player.inventory.helmets = [...player.inventory.helmets, productData.product._id];
             break;
             case 'armor':
-                player.inventory.armors = [...player.inventory.armors, product.product._id];
+                player.inventory.armors = [...player.inventory.armors, productData.product._id];
             break;
             case 'boot':
-                player.inventory.boots = [...player.inventory.boots, product.product._id];
+                player.inventory.boots = [...player.inventory.boots, productData.product._id];
             break;
             case 'ring':
-                player.inventory.rings = [...player.inventory.rings, product.product._id];
+                player.inventory.rings = [...player.inventory.rings, productData.product._id];
             break;
             case 'artifact':
-                player.inventory.artifacts = [...player.inventory.artifacts, product.product._id];
+                player.inventory.artifacts = [...player.inventory.artifacts, productData.product._id];
             break;
             case 'ingredient':
-                player.inventory.ingredients = [...player.inventory.ingredients, product.product._id];
+                player.inventory.ingredients = [...player.inventory.ingredients, productData.product._id];
             break;
         };
     });
-}
+};
 
 const updatePlayerGold = (player: Player, value: number) => {
     player.gold -= value;
-}
+};
 
-const calculatePurchaseValue = (productsData: Products) => {
+const calculatePurchaseValue = (productsData: {product: Product, quantity: number}[]) => {
     let value = 0;
 
-    productsData.map((products) => {
-        
-        value += products.product.value * products.quantity;
+    productsData.map((productData) => {
+        value += productData.product.value * productData.quantity;
     });
 
     return value;
 };
 
-const isProductInTheInventory = (player: Player, products:Products) => {
+const isProductInTheInventory = (player: Player, productsData: {product: Product, quantity: number}[]) => {
     return Object.values(player.inventory).every((items) => {
         return items.every((item: Product) => {
-            return products.every((product) => {
-                return item._id !== product._id;
+            return productsData.every((productData) => {
+                return item._id.toString() !== productData.product._id.toString();
             });
         });
     });
 };
 
-const isProductEquiped = (player: Player, products: Products) => {
+const isProductEquiped = (player: Player, productsData: {product: Product, quantity: number}[]) => {
     return Object.values(player.equipment).every((item) => {
-        return products.every((product) => {
-            return item?._id !== product._id;
+        return productsData.every((productData) => {
+            return item?._id.toString() !== productData.product._id;
         });
     });
 };
