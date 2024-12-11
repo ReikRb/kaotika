@@ -14,5 +14,4 @@ export const fetchCategory = async (categoryName: string) => {
     } else {
         throw new Error(`Error fetching category "${categoryName}": ${res.statusText}`);
     }
-
-}
+};
