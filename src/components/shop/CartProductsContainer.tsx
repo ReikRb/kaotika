@@ -1,18 +1,10 @@
-import { Weapon } from "@/_common/interfaces/Weapon";
 import ProductCard from "./ProductCard";
-import { Product, Products } from "@/_common/types/Product";
-import { Helmet } from "@/_common/interfaces/Helmet";
-import { Armor } from "@/_common/interfaces/Armor";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Shield } from "@/_common/interfaces/Shield";
-import { Ingredient } from "@/_common/interfaces/Ingredient";
+import { Cart, Product, Products } from "@/_common/types/Product";
 
 interface Props {
-    cart: { product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number }[];
+    cart: Cart;
     onRemoveFromCart: (product: Product) => void;
-    handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
+    handleQuantityChange: (product: Product, quantity: number) => void;
     quantity: number;
 };
 

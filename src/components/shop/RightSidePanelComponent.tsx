@@ -3,14 +3,14 @@ import CartProductsContainer from './CartProductsContainer';
 import GoldComponent from './GoldComponent';
 import { Player } from '@/_common/interfaces/Player';
 import { isGoldSufficient, isProductEquiped, isProductInTheInventory } from '@/helpers/calculateIfCanBuy';
-import { Product, Products } from '@/_common/types/Product';
+import { Cart, Product, Products } from '@/_common/types/Product';
 
 interface RightSidePanelProps {
     isOpen: boolean;
     togglePanel: () => void;
-    cart: {product: Product, quantity: number}[];
+    cart: Cart;
     onRemoveFromCart: (product: Product) => void;
-    onBuy: (products: {product: Product, quantity: number}[], isInCart: boolean) => void;
+    onBuy: (products: Cart, isInCart: boolean) => void;
     onClearCart: () => void;
     player: Player;
     quantity: number;
@@ -30,9 +30,15 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
     const canAfford = () => {
         const value = calculateTotal();
 
+        const products: Products = [];
+        
+        cart.map((purchase: {product: Product, quantity: number}) => {
+            products.push(purchase.product);
+        });
+        
         return (
-            // isProductInTheInventory(player, cart) &&
-            // isProductEquiped(player, cart) &&
+            isProductInTheInventory(player, products) &&
+            isProductEquiped(player, products) &&
             isGoldSufficient(player, value)
         );
     };

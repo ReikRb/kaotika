@@ -1,20 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Armor } from "@/_common/interfaces/Armor";
-import { Artifact } from "@/_common/interfaces/Artifact";
-import { Boot } from "@/_common/interfaces/Boot";
-import { Helmet } from "@/_common/interfaces/Helmet";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
-import { Ring } from "@/_common/interfaces/Ring";
-import { Shield } from "@/_common/interfaces/Shield";
-import { Weapon } from "@/_common/interfaces/Weapon";
-
-type Product = Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
+import { Product } from "@/_common/types/Product";
 
 interface IncrementDecrementProps {
   initialValue?: number;
   onValueChange: (product: Product, quantity: number) => void;
   isInCart: boolean;
-  product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient;
+  product: Product;
   displayButtons: boolean;
 }
 

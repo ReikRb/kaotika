@@ -1,5 +1,5 @@
 import { Player } from '@/_common/interfaces/Player';
-import { Product } from '@/_common/types/Product';
+import { Cart, Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { populatePlayer } from './player';
@@ -57,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 };
 
-const updatePlayerInventory = (player: UnPopulatedPlayer, productsData: {product: Product, quantity: number}[]) => {
+const updatePlayerInventory = (player: UnPopulatedPlayer, productsData: Cart) => {
     productsData.map((productData) => {
         switch(productData.product.type) {
             case 'weapon':  

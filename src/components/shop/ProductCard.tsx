@@ -16,7 +16,7 @@ interface Props {
     onClick: () => void;
     handleRemoval: (product: Product) => void;
     isInCart?: boolean;
-    handleQuantityChange: (product: Weapon | Helmet | Armor | Boot | Ring | Artifact | Shield | Ingredient, quantity: number) => void;
+    handleQuantityChange: (product: Product, quantity: number) => void;
     quantity?: number;
     index: number;
     isSelling?: boolean

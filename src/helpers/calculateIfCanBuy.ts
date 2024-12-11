@@ -1,5 +1,5 @@
 import { Player } from "@/_common/interfaces/Player";
-import { Product, Products } from "@/_common/types/Product";
+import { Cart, Product, Products } from "@/_common/types/Product";
 
 export const calculatePurchaseValue = (products: Products, quantity: number) => {
     let value = 0;
@@ -11,7 +11,7 @@ export const calculatePurchaseValue = (products: Products, quantity: number) => 
     return value;
 };
 
-export const isProductInTheInventory = (player: Player, products:Products) => {
+export const isProductInTheInventory = (player: Player, products: Products) => {
     return Object.values(player.inventory).every((items) => {
         return items.every((item: Product) => {
             return products.every((product) => {

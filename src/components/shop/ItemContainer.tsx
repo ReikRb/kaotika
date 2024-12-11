@@ -4,11 +4,22 @@ import { useEffect, useState } from "react";
 import { Equipment } from "@/_common/interfaces/Equipment";
 import { Product } from "@/_common/types/Product";
 import { Ingredient } from "@/_common/interfaces/Ingredient";
+import { Weapon } from "@/_common/interfaces/Weapon";
+import { Shield } from "@/_common/interfaces/Shield";
+import { Helmet } from "@/_common/interfaces/Helmet";
+import { Armor } from "@/_common/interfaces/Armor";
+import { Boot } from "@/_common/interfaces/Boot";
+import { Ring } from "@/_common/interfaces/Ring";
+import { Artifact } from "@/_common/interfaces/Artifact";
 
 interface Props {
     currentAttributes: Modifier;
     currentEquipment: Equipment;
     product: Product;
+};
+
+const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact) => {
+    return "modifiers" in product;
 };
 
 const isMagical = (product: Product): product is Ingredient => {
@@ -40,12 +51,12 @@ const ItemContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
             }
 
             if (item) {
-                resultValue.charisma = isMagical(product) ? 0 : product.modifiers.charisma - item.modifiers.charisma;
-                resultValue.strength = isMagical(product) ? 0 : product.modifiers.strength - item.modifiers.strength;
-                resultValue.insanity = isMagical(product) ? 0 : product.modifiers.insanity - item.modifiers.insanity;
-                resultValue.dexterity = isMagical(product) ? 0 : product.modifiers.dexterity - item.modifiers.dexterity;
-                resultValue.intelligence = isMagical(product) ? 0 : product.modifiers.intelligence - item.modifiers.intelligence;
-                resultValue.constitution = isMagical(product) ? 0 : product.modifiers.constitution - item.modifiers.constitution;
+                resultValue.charisma = isEquipment(product) ? product.modifiers.charisma - item.modifiers.charisma : 0;
+                resultValue.strength = isEquipment(product) ? product.modifiers.strength - item.modifiers.strength : 0;
+                resultValue.insanity = isEquipment(product) ? product.modifiers.insanity - item.modifiers.insanity : 0;
+                resultValue.dexterity = isEquipment(product) ? product.modifiers.dexterity - item.modifiers.dexterity : 0;
+                resultValue.intelligence = isEquipment(product) ? product.modifiers.intelligence - item.modifiers.intelligence : 0;
+                resultValue.constitution = isEquipment(product) ? product.modifiers.constitution - item.modifiers.constitution : 0;
             }
 
             setModifierValue(resultValue)
