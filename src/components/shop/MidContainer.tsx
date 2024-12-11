@@ -113,7 +113,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         )}
         {isMagical(product) ? (
           <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
-            <RequirementsSection gold={product.value * localQuantity} />
+            <RequirementsSection gold={ !displayBuyButtons ? Math.floor(product.value * localQuantity / 3) : product.value * localQuantity} />
           </div>
         ) : (
           <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
