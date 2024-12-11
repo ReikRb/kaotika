@@ -3,6 +3,7 @@ import { Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { populatePlayer } from './player';
+import { UnPopulatedPlayer } from '@/_common/interfaces/UnPopulatedPlayer';
 const PlayerModel = require("../../../database/models/playerSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -19,17 +20,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const productEquiped = isProductEquiped(mongoPlayer, productsData);
             const goldSufficient = isGoldSufficient(mongoPlayer, value);
             console.log('Products is not in the inventory: ', productInInventory);
-            // console.log('Products is not equiped: ', productInInventory);
-            // console.log('Gold is sufficient: ', goldSufficient);
+            console.log('Products is not equiped: ', productInInventory);
+            console.log('Gold is sufficient: ', goldSufficient);
 
             if (productInInventory && productEquiped) {
                 if (goldSufficient) {
-                    // console.log('Player inventory: ', mongoPlayer.inventory);
-                    // console.log('Player gold: ', mongoPlayer.gold);
+                    console.log('Player inventory: ', mongoPlayer.inventory);
+                    console.log('Player gold: ', mongoPlayer.gold);
                     updatePlayerInventory(mongoPlayer, productsData);
                     updatePlayerGold(mongoPlayer, value);
-                    // console.log('Updated player inventory: ', mongoPlayer.inventory);
-                    // console.log('Updated player gold: ', mongoPlayer.gold);
+                    console.log('Updated player inventory: ', mongoPlayer.inventory);
+                    console.log('Updated player gold: ', mongoPlayer.gold);
                     await mongoPlayer.save();
                     const returnPlayer = await populatePlayer()
                     console.log('PLAYER TO RETURN: ', returnPlayer);
@@ -56,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 };
 
-const updatePlayerInventory = (player: any, productsData: {product: Product, quantity: number}[]) => {
+const updatePlayerInventory = (player: UnPopulatedPlayer, productsData: {product: Product, quantity: number}[]) => {
     productsData.map((productData) => {
         switch(productData.product.type) {
             case 'weapon':  
