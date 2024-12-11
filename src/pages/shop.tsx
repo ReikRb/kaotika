@@ -20,7 +20,6 @@ import ShopHeader from '@/components/shop/ShopHeader';
 import { calculateAllAttributes } from '@/helpers/PlayerAttributes';
 import ShopOptionsHeader from '@/components/shop/ShopOptionsHeader';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import RightSidePanel from '@/components/shop/RightSidePanelComponent';
 import { fetchCategory } from '@/pages/api/shop/helpers/fetchCategory';
@@ -73,7 +72,6 @@ export default function Shop() {
     const buy = async (products: {product: Product, quantity: number}[], isInCart: boolean) => {
         try {
             handleMerchantMessage(MERCHANT_MESSAGES.loading)
-            console.log(products);
 
             const res = await fetch(`/api/shop/buy`, {
                 headers: {
@@ -118,7 +116,7 @@ export default function Shop() {
         }
     };
 
-    const sell = async (product: Product) => {
+    const sell = async (product: {product: Product, quantity: number}) => {
         try {
             const res = await fetch(`/api/shop/sell`, {
                 headers: {
