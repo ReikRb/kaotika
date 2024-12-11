@@ -85,7 +85,8 @@ export default function Shop() {
 
             if (res.status === 200) {
                 const response = await res.json();
-                setInventory(setInventoryItems(response));
+                const inventory = getInventoryItems(response)
+                setInventory(inventory);
                 setPlayer(response);
                 isInCart ? onClearCart() : null;
                 console.log('Purchase complete: ', response);
@@ -130,7 +131,8 @@ export default function Shop() {
 
             if (res.status === 200) {
                 const response = await res.json();
-                setInventory(setInventoryItems(response));
+                const inventory = getInventoryItems(response)
+                setInventory(inventory);
                 setPlayer(response);
                 console.log('Sell complete: ', response); 
                 
@@ -192,7 +194,7 @@ export default function Shop() {
         }
     };
 
-    const setInventoryItems = (player: Player) => {
+    const getInventoryItems = (player: Player) => {
         const products: Products = [];
 
         Object.values(player?.inventory).map((productTypes) => {
@@ -225,7 +227,8 @@ export default function Shop() {
                 setPlayerEquipment(equipment)
 
                 setPlayer(response);
-                setInventory(setInventoryItems(response));
+                const inventory = getInventoryItems(response)
+                setInventory(inventory);
             };
 
             //If there is not cached data it will fetch the requested category and save it in the local storage
