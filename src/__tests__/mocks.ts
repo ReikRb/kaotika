@@ -250,7 +250,8 @@ export const MOCK_INGREDIENTS_COLLECTION = [{
       "increase_hit_points"
     ],
     "image": "/images/ingredients/increase/increase_2.webp",
-    "type": "ingredient"
+    "type": "ingredient",
+    "qty": 5
   },
   {
     "_id": "6702b39d76863c206a48cccc",
@@ -261,7 +262,8 @@ export const MOCK_INGREDIENTS_COLLECTION = [{
       "lesser_increase_hit_points"
     ],
     "image": "/images/ingredients/increase/increase_3.webp",
-    "type": "ingredient"
+    "type": "ingredient",
+    "qty": 5
   }]
 
 export const MOCK_RINGS_COLLECTION = [{

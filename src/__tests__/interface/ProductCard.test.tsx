@@ -3,9 +3,11 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import ProductCard from '@/components/shop/ProductCard';
 import { MOCK_INGREDIENTS_COLLECTION, MOCK_SHIELDS_COLLECTION } from '../mocks';
+import { Product } from '@/_common/types/Product';
+import { Ingredient } from '@/_common/interfaces/Ingredient';
 
-const mockEquipment = MOCK_SHIELDS_COLLECTION[0]
-const mockIngredient = MOCK_INGREDIENTS_COLLECTION[0]
+const mockEquipment: Product = MOCK_SHIELDS_COLLECTION[0]
+const mockIngredient: Ingredient = MOCK_INGREDIENTS_COLLECTION[0]
 
 describe('ProductCard Component', () => {
     it('should render the equipment correctly in the shop view', () => {
