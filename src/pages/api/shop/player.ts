@@ -1,4 +1,3 @@
-import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const Player = require("../../../database/models/playerSchema");
 
@@ -11,9 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
-        // await DBConnect()
-        // const player: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' });
-        // await DBDisconnect()
         const response = await populatePlayer()
         if (response) {
             return res.status(200).json(response);
@@ -28,7 +24,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 export const populatePlayer = async () => {
-    await DBConnect()
     const playerPopulated: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' }).populate('profile').exec();
     
 
@@ -76,9 +71,7 @@ const updateIngredientsWithQuantity = async(playerPopulated: any) => {
 
     const {ingredients} = await playerPopulated.inventory.populate('ingredients', { 'profiles': 0 });
 
-   
-    await DBDisconnect()
-    const ingredientQuantitiesPopulated = ingredientQuantites.map((item:any) => {
+        const ingredientQuantitiesPopulated = ingredientQuantites.map((item:any) => {
         const object = ingredients.filter((ingredient: any) => item._id.equals(ingredient._id))[0];
        
         return {...object.toObject(), qty: item.qty};

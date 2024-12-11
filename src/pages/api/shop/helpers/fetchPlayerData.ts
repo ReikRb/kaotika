@@ -17,5 +17,3 @@ export const fetchPlayerData = async (email: string | null | undefined) => {
         throw error;
     }
 };
-
-
