@@ -76,7 +76,7 @@ const ItemContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
             {product && currentAttributes ? (
                 <>
                     <div className="flex flex-col place-content-around row-span-3 row-start-0">
-                        <h2 className="text-center 2xl:text-4xl lg:text-2xl sm:text-lg pb-[2%] text-darkSepia">{product.name}</h2>
+                        <h2 className="text-center 2xl:text-4xl lg:text-2xl sm:text-lg pb-[2%] text-darkSepia font-black border-medievalSepia border-b-1 ">{product.name}</h2>
                         <p className="text-center 2xl:text-3xl lg:text-xl sm:text-base">{product.description}</p>
                     </div>
                     {product.type === 'ingredient' ? (

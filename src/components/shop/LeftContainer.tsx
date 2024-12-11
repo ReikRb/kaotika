@@ -16,7 +16,7 @@ const LeftContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
 
     return (
         <>
-            <div className="w-4/12 grid grid-rows-10">
+            <div className="w-4/12 grid grid-rows-10 pl-[3%]">
                 <div className="w-full row-span-7 row-start-0 grid grid-rows-10 p-[4%]">
                     <ItemContainer currentAttributes={currentAttributes} currentEquipment={currentEquipment} product={product}/>
                 </div>
