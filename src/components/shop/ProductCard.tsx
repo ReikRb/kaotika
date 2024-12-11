@@ -117,6 +117,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                                             }}
                                             isInCart={true}
                                             product={product}
+                                            displayButtons={isSelling}
                                         />
                                     </div>
                                 ) : (
