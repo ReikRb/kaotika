@@ -45,11 +45,18 @@ const PRODUCT_SHOP = {
     goldContainer: 'w-[50%] ml-[25%] align-center',
     levelContainer: 'justify-center flex space-x-[15%] inline-row',
     levelRequirement: 'text-xl w-[20%] text-white',
-    levelValue: 'text-4xl self-center'
+    levelValue: 'text-4xl self-center',
+    qtyContainer: 'justify-center flex space-x-[18%] pr-[9%] inline-row',
+    qtyRequirement: 'text-2xl w-[15%] text-white mt-[4%]',
+    qtyValue: 'text-4xl mb-[7%]'
 };
 
 const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact) => {
     return "min_lvl" in product;
+};
+
+const isIngredient = (product: Product): product is Ingredient => {
+    return "qty" in product;
 };
 
 const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isInCart = false, quantity = 1, handleQuantityChange, handleRemoval, isSelling = false }) => {
@@ -83,7 +90,13 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                                         <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_level_value_${index}`} className={isInCart ? PRODUCT_CART.levelValue : PRODUCT_SHOP.levelValue}>{isEquipment(product) ? product.min_lvl : null}</p>
                                     </div>
                                 )
-                                : null
+                                : isSelling
+                                ? (
+                                    <div className={PRODUCT_SHOP.qtyContainer}>
+                                        <p data-testid={`shop_card_qty_text_${index}`} className={PRODUCT_SHOP.qtyRequirement}>{`Qty.`}</p>
+                                        <p data-testid={`shop_card_qty_value_${index}`} className={PRODUCT_SHOP.qtyValue}>{isIngredient(product) ? product.qty : null}</p>
+                                    </div>
+                                ) : null
                         }
 
                     </div>

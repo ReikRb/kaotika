@@ -20,7 +20,9 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
     const handleProductSelect = (product: Product) => {
         setSelectedProduct(product);
         onProductSelect(product);
-        setMerchantMessage(MERCHANT_MESSAGES.selectNewProduct);
+        console.log('is Selling? ',isSelling );
+        
+        setMerchantMessage(isSelling ? MERCHANT_MESSAGES.selectNewSellProduct : MERCHANT_MESSAGES.selectNewProduct);
     };
 
     return (
