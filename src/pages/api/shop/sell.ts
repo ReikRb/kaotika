@@ -44,49 +44,50 @@ const updatePlayerInventory = (player: Player, productData: {product: Product, q
     switch(productData.product.type) {
         case 'weapon':
             console.log('Player inventory weapons: ', player.inventory.weapons);
-            player.inventory.weapons = [...player.inventory.weapons.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.weapons = player.inventory.weapons.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory weapons: ', player.inventory.weapons);
         break;
         case 'shield':
             console.log('Player inventory shields: ', player.inventory.shields);
-            player.inventory.shields = [...player.inventory.shields.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.shields = player.inventory.shields.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory shields: ', player.inventory.shields);
         break;
         case 'helmet':
             console.log('Player inventory helmets: ', player.inventory.helmets);
-            player.inventory.helmets = [...player.inventory.helmets.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.helmets = player.inventory.helmets.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory helmets: ', player.inventory.helmets);
         break;
         case 'armor':
             console.log('Player inventory armors: ', player.inventory.armors);
-            player.inventory.armors = [...player.inventory.armors.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.armors = player.inventory.armors.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory armors: ', player.inventory.armors);
         break;
         case 'boot':
             console.log('Player inventory boots: ', player.inventory.boots);
-            player.inventory.boots = [...player.inventory.boots.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.boots = player.inventory.boots.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory boots: ', player.inventory.boots);
         break;
         case 'ring':
             console.log('Player inventory rings: ', player.inventory.rings);
-            player.inventory.rings = [...player.inventory.rings.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.rings = player.inventory.rings.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory rings: ', player.inventory.rings);
         break;
         case 'artifact':
             console.log('Player inventory artifacts: ', player.inventory.artifacts);
-            player.inventory.artifacts = [...player.inventory.artifacts.filter((item) => item._id.toString() !== productData.product._id)];
+            player.inventory.artifacts = player.inventory.artifacts.filter((item) => item._id.toString() !== productData.product._id);
             console.log('Updated player inventory artifacts: ', player.inventory.artifacts);
         break;
         case 'ingredient':
             console.log('Player inventory ingredients: ', player.inventory.ingredients);
-            for (let index = 0; index < productData.product.qty; index++) {
-                console.log(productData.product.qty);
-                if (productData.quantity <= productData.product.qty) {
-                    player.inventory.ingredients = [...player.inventory.ingredients.filter((item) => item._id.toString() !== productData.product._id)];
-                }
-                console.log(productData.product.qty);
+            let ingredients = [...player.inventory.ingredients];
+
+            for (let i = 0; i < productData.quantity; i++) {
+                const pos = ingredients.map(ingredient => ingredient._id.toString()).indexOf(productData.product._id);
+                ingredients.splice(pos, 1);
             }
-            console.log('Updated player inventory ingredients: ', player.inventory.ingredients.length);
+
+            player.inventory.ingredients = ingredients;
+            console.log('Updated player inventory ingredients: ', player.inventory.ingredients);
         break;
     };
 }
