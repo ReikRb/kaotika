@@ -94,7 +94,7 @@ const ItemContainer: React.FC<Props> = ({currentAttributes, currentEquipment, pr
                         </div>
                     )}
                 </>     
-            ) : <h2 className={`text-center 2xl:text-3xl lg:text-xl sm:text-base mb-2 "text-darkSepia"}`}>Something went wrong. Please reload.</h2>}
+            ) : <h2 className={`text-center 2xl:text-3xl lg:text-xl sm:text-base mb-2 "text-darkSepia"}`}> </h2>}
         </>
     );
 };
