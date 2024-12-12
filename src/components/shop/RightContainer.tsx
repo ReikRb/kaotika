@@ -74,62 +74,57 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
     ];
 
     useEffect(() => {
-        if (products.length > 0){
-            InitialsortProducts('gold');
-            setSortAscendant(false);
+        if (products.length > 0) {
+            sortProducts('gold');
         }
     }, [category]);
 
     useEffect(() => {
-        setSortAscendant(false);
-        InitialsortProducts(sortOption);
+console.log(products);
+    },[products])
+    
+    useEffect(() => {
+        sortProducts(sortOption);
     }, [sortOption]);
 
     const changeAscendant = () => {
-        setSortAscendant(sortAscendant ? false : true);
-        sortProducts(sortOption);
+        setSortAscendant((prevAscendant) => {
+            const newAscendant = !prevAscendant;
+            sortProducts(sortOption, newAscendant);
+            return newAscendant;
+        });
     };
-
-    const sortProducts = (option: string) => {
+    
+    const sortProducts = (option: string, ascendant = sortAscendant) => {
         setSortOption(option);
-        
+
         const sortedProducts: Products = [...products].sort((product, prevProduct) => {
             switch (option) {
                 case 'gold':
-                    return sortAscendant ? product.value - prevProduct.value : prevProduct.value - product.value;
+                    return ascendant ? product.value - prevProduct.value : prevProduct.value - product.value;
                 case 'min_lvl':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.min_lvl - prevProduct.min_lvl : prevProduct.min_lvl - product.min_lvl : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.min_lvl - prevProduct.min_lvl : prevProduct.min_lvl - product.min_lvl : 0;
                 case 'base_porcentage':
-                    return isWeapon(product) && isWeapon(prevProduct) ? sortAscendant ? product.base_percentage - prevProduct.base_percentage : prevProduct.base_percentage - product.base_percentage : 1;
+                    return isWeapon(product) && isWeapon(prevProduct) ? ascendant ? product.base_percentage - prevProduct.base_percentage : prevProduct.base_percentage - product.base_percentage : 0;
                 case 'defense':
-                    return hasDefense(product) && hasDefense(prevProduct) ? sortAscendant ? product.defense - prevProduct.defense : prevProduct.defense - product.defense : 1;
+                    return hasDefense(product) && hasDefense(prevProduct) ? ascendant ? product.defense - prevProduct.defense : prevProduct.defense - product.defense : 0;
                 case 'intelligence':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.modifiers.intelligence - prevProduct.modifiers.intelligence : prevProduct.modifiers.intelligence - product.modifiers.intelligence : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.intelligence - prevProduct.modifiers.intelligence : prevProduct.modifiers.intelligence - product.modifiers.intelligence : 0;
                 case 'dexterity':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.modifiers.dexterity - prevProduct.modifiers.dexterity : prevProduct.modifiers.dexterity - product.modifiers.dexterity : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.dexterity - prevProduct.modifiers.dexterity : prevProduct.modifiers.dexterity - product.modifiers.dexterity : 0;
                 case 'insanity':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.modifiers.insanity - prevProduct.modifiers.insanity : prevProduct.modifiers.insanity - product.modifiers.insanity : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.insanity - prevProduct.modifiers.insanity : prevProduct.modifiers.insanity - product.modifiers.insanity : 0;
                 case 'charisma':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.modifiers.charisma - prevProduct.modifiers.charisma : prevProduct.modifiers.charisma - product.modifiers.charisma : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.charisma - prevProduct.modifiers.charisma : prevProduct.modifiers.charisma - product.modifiers.charisma : 0;
                 case 'constitution':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.modifiers.constitution - prevProduct.modifiers.constitution : prevProduct.modifiers.constitution - product.modifiers.constitution : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.constitution - prevProduct.modifiers.constitution : prevProduct.modifiers.constitution - product.modifiers.constitution : 0;
                 case 'strength':
-                    return isEquipment(product) && isEquipment(prevProduct) ? sortAscendant ? product.modifiers.strength - prevProduct.modifiers.strength : prevProduct.modifiers.strength - product.modifiers.strength : 1;
+                    return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.strength - prevProduct.modifiers.strength : prevProduct.modifiers.strength - product.modifiers.strength : 0;
                 default:
-                    return 1;
-            };
+                    return 0;
+            }
         });
-
-        setSortedProducts(sortedProducts);
-    };
-
-    const InitialsortProducts = (option: string) => {
-        setSortOption(option);
-        
-        const sortedProducts: Products = [...products].sort((product, prevProduct) => {
-            return product.value - prevProduct.value;
-        });
-
+    
         setSortedProducts(sortedProducts);
     };
 
@@ -163,7 +158,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
                 </div>
                 <div className="w-full row-span-1 row-start-3 p-[2%] flex justify-center">
                     <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/>
-                    <button className="absolute right-[6%] 2xl:text-4xl lg:text-2xl sm:text-xl text-black" onClick={() => {changeAscendant()}}>{sortAscendant ? '↑' : '↓'}</button>
+                    <button className="absolute right-[6%] 2xl:text-4xl lg:text-2xl sm:text-xl text-black" onClick={() => {changeAscendant()}}>{sortAscendant ? '↓' : '↑'}</button>
                 </div>
                 <ProductsCardsContainer
                     isSelling={category === 'inventory' ? true : false}
