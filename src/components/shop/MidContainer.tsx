@@ -122,18 +122,22 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         )}
         {isMagical(product) ? (
           <div />
-        ) : (
+        ) : hasDefense(product) || isWeapon(product) ? (
           <div className="w-full row-span-3 row-start-2 flex justify-center place-content-center pt-[2%]">
             {hasDefense(product) ? (
               <ProductDefenseDisplay defense={product.defense} />
-            ) : isWeapon(product) ? (
+            ) : isWeapon(product) ? ( 
               <ProductWeaponDisplay basePercentage={product.base_percentage} dieFaces={product.die_faces} dieModifier={product.die_modifier} dieNum={product.die_num} />
             ) : (
               <div />
             )}
           </div>
+          ) : (
+          <div/>
         )}
-        <div className={isMagical(product) ? "w-full row-span-5 row-start-3 flex justify-center place-content-center p-[2%]" : "w-full row-span-5 row-start-5 flex justify-center place-content-center p-[2%]"}>
+        <div className={isMagical(product) ? "w-full row-span-5 row-start-3 flex justify-center place-content-center p-[2%]"
+          : hasDefense(product) ? "w-full row-span-5 row-start-5 flex justify-center place-content-center p-[2%]"
+          : "w-full row-span-5 row-start-4 flex justify-center place-content-center p-[2%]"}>
           <ProductImage imageSrc={product.image} altText={product.name} />
         </div>
         {isMagical(product) ? (
