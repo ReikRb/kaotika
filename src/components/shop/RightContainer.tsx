@@ -80,6 +80,10 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         }
     }, [category]);
 
+    useEffect(() => {
+        setSortAscendant(false);
+    }, [sortOption]);
+
     const changeAscendant = () => {
         setSortAscendant(sortAscendant ? false : true);
         sortProducts(sortOption);
