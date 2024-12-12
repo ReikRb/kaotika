@@ -12,7 +12,7 @@ interface Props {
 
 const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, buttonDisplayHandler, togglePanel, handleMerchantMessage}) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
-    const [activeCategory, setActiveCategory] = useState<string>('weapon');
+    const [activeCategory, setActiveCategory] = useState<string>('');
     const [shopType, setShopType] = useState<string>('equipment');
 
     useEffect(() => {

@@ -93,7 +93,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
   };
 
   if (!product) {
-    return <p className="w-4/12 h-full flex justify-center items-center 2xl:text-3xl lg:text-xl sm:text-base">Select a product to view details.</p>;
+    return <p className="w-4/12 h-full flex justify-center items-center 2xl:text-3xl lg:text-xl sm:text-base">Select a product category to view details.</p>;
   }
 
   return (
