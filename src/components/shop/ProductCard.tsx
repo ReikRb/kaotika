@@ -36,19 +36,19 @@ const PRODUCT_CART = {
 };
 
 const PRODUCT_SHOP = {
-    mainContainer: `h-[41.5%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
+    mainContainer: `h-[45%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
     imgContainer: "flex justify-center place-items-center place-items-center mt-[2.8%] w-[90%] h-[90%] ml-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
     productImg: "place-items-center self-center pb-[3%] w-[32%]",
     infoContainer: "text-center content-center ml-[2%] w-[80%] space-y-[7%] inline-block",
-    name: "text-2xl text-white mr-[15%]",
+    name: "2xl:text-2xl lg:text-xl sm:text-base text-white pr-[10%]",
     requirementsContainer: "",
     goldContainer: 'w-[50%] ml-[25%] align-center',
     levelContainer: 'justify-center flex space-x-[15%] inline-row',
-    levelRequirement: 'text-xl w-[20%] text-white',
-    levelValue: 'text-4xl self-center',
+    levelRequirement: '2xl:text-xl lg:text-lg sm:text-base w-[20%] text-white',
+    levelValue: '2xl:text-4xl lg:text-2xl sm:text-xl self-center',
     qtyContainer: 'justify-center flex space-x-[18%] pr-[9%] inline-row',
-    qtyRequirement: 'text-2xl w-[15%] text-white mt-[4%]',
-    qtyValue: 'text-4xl mb-[7%]'
+    qtyRequirement: '2xl:text-2xl lg:text-xl sm:text-lg w-[15%] text-white mt-[4%]',
+    qtyValue: '2xl:text-4xl lg:text-2xl sm:text-xl mb-[7%]'
 };
 
 const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact) => {

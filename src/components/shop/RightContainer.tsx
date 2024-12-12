@@ -150,12 +150,16 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
 
     return (
         <>
-            <div className="w-[5.6%] h-[100%] bg-contain bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]"/>
+            <div className="w-[5.6%] h-full bg-contain bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]"/>
 
-            <div className="w-4/12 grid grid-rows">
-                <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/>
-                <button className="absolute right-1 2xl:text-4xl lg:text-2xl sm:text-xl text-black" onClick={() => {changeAscendant()}}>{sortAscendant ? '↑' : '↓'}</button>
-                <UserComponent name={player.nickname} gold={player.gold} level={player.level}/>
+            <div className="w-4/12 grid grid-rows-10">
+                <div className="w-full flex justify-center row-span-2 row-start-0 p-[2%]">
+                    <UserComponent name={player.nickname} gold={player.gold} level={player.level}/>
+                </div>
+                <div className="w-full row-span-1 row-start-3 p-[2%] flex justify-center">
+                    <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts}/>
+                    <button className="absolute right-[6%] 2xl:text-4xl lg:text-2xl sm:text-xl text-black" onClick={() => {changeAscendant()}}>{sortAscendant ? '↑' : '↓'}</button>
+                </div>
                 <ProductsCardsContainer
                     isSelling={category === 'inventory' ? true : false}
                     products={products}

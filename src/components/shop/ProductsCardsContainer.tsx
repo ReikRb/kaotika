@@ -27,7 +27,7 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
 
     return (
         <>
-            <div className="w-[73%] ml-[13%] bg-gray-950 bg-opacity-50 row-span-8 row-start-3 p-[2%]
+            <div className="w-[65%] ml-[17.5%] bg-gray-950 bg-opacity-50 row-span-7 row-start-4 p-[2%]
                 overflow-y-auto
                 [&::-webkit-scrollbar]:w-2
                 [&::-webkit-scrollbar-track]:bg-gray-950
