@@ -18,7 +18,7 @@ const MerchantComponent: React.FC<Props> = ({ message }) => {
             const interval = setInterval(() => {
                 setText(text + message[cont]);
                 setCont(cont + 1);
-            }, 100);
+            }, 20);
 
             return () => clearInterval(interval);
         };
