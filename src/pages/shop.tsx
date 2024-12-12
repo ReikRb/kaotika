@@ -28,6 +28,7 @@ import { MERCHANT_MESSAGES } from '@/constants/constants';
 import { getRandomMessage } from '@/helpers/getRandomMessage';
 import { Product, Products } from '@/_common/types/Product';
 import { Equipment } from '@/_common/interfaces/Equipment';
+import LoadingOverlay from '@/components/shop/loadingComponent';
 
 export default function Shop() {
     const { data: session } = useSession();
@@ -54,6 +55,7 @@ export default function Shop() {
     const [displayBuyButtons, setDisplayBuyButtons] = useState(true);
     const [shopCategory, setShopCategory] = useState<string>('weapon');
     const [merchantMessage, setMerchantMessage] = useState("Welcome To Aivan's Store. Do not come in if you won't buy anything!")
+    const [loadingOverlay, setLoadingOverlay] = useState(false);
 
     const handleMerchantMessage = (array: string[]) => {
         const message = getRandomMessage(array)
@@ -69,6 +71,7 @@ export default function Shop() {
     };
 
     const buy = async (products: {product: Product, quantity: number}[], isInCart: boolean) => {
+        setLoadingOverlay(true);
         try {
             handleMerchantMessage(MERCHANT_MESSAGES.loading)
 
@@ -113,10 +116,13 @@ export default function Shop() {
         } catch (error) {
             setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
             console.log('Error in the purchase: ', error);
+        } finally {
+            setLoadingOverlay(false);
         }
     };
 
-    const sell = async (product: {product: Product, quantity: number}) => {
+    const sell = async (product: { product: Product, quantity: number }) => {
+        setLoadingOverlay(true); 
         try {
             const res = await fetch(`/api/shop/sell`, {
                 headers: {
@@ -148,6 +154,8 @@ export default function Shop() {
         } catch (error) {
             console.log('Error in the Sell: ', error);
             setMerchantMessage(MERCHANT_MESSAGES.errorTransaction[0])
+        } finally {
+            setLoadingOverlay(false); 
         }
     };
 
@@ -341,6 +349,7 @@ export default function Shop() {
 
     return (
         <ShopContainer>
+            {loadingOverlay && <LoadingOverlay />}
             <ShopHeader>
                 <MainHeader/>
                 <ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel} handleMerchantMessage={handleMerchantMessage} />
