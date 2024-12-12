@@ -61,6 +61,17 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         { key: 'strength', label: 'Strength' },
     ];
 
+    const accesoriesSortOptions = [
+        { key: 'gold', label: 'Gold' },
+        { key: 'min_lvl', label: 'Level' },
+        { key: 'intelligence', label: 'Intelligence' },
+        { key: 'dexterity', label: 'Dexterity' },
+        { key: 'insanity', label: 'Insanity' },
+        { key: 'charisma', label: 'Charisma' },
+        { key: 'constitution', label: 'Constitution' },
+        { key: 'strength', label: 'Strength' },
+    ];
+
     const ingredientsSortOptions = [
         { key: 'gold', label: 'Gold' },
     ];
@@ -136,9 +147,10 @@ console.log(products);
             case 'helmet':
             case 'armor':
             case 'boot':
+                return defensiveEquipmentSortOptions;
             case 'ring':
             case 'artifact':
-                return defensiveEquipmentSortOptions;
+                return accesoriesSortOptions;
             case 'ingredient':
                 return ingredientsSortOptions;
             case 'inventory':
