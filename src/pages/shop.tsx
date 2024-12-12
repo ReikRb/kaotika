@@ -178,6 +178,10 @@ export default function Shop() {
         handleMerchantMessage(MERCHANT_MESSAGES.removeAllItems)
     };
 
+    const setSortedProducts = (sortedProducts: Products) => {
+        setDisplayProducts(sortedProducts);
+    };
+
     const handleQuantityChange = (product: Product, quantity: number) => {
         setCart((prevCart) =>
             prevCart.map((item) =>
@@ -341,7 +345,7 @@ export default function Shop() {
             <MainContainer>
                 <LeftContainer currentAttributes={currentAttributes!} currentEquipment={playerEquipment!} product={currentDisplay!} message={merchantMessage} />
                 <MidContainer displayBuyButtons={displayBuyButtons} product={currentDisplay} onBuy={buy} onSell={sell} onAddToCart={(product: Product, quantity: number) => addToCart(product, quantity)}player={player!} quantity={quantity} handleQuantityChange={handleQuantityChange} />
-                <RightContainer products={displayProducts} category={shopCategory} onProductSelect={setCurrentDisplay} player={player!} setMerchantMessage={handleMerchantMessage} />
+                <RightContainer products={displayProducts} category={shopCategory} onProductSelect={setCurrentDisplay} player={player!} setMerchantMessage={handleMerchantMessage} setSortedProducts={setSortedProducts} />
                 <RightSidePanel isOpen={isRightPanelOpen} togglePanel={toggleRightPanel} cart={cart} onRemoveFromCart={handleRemoveFromCart} onBuy={buy} onClearCart={onClearCart} player={player!} quantity={quantity} handleQuantityChange={(product: Product, qty: number) => handleQuantityChange(product, qty)} />
             </MainContainer>
         </ShopContainer>
