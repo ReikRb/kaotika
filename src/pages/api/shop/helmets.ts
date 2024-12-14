@@ -1,14 +1,11 @@
-import { DBConnect, DBDisconnect } from '@/database/dbHandler';
+import { DBConnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const Helmet = require("../../../database/models/helmetSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        await DBConnect()
-
+        await DBConnect();
         const response = await Helmet.find();
-
-        await DBDisconnect()
         
         if (response) {
             return res.status(200).json(response);

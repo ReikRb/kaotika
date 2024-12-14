@@ -11,7 +11,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
+        await DBConnect();
         const response = await populatePlayer()
+
         if (response) {
             return res.status(200).json(response);
         } else {
@@ -25,10 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 export const populatePlayer = async () => {
-    await DBConnect()
-
     const playerPopulated: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' }).populate('profile').exec();
-    
 
     // Poblamos el equipo
     await playerPopulated.equipment.populate('armor');
@@ -51,7 +50,6 @@ export const populatePlayer = async () => {
     await playerPopulated.inventory.populate('ingredients');
 
     const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
-    await DBDisconnect()
     return returnPlayer;
 }
 

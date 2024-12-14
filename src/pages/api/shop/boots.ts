@@ -1,14 +1,12 @@
-import { DBConnect, DBDisconnect } from '@/database/dbHandler';
+import { DBConnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const Boot = require("../../../database/models/bootSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        await DBConnect()
-
+        await DBConnect();
         const response = await Boot.find();
         
-        await DBDisconnect()
         if (response) {
             return res.status(200).json(response);
         } else {

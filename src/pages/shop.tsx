@@ -266,16 +266,16 @@ export default function Shop() {
 
             const handleFetches = async () => {
                 try {
-                    setLoading(true);
-                    await handleCategoryFetch('ingredients', setIngredients);
-                    await handleCategoryFetch('armors', setArmors);
-                    await handleCategoryFetch('boots', setBoots);
-                    await handleCategoryFetch('helmets', setHelmets);
-                    await handleCategoryFetch('rings', setRings);
-                    await handleCategoryFetch('shields', setShields);
-                    await handleCategoryFetch('artifacts', setArtifacts);
-                    await handleCategoryFetch('weapons', setWeapons);
+                    await Promise.allSettled([handleCategoryFetch('ingredients', setIngredients),
+                        handleCategoryFetch('armors', setArmors),
+                        handleCategoryFetch('boots', setBoots),
+                        handleCategoryFetch('helmets', setHelmets),
+                        handleCategoryFetch('rings', setRings),
+                        handleCategoryFetch('shields', setShields),
+                        handleCategoryFetch('artifacts', setArtifacts),
+                        handleCategoryFetch('weapons', setWeapons)]);
                     await handlePlayerFetch();
+                    await fetch('/api/shop/mongoDisconnect');
                 } catch (error) {
                     console.error('An error ocurred fetching the data: ', error);
                 } finally {

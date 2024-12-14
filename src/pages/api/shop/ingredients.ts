@@ -1,14 +1,12 @@
-import { DBConnect, DBDisconnect } from '@/database/dbHandler';
+import { DBConnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const Ingredient = require("../../../database/models/ingredientSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        await DBConnect()
-
+        await DBConnect();
         const response = await Ingredient.find();
         
-        await DBDisconnect()
         if (response) {
             return res.status(200).json(response);
         } else {
