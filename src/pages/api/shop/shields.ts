@@ -1,10 +1,14 @@
+import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const Shield = require("../../../database/models/shieldSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
+        await DBConnect()
+
         const response = await Shield.find();
         
+        await DBDisconnect()
         if (response) {
             return res.status(200).json(response);
         } else {

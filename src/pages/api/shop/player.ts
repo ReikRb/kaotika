@@ -1,3 +1,4 @@
+import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 const Player = require("../../../database/models/playerSchema");
 
@@ -24,6 +25,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 }
 
 export const populatePlayer = async () => {
+    await DBConnect()
+
     const playerPopulated: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' }).populate('profile').exec();
     
 
@@ -48,6 +51,7 @@ export const populatePlayer = async () => {
     await playerPopulated.inventory.populate('ingredients');
 
     const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
+    await DBDisconnect()
     return returnPlayer;
 }
 
