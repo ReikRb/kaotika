@@ -1,37 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Layout from '@/components/Layout';
 import Loading from '@/components/Loading';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
-import {Player} from '../_common/interfaces/Player';
 import { Tooltip } from '@nextui-org/react';
+import useHallOfFame from '@/hooks/useHallOfFame';
+
 
 const Hall = () => {
   const { data: session } = useSession();
-  const [loading, setLoading] = useState(false);
-  const [players, setPlayers] = useState<Player[]>([]);
-
-  useEffect(() => {
-    console.log("useEffect Fetching Hall of Fame");
-    if (!session) return;
-    const fetchHallOfFame = async () => {
-      try {
-        setLoading(true);
-        console.log("Fetching Hall of Fame");
-        const res = await fetch('/api/player/hall/');
-        const data = await res.json();
-        console.log(data);
-        setPlayers(data.data);
-      } catch (error) {
-        console.error('Failed to fetch Hall of Fame:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHallOfFame();
-  }, []);
+  const { players, loading} = useHallOfFame(session)
 
   if (loading) {
     return <Loading />;
