@@ -52,5 +52,6 @@ export interface Player {
     enhancer_potions: EnhancerPotion[],
     ingredients: Ingredient[]
   },
-  tasks: Task[]
+  tasks: Task[],
+  isBetrayar: boolean
 }
