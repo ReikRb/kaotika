@@ -5,6 +5,7 @@ import Loading from '@/components/Loading';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, SliderValue} from "@nextui-org/react";
 import {Slider} from "@nextui-org/react";
+import Image from 'next/image';
 import KaotikaButton from '@/components/KaotikaButton';
 
 interface Course {
@@ -35,6 +36,7 @@ const AcolytesPage = () => {
   const {isOpen, onOpen, onClose, onOpenChange} = useDisclosure();
   const [gold, setGold] = useState<number | number[]>(0);
   const [experience, setExperience] = useState<number | number[]>(0);
+  const [type, setType] = useState<string>("")
 
   useEffect(() => {
     console.log("useEffect Fetching courses");
@@ -82,11 +84,11 @@ const AcolytesPage = () => {
   
 
 	const handleCourseSelect = (courseId: string) => {
-    console.log(courseId)
     setSelectedCourse(courseId);
   };
 
-  const handleClick = (student: Student) => {
+  const handleClick = (student: Student, type: string) => {
+    setType(type);
     setSelectedStudent(student);
   }
 
@@ -126,6 +128,26 @@ const AcolytesPage = () => {
 		return <Loading />;
 	}
 
+  const applyUnique = async () => {
+    try {
+      setLoading(true);
+      console.log("Assign unique item");
+      const response = await fetch(`/api/player/unique?classroom_Id=${selectedStudent?.userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const results = await response.json();
+      console.log(results);
+    } catch (error) {
+      console.error('Failed to patch player bonification:', error);
+    } finally {
+      setType("");
+      setLoading(false);
+    } 
+  }
+
   return (
 		<Layout>
       <div className="flex justify-center mt-8">
@@ -160,22 +182,37 @@ const AcolytesPage = () => {
                   }} 
                   aria-label="Kaotika Students">
                   <TableHeader>
-                    <TableColumn className="text-center">ID</TableColumn>
-                    <TableColumn className="text-center">NAME</TableColumn>
-										<TableColumn className="text-center">VALIDATE</TableColumn>
+                    <TableColumn className="text-center text-xl text-black">CLASSROOM ID</TableColumn>
+                    <TableColumn className="text-center text-xl text-black">NAME</TableColumn>
+                    <TableColumn className="text-center text-xl text-black">ASSIGN UNIQUE ITEM</TableColumn>
+										<TableColumn className="text-center text-xl text-black">ASSIGN GOLD & EXP</TableColumn>
                   </TableHeader>
                   <TableBody>
                     {students.map((student) => (
                       <TableRow key={student.userId}>
                         <TableCell >{student.userId}</TableCell>
-                        <TableCell className="text-center"><span>{student.profile.name.fullName}</span></TableCell>
+                        <TableCell className="text-center"><span>{student.profile.name.fullName.toUpperCase()}</span></TableCell>
+                        <TableCell className="text-center">
+                          <div className="flex justify-center">
+                            <button
+                              onClick={() => handleClick(student, "unique")}
+                              className="flex items-center bg-medievalSepia text-black text-2xl py-2 px-4 rounded  hover:bg-darkSepia transition"
+                              >
+                              <Image src="/images/icons/level.png" alt="Cross imager" width={48} height={48} className="rounded-full" />
+                              <span>Assign unique item</span> 
+                            </button>
+                          </div>
+                        </TableCell>
 												<TableCell className="text-center">
-                          <button
-                            onClick={() => handleClick(student)}
-                            className="bg-medievalSepia text-black text-4xl py-2 px-4 mt-10 rounded  hover:bg-darkSepia transition"
-                            >
-                            Apply bonification 
-                          </button>
+                          <div className="flex justify-center">
+                            <button
+                              onClick={() => handleClick(student, "bonification")}
+                              className="flex items-center bg-medievalSepia text-black text-2xl py-2 px-4 rounded  hover:bg-darkSepia transition"
+                              >
+                              <Image src="/images/icons/gold.png" alt="Cross imager" width={48} height={48} className="rounded-full" />
+                              <span>Apply bonification</span>  
+                            </button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -190,42 +227,49 @@ const AcolytesPage = () => {
             <>
               <ModalHeader className="flex flex-col gap-1 text text-center">{selectedStudent?.profile.name.fullName}</ModalHeader>
               <ModalBody>
-                <h2 className="flex flex-col gap-1 text text-center text-xl">Apply this settings?</h2>
-                <Slider 
-                  size='md'
-                  label="Gold" 
-                  step={50} 
-                  maxValue={500} 
-                  minValue={-500} 
-                  defaultValue={0}
-                  color="foreground"
-                  onChangeEnd={handleGold}
-                  classNames={{
-                    base: "max-w-md",
-                    filler: "bg-gradient-to-r from-blackSepia to-medievalSepia",
-                    label: "text-2xl",
-                    value: "text-3xl"
-                  }}
-                />
-                <Slider 
-                  size='md'
-                  label="Experience" 
-                  step={100} 
-                  maxValue={500} 
-                  minValue={0} 
-                  defaultValue={0}
-                  color="foreground"
-                  onChangeEnd={handleExperience}
-                  classNames={{
-                    base: "max-w-md",
-                    filler: "bg-gradient-to-r from-blackSepia to-medievalSepia",
-                    label: "text-2xl",
-                    value: "text-3xl"
-                  }}
-                />
+                
+                {type === "bonification" 
+                ?
+                  <>
+                    <h2 className="flex flex-col gap-1 text text-center text-xl">Apply this settings?</h2>
+                    <Slider 
+                      size='md'
+                      label="Gold" 
+                      step={50} 
+                      maxValue={500} 
+                      minValue={-500} 
+                      defaultValue={0}
+                      color="foreground"
+                      onChangeEnd={handleGold}
+                      classNames={{
+                        base: "max-w-md",
+                        filler: "bg-gradient-to-r from-blackSepia to-medievalSepia",
+                        label: "text-2xl",
+                        value: "text-3xl"
+                      }}
+                    />
+                    <Slider 
+                      size='md'
+                      label="Experience" 
+                      step={100} 
+                      maxValue={500} 
+                      minValue={0} 
+                      defaultValue={0}
+                      color="foreground"
+                      onChangeEnd={handleExperience}
+                      classNames={{
+                        base: "max-w-md",
+                        filler: "bg-gradient-to-r from-blackSepia to-medievalSepia",
+                        label: "text-2xl",
+                        value: "text-3xl"
+                      }}
+                    />
+                  </>
+                : <h2 className="flex flex-col gap-1 text text-center text-xl">Are you sure to assign unique item?</h2>}
+                
               </ModalBody>
               <ModalFooter>
-                <KaotikaButton text='ACCEPT' handleClick={applyBonification} /> 
+                <KaotikaButton text='ACCEPT' handleClick={type === "bonification" ? applyBonification : applyUnique} /> 
                 <KaotikaButton text='CANCEL' handleClick={onClose} /> 
               </ModalFooter>
             </>
