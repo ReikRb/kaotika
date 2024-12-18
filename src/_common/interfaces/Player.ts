@@ -53,5 +53,5 @@ export interface Player {
     ingredients: Ingredient[]
   },
   tasks: Task[],
-  isBetrayar: boolean
+  isBetrayer: boolean
 }

@@ -47,7 +47,7 @@ const Hall = () => {
                 <TableCell className="text-center">{player.level}</TableCell> 
                 <TableCell className="text-center">{player.experience} xp</TableCell>
                 <TableCell className="text-center">{player.gold} coins</TableCell>
-                <TableCell className="text-center">{player.isBetrayar 
+                <TableCell className="text-center">{player.isBetrayer 
                   ? <div className="flex justify-center"><Tooltip className="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" placement="left" size='sm' showArrow={true} content="The player is a dirty traitor"><Image src="/images/icons/betrayer.png" alt="Betrayar image" width={64} height={64} className="rounded-full" /></Tooltip></div>
                   : <div className="flex justify-center"><Tooltip className="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" placement="left" size='sm' showArrow={true} content="The Player is loyal to Kaotika"><Image src="/images/icons/loyal.png" alt="Loyal image" width={64} height={64} className="rounded-full" /></Tooltip></div>}
                 </TableCell>
