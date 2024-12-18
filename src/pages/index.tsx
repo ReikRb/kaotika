@@ -12,22 +12,37 @@ const Home = () => {
   const { publicRuntimeConfig } = getConfig();
 
   useEffect(() => {
-    
     if (status === 'authenticated') {
-      const email = session?.user?.email || '';
+      const email = session?.user?.email;
+
+      if (!email) {
+        console.error('Email not found in session');
+        return;
+      }
+
       const fetchPlayer = async () => {
-        try {        
+        try {
           const res = await fetch(`/api/player/check-registration?email=${email}`);
-          if(res.status === 200 && email.endsWith(ACOLYTE_EMAIL)) router.push('/player');
-          if(res.status === 200 && email.endsWith(MENTOR_EMAIL)) router.push('/dashboard'); 
-          if(res.status === 404) router.push('/welcome');           
+          if (res.status === 200) {
+            if (email.endsWith(ACOLYTE_EMAIL)) {
+              router.push('/player');
+            } else if (email.endsWith(MENTOR_EMAIL)) {
+              router.push('/dashboard');
+            }
+          } else if (res.status === 404) {
+            router.push('/welcome');
+          } else {
+            console.error('Unexpected response status:', res.status);
+          }
         } catch (error) {
           console.error('Failed to fetch player:', error);
-        } 
-      }
+        }
+      };
+
       fetchPlayer();
     }
-  }, [status]);
+    
+  }, [status, session, router]);
 
   return (
     <div className="flex items-center justify-center h-screen">

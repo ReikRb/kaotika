@@ -5,6 +5,7 @@ import Loading from '@/components/Loading';
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@nextui-org/table';
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, SliderValue} from "@nextui-org/react";
 import {Slider} from "@nextui-org/react";
+import { Toaster, toast } from 'sonner'
 import Image from 'next/image';
 import KaotikaButton from '@/components/KaotikaButton';
 
@@ -124,10 +125,6 @@ const AcolytesPage = () => {
     } 
   }
 
-	if (loading) {
-		return <Loading />;
-	}
-
   const applyUnique = async () => {
     try {
       setLoading(true);
@@ -139,7 +136,6 @@ const AcolytesPage = () => {
         },
       });
       const results = await response.json();
-      console.log(results);
     } catch (error) {
       console.error('Failed to patch player bonification:', error);
     } finally {
@@ -147,6 +143,10 @@ const AcolytesPage = () => {
       setLoading(false);
     } 
   }
+
+  if (loading) {
+		return <Loading />;
+	}
 
   return (
 		<Layout>
@@ -276,6 +276,20 @@ const AcolytesPage = () => {
           )}
         </ModalContent>
       </Modal>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          unstyled: true,
+          classNames: {
+            toast: 'w-96 text-4xl p-2 text-center mb-4 border-1 rounded-lg border-sepia bg-black/90',
+            title: 'text-4xl text-red-800',
+            
+          },
+          style: {
+            fontFamily: 'kaotika'
+          }
+        }}
+      />
     </Layout>
   )
 }
