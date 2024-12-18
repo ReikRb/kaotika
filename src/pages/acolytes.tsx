@@ -8,24 +8,8 @@ import {Slider} from "@nextui-org/react";
 import { Toaster, toast } from 'sonner'
 import Image from 'next/image';
 import KaotikaButton from '@/components/KaotikaButton';
-
-interface Course {
-  id: string;
-  name: string;
-}
-
-interface Student {
-	courseId: string;
-	profile: {
-		id: string;
-		name: {
-			familyName: string;
-			fullName: string;
-			givenName: string;
-		}
-	}
-	userId: string;
-}
+import { Course } from '@/_common/interfaces/Course';
+import { Student } from '@/_common/interfaces/Student';
 
 const AcolytesPage = () => {
 	const { data: session } = useSession();
