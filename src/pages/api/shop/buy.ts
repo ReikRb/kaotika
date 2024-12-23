@@ -3,7 +3,7 @@ import { Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { populatePlayer } from './player';
-import { updatePlayerInventory } from '@/helpers/updatePlayer';
+import { updatePlayerGold, updatePlayerInventory } from '@/helpers/updatePlayer';
 const PlayerModel = require("../../../database/models/playerSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -55,10 +55,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await DBDisconnect();
         return res.status(500).json({ error: 'Internal server error' });
     }
-};
-
-const updatePlayerGold = (player: Player, value: number) => {
-    player.gold -= value;
 };
 
 const calculatePurchaseValue = (productsData: {product: Product, quantity: number}[]) => {

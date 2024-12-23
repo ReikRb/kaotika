@@ -33,3 +33,7 @@ export const updatePlayerInventory = (player: UnPopulatedPlayer, productsData: C
         };
     });
 };
+
+export const updatePlayerGold = (player: UnPopulatedPlayer, value: number) => {
+    player.gold -= value;
+};
