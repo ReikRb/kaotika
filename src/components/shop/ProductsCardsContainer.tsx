@@ -33,16 +33,20 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
                 [&::-webkit-scrollbar-track]:bg-gray-950
                 [&::-webkit-scrollbar-thumb]:bg-gray-800">
                 {products.map((product, i) => (
-                    <ProductCard 
-                    index ={i} 
-                    key={i.toString()} 
-                    product={product} 
-                    isSelected={selectedProduct === product} 
-                    onClick={() => handleProductSelect(product)}
-                    isSelling={isSelling}
-                    handleRemoval={() => {}}
-                    handleQuantityChange={() => {}}
-                    />
+                    <>
+                    <div className="">
+                        <ProductCard 
+                        index ={i} 
+                        key={i.toString()} 
+                        product={product} 
+                        isSelected={selectedProduct === product} 
+                        onClick={() => handleProductSelect(product)}
+                        isSelling={isSelling}
+                        handleRemoval={() => {}}
+                        handleQuantityChange={() => {}}
+                        />
+                    </div>
+                    </>
                 ))}
             </div>
         </>

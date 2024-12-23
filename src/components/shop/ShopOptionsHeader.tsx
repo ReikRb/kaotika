@@ -2,18 +2,28 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import DropDownComponent from './DropDownComponent';
 import { MERCHANT_MESSAGES } from '@/constants/constants';
+import { Cart } from '@/_common/types/Product';
 
 interface Props {
     displaySelectedShopProducts: Function;
     buttonDisplayHandler: Function;
     togglePanel: Function;
     handleMerchantMessage: Function;
+    cart: Cart;
 };
 
-const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, buttonDisplayHandler, togglePanel, handleMerchantMessage}) => {
+const ShopOptionsHeader: React.FC<Props> = ({ displaySelectedShopProducts, buttonDisplayHandler, togglePanel, handleMerchantMessage, cart }) => {
     const [activeAction, setActiveAction] = useState<string>('buy');
     const [activeCategory, setActiveCategory] = useState<string>('');
     const [shopType, setShopType] = useState<string>('equipment');
+
+    const cartQuantity = cart?.reduce((total, item) => total + item.quantity, 0) || 0;
+
+    console.log('cartQuantity: ', cartQuantity);
+
+    useEffect(() => {
+        console.log('Cart prop:', cart);
+    }, [cart]);
 
     useEffect(() => {
         console.log(activeCategory);
@@ -89,7 +99,7 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, button
 
                     {activeAction === 'buy' && (
                         <div className="flex items-center ">
-                            <DropDownComponent options={shopOptions} selectedOption={shopType} handleFunction={handleShopTypeChange}/>
+                            <DropDownComponent options={shopOptions} selectedOption={shopType} handleFunction={handleShopTypeChange} />
                             <nav className="flex items-center space-x-6 ml-6">
                                 {categoriesToDisplay.map((category) => (
                                     <button
@@ -106,12 +116,23 @@ const ShopOptionsHeader: React.FC<Props> = ({displaySelectedShopProducts, button
                     <div className="flex items-center">
                         <button
                             onClick={() => togglePanel()}
-                            className={`flex items-center 2xl:2xl:text-4xl lg:text-2xl sm:text-lg px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
+                            className={`relative flex items-center 2xl:text-4xl lg:text-2xl sm:text-lg px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
                         >
-                            <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} />
-                            <span className="ml-2 ">Cart</span>
+                            <div className="relative flex items-center justify-center">
+                                <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} />
+
+                                {cartQuantity > 0 && (
+                                    <div className="absolute top-1.5 right-0 bg-red-800 text-medievalSepia font-bold rounded-full w-6 h-6 flex items-center justify-center text-lg translate-x-1/2 -translate-y-1">
+                                        <span className="relative" style={{ top: "-0.1em" }}>
+                                            {cartQuantity}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                            <span className="ml-2">Cart</span>
                         </button>
                     </div>
+
                 </div>
 
             </header>
