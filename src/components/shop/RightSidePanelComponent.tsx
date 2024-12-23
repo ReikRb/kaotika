@@ -50,7 +50,9 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (cartRef.current && !cartRef.current.contains(event.target as Node)) {
+    const target = event.target as HTMLElement;
+
+    if (cartRef.current && !cartRef.current.contains(target) && !target.closest('[data-ignore-outside-click]')) {
       togglePanel();
     }
   };

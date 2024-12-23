@@ -19,12 +19,6 @@ const ShopOptionsHeader: React.FC<Props> = ({ displaySelectedShopProducts, butto
 
     const cartQuantity = cart?.reduce((total, item) => total + item.quantity, 0) || 0;
 
-    console.log('cartQuantity: ', cartQuantity);
-
-    useEffect(() => {
-        console.log('Cart prop:', cart);
-    }, [cart]);
-
     useEffect(() => {
         console.log(activeCategory);
         displaySelectedShopProducts(activeCategory);
@@ -117,19 +111,22 @@ const ShopOptionsHeader: React.FC<Props> = ({ displaySelectedShopProducts, butto
                         <button
                             onClick={() => togglePanel()}
                             className={`relative flex items-center 2xl:text-4xl lg:text-2xl sm:text-lg px-1 hover:underline ${activeCategory === 'cart' ? 'underline text-yellow-500' : ''}`}
+                            data-ignore-outside-click
                         >
                             <div className="relative flex items-center justify-center">
-                                <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} />
+                                <Image src="/images/shop/cart.webp" alt="Cart" width={65} height={65} data-ignore-outside-click/>
 
                                 {cartQuantity > 0 && (
-                                    <div className="absolute top-1.5 right-0 bg-red-800 text-medievalSepia font-bold rounded-full w-6 h-6 flex items-center justify-center text-lg translate-x-1/2 -translate-y-1">
-                                        <span className="relative" style={{ top: "-0.1em" }}>
+                                    <div className="absolute top-1.5 right-0 bg-red-800 text-medievalSepia font-bold rounded-full w-6 h-6 flex items-center justify-center text-lg translate-x-1/2 -translate-y-1"
+                                    data-ignore-outside-click
+                                    >
+                                        <span className="relative" style={{ top: "-0.1em" }} data-ignore-outside-click>
                                             {cartQuantity}
                                         </span>
                                     </div>
                                 )}
                             </div>
-                            <span className="ml-2">Cart</span>
+                            <span className="ml-2" data-ignore-outside-click>Cart</span>
                         </button>
                     </div>
 
