@@ -1,9 +1,9 @@
 import { Player } from '@/_common/interfaces/Player';
-import { Cart, Product } from '@/_common/types/Product';
+import { Product } from '@/_common/types/Product';
 import { DBConnect, DBDisconnect } from '@/database/dbHandler';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { populatePlayer } from './player';
-import { UnPopulatedPlayer } from '@/_common/interfaces/UnPopulatedPlayer';
+import { updatePlayerInventory } from '@/helpers/updatePlayer';
 const PlayerModel = require("../../../database/models/playerSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -55,39 +55,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await DBDisconnect();
         return res.status(500).json({ error: 'Internal server error' });
     }
-};
-
-const updatePlayerInventory = (player: UnPopulatedPlayer, productsData: Cart) => {
-    productsData.map((productData) => {
-        switch(productData.product.type) {
-            case 'weapon':  
-                player.inventory.weapons = [...player.inventory.weapons, productData.product._id];
-            break;
-            case 'shield':
-                player.inventory.shields = [...player.inventory.shields, productData.product._id];
-            break;
-            case 'helmet':
-                player.inventory.helmets = [...player.inventory.helmets, productData.product._id];
-            break;
-            case 'armor':
-                player.inventory.armors = [...player.inventory.armors, productData.product._id];
-            break;
-            case 'boot':
-                player.inventory.boots = [...player.inventory.boots, productData.product._id];
-            break;
-            case 'ring':
-                player.inventory.rings = [...player.inventory.rings, productData.product._id];
-            break;
-            case 'artifact':
-                player.inventory.artifacts = [...player.inventory.artifacts, productData.product._id];
-            break;
-            case 'ingredient':
-                for (let index = 0; index < productData.quantity; index++) {
-                    player.inventory.ingredients = [...player.inventory.ingredients, productData.product._id];
-                }
-            break;
-        };
-    });
 };
 
 const updatePlayerGold = (player: Player, value: number) => {
