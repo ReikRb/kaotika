@@ -5,39 +5,8 @@ import { updatePlayerGold, updatePlayerInventory } from "@/helpers/updatePlayer"
 
 const mockPlayer: UnPopulatedPlayer = MOCK_UNPOPULATED_PLAYER;
 
-const mockUpdatedPlayer: UnPopulatedPlayer = {
-    _id: '',
-    avatar: '',
-    email: '',
-    experience: 0,
-    is_active: false,
-    created_date: '',
-    profile: null,
-    attributes: {
-      intelligence: 0,
-      dexterity: 12,
-      constitution: 0,
-      insanity: 10,
-      charisma: 12,
-      strength: -19,
-    },
-    classroom_id: '',
-    tasks:[],
-    nickname: "Reik",
-    name: "Reik",
-    gold: 5750,
-    equipment: {
-      weapon: '',
-      armor: '',
-      artifact: '',
-      antidote_potion: '',
-      healing_potion: '',
-      enhancer_potion: '',
-      helmet: '',
-      shield: '',
-      boot: '',
-      ring: '',
-    },
+const mockUpdatedPlayer = {
+    gold: 5250,
     inventory: {
       helmets: [],
       weapons: [],
@@ -62,7 +31,6 @@ const mockUpdatedPlayer: UnPopulatedPlayer = {
         '6702b39d76863c206a48cccb',
       ],
     },
-    level: 17,
 };
 
 const mockCart: Cart = [{
