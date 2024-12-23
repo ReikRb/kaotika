@@ -12,7 +12,7 @@ interface Props {
 const ConfirmationComponent: React.FC<Props> = ({displayBuyButtons, quantity, modalContent, handleBuy, handleSell, handleCloseModal}) => {
     return (
         <>
-            <div className="relative w-8/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-center bg-no-repeat text-white shadow-xl flex-col justify-center place-content-center space-y-[5%]">
+            <div data-testid={'confirmation_component'} className="relative w-8/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-center bg-no-repeat text-white shadow-xl flex-col justify-center place-content-center space-y-[5%]">
                 <div className="flex flex-col items-center justify-center space-y-[1%]">
                     <p className="2xl:text-4xl lg:text-xl sm:text-base font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
                     <p className="2xl:text-5xl lg:text-3xl sm:text-xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
