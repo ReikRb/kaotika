@@ -36,10 +36,10 @@ const PRODUCT_CART = {
 };
 
 const PRODUCT_SHOP = {
-    mainContainer: `h-[45%] row-span-3 row-start-8 flex mt-[3%] bg-contain bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
-    imgContainer: "flex justify-center place-items-center place-items-center mt-[2.8%] w-[90%] h-[90%] ml-[2%] bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
+    mainContainer: ` h-[200px] row-span-3 row-start-8 flex mt-[3%] pt-[2%] bg-[length:100%_100%] bg-center bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
+    imgContainer: "flex justify-center place-items-center place-items-center w-[40%] bg-center bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
     productImg: "place-items-center self-center pb-[3%] w-[32%]",
-    infoContainer: "text-center content-center ml-[2%] w-[80%] space-y-[7%] inline-block",
+    infoContainer: "text-center content-center w-[60%] space-y-[7%] inline-block",
     name: "2xl:text-2xl lg:text-xl sm:text-base text-white pr-[10%]",
     requirementsContainer: "",
     goldContainer: 'w-[50%] ml-[25%] align-center',
