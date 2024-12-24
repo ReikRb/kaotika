@@ -89,10 +89,6 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
             sortProducts('gold');
         }
     }, [category]);
-
-    useEffect(() => {
-console.log(products);
-    },[products])
     
     useEffect(() => {
         sortProducts(sortOption);

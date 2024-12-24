@@ -20,8 +20,8 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
     const handleProductSelect = (product: Product) => {
         setSelectedProduct(product);
         onProductSelect(product);
-        console.log('is Selling? ',isSelling );
-        
+        console.log('is Selling? ', isSelling);
+
         setMerchantMessage(isSelling ? MERCHANT_MESSAGES.selectNewSellProduct : MERCHANT_MESSAGES.selectNewProduct);
     };
 
@@ -33,20 +33,16 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
                 [&::-webkit-scrollbar-track]:bg-gray-950
                 [&::-webkit-scrollbar-thumb]:bg-gray-800">
                 {products.map((product, i) => (
-                    <>
-                    <div className="">
-                        <ProductCard 
-                        index ={i} 
-                        key={product.type+'_'+i.toString()} 
-                        product={product} 
-                        isSelected={selectedProduct === product} 
+                    <ProductCard
+                        index={i}
+                        key={product.type + '_' + i.toString()}
+                        product={product}
+                        isSelected={selectedProduct === product}
                         onClick={() => handleProductSelect(product)}
                         isSelling={isSelling}
-                        handleRemoval={() => {}}
-                        handleQuantityChange={() => {}}
-                        />
-                    </div>
-                    </>
+                        handleRemoval={() => { }}
+                        handleQuantityChange={() => { }}
+                    />
                 ))}
             </div>
         </>
