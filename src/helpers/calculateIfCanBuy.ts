@@ -1,5 +1,5 @@
 import { Player } from "@/_common/interfaces/Player";
-import { Cart, Product, Products } from "@/_common/types/Product";
+import { Product, Products } from "@/_common/types/Product";
 
 export const calculatePurchaseValue = (products: Products, quantity: number) => {
     let value = 0;
