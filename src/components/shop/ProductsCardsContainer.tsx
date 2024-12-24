@@ -37,7 +37,7 @@ const ProductsCardsContainer: React.FC<Props> = ({ products, onProductSelect, se
                     <div className="">
                         <ProductCard 
                         index ={i} 
-                        key={i.toString()} 
+                        key={product.type+'_'+i.toString()} 
                         product={product} 
                         isSelected={selectedProduct === product} 
                         onClick={() => handleProductSelect(product)}
