@@ -21,7 +21,7 @@ const UserComponent: React.FC<Props> = ({ name, gold, level }) => {
             </div>
             <div className="flex inline-row w-full justify-around">
                 <div className="self-center">
-                    <GoldComponent amount={gold} fontSize="2xl:text-4xl lg:text-2xl sm:text-xl"/>
+                    <GoldComponent amount={gold} user={true} fontSize="2xl:text-4xl lg:text-2xl sm:text-xl"/>
                 </div>
                 <div className="w-[20%] self-center">
                     <RequiredLevel level={level} fontSize="2xl:text-4xl lg:text-2xl sm:text-xl" />
