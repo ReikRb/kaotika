@@ -70,8 +70,8 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
     <div className="w-full flex items-center justify-center">
       <button
         className="w-[20%] cursor-pointer bg-[url('/images/shop/UpdateQtyBox.png')] bg-contain bg-center bg-no-repeat text-white 2xl:text-4xl lg:text-3xl sm:text-2xl text-xl"
-        onClick={count < 99 ? handleIncrement : () => { }}>
-        <p className="pb-[7%]">+</p>
+        onClick={handleDecrement}>
+        <p className="pb-[7%]">-</p>
       </button>
       <input
         type="number"
@@ -83,8 +83,8 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
         onChange={handleInputChange} />
       <button
         className="w-[20%] cursor-pointer bg-[url('/images/shop/UpdateQtyBox.png')] bg-contain bg-center bg-no-repeat text-white 2xl:text-4xl lg:text-3xl sm:text-2xl text-xl"
-        onClick={handleDecrement}>
-        <p className="pb-[7%]">-</p>
+        onClick={count < 99 ? handleIncrement : () => { }}>
+        <p className="pb-[7%]">+</p>
       </button>
     </div>
   );
