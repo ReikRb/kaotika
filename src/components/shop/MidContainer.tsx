@@ -138,7 +138,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         <div className={isMagical(product) ? "w-full row-span-5 row-start-3 flex justify-center place-content-center p-[2%]"
           : hasDefense(product) || isWeapon(product) ? "w-full row-span-5 row-start-5 flex justify-center place-content-center p-[2%]"
           : "w-full row-span-5 row-start-4 flex justify-center place-content-center p-[2%]"}>
-          <ProductImage imageSrc={product.image} altText={product.name} />
+          <ProductImage imageSrc={product.image} altText={product.name} isMagical={isMagical(product)} />
         </div>
         {isMagical(product) ? (
           <div className="w-full row-span-2 row-start-8 flex items-center justify-center p-[2%]">
