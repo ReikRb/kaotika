@@ -16,7 +16,6 @@ const Welcome = () => {
     if(nickname) setKaotikaName(nickname);
   }, [])
   
-
   const handleSaveName = () => {
     if(inputRef.current?.value) {
       setKaotikaName(inputRef.current.value);
@@ -61,7 +60,6 @@ const Welcome = () => {
         >
         Cancel
       </button>
-
 
       <Modal 
         isOpen={isOpen} 
