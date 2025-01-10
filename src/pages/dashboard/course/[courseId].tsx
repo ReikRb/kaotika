@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-import Layout from '../../../components/Layout';
-import Loading from '../../../components/Loading';
+import Layout from '@/components/Layout';
+import Loading from '@/components/Loading';
 import {
   Table,
   TableHeader,
@@ -15,11 +15,6 @@ import { Player } from '@/_common/interfaces/Player';
 import { Task } from '@/_common/interfaces/Task';
 import KaotikaButton from '@/components/KaotikaButton';
 
-interface Assignment {
-  courseWorkName: string;
-  maxPoints: number;
-}
-
 interface Student {
   classroom_Id: string;
   studentName: string;
@@ -29,7 +24,6 @@ interface Student {
   courseWorkName: string;
   maxPoints: number;
 }
-
 
 class Consolidated {
   classroomId;
