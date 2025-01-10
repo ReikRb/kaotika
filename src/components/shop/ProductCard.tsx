@@ -25,7 +25,7 @@ interface Props {
 const PRODUCT_CART = {
     mainContainer: "flex h-[53%] w-[90%] row-span-3 row-start-8 place-items-center justify-center mt-[3%] ml-[5%] bg-contain bg-center bg-no-repeat",
     imgContainer: "flex w-[35%] justify-center place-items-center h-[90%]  bg-contain bg-center bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
-    productImg: 'w-[40%]',
+    productImg: 'w-[40%] rounded-[2%]',
     infoContainer: 'w-[30%] h-[90%] place-items-center text-center justify-content-start space-y-[6%] inline-block',
     name: "h-[30%]  ml-[5%] self-center w-[90%] text-2xl text-white",
     requirementsContainer: "w-[100%] flex place-items-center mb-[2%]",
@@ -36,15 +36,15 @@ const PRODUCT_CART = {
 };
 
 const PRODUCT_SHOP = {
-    mainContainer: ` h-[200px] row-span-3 row-start-8 flex mt-[3%] pt-[2%] bg-[length:100%_100%] bg-center bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
-    imgContainer: "flex justify-center place-items-center place-items-center w-[40%] bg-center bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
-    productImg: "place-items-center self-center pb-[3%] w-[32%]",
-    infoContainer: "text-center content-center w-[60%] space-y-[7%] inline-block",
+    mainContainer: ` h-[230px] row-span-3 row-start-8 flex mt-[3%] pt-[2%] bg-[length:100%_100%] bg-center bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
+    imgContainer: " ml-[10%] mb-[2.5%] flex justify-center place-items-center place-items-center w-[50%]",
+    productImg: "place-items-center self-center pb-[3%] w-[65%] rounded-[2%]",
+    infoContainer: "text-center content-center w-[60%] space-y-[18%] inline-block",
     name: "2xl:text-2xl lg:text-xl sm:text-base text-white pr-[10%]",
     requirementsContainer: "",
-    goldContainer: 'w-[50%] ml-[25%] align-center',
+    goldContainer: 'w-[50%] ml-[40%] pb-[8%] align-center',
     levelContainer: 'justify-center flex space-x-[15%] inline-row',
-    levelRequirement: '2xl:text-xl lg:text-lg sm:text-base w-[20%] text-white',
+    levelRequirement: '2xl:text-xl lg:text-lg sm:text-base w-[30%] text-white pt-[5%]',
     levelValue: '2xl:text-4xl lg:text-2xl sm:text-xl self-center',
     qtyContainer: 'justify-center flex space-x-[18%] pr-[9%] inline-row',
     qtyRequirement: '2xl:text-2xl lg:text-xl sm:text-lg w-[15%] text-white mt-[4%]',
@@ -67,7 +67,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                 onClick={onClick}
                 data-testid={`${isInCart ? 'cart' : 'shop'}_card_${index}`}
             >
-                <div className={isInCart ? PRODUCT_CART.imgContainer : PRODUCT_SHOP.imgContainer}>
+                <div className={`${isInCart ? PRODUCT_CART.imgContainer : PRODUCT_SHOP.imgContainer} ${!isInCart && isSelected ? "bg-center bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]" : null}`}>
                     <img data-testid={`${isInCart ? 'cart' : 'shop'}_card_img_${index}`} className={isInCart ? PRODUCT_CART.productImg : PRODUCT_SHOP.productImg} src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
                 </div>
                 <div className={isInCart ? PRODUCT_CART.infoContainer : PRODUCT_SHOP.infoContainer}>

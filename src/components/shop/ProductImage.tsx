@@ -7,7 +7,7 @@ interface Props {
 
 const ProductImage: React.FC<Props> = ({ imageSrc, altText }) => (
     <>
-        <img src={imageSrc} alt={altText} className="h-auto max-w-full"/>
+        <img src={imageSrc} alt={altText} className="h-auto max-w-full rounded-[2%]"/>
     </>
 );
 
