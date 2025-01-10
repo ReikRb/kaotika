@@ -38,7 +38,7 @@ const PRODUCT_CART = {
 const PRODUCT_SHOP = {
     mainContainer: ` h-[230px] row-span-3 row-start-8 flex mt-[3%] pt-[2%] bg-[length:100%_100%] bg-center bg-no-repeat transform transition-transform duration-300 hover:scale-105 cursor-pointer`,
     imgContainer: " ml-[10%] mb-[2.5%] flex justify-center place-items-center place-items-center w-[50%]",
-    productImg: "place-items-center self-center pb-[3%] w-[65%] rounded-[2%]",
+    productImg: "place-items-center self-center w-[65%] rounded-[2%]",
     infoContainer: "text-center content-center w-[60%] space-y-[18%] inline-block",
     name: "2xl:text-2xl lg:text-xl sm:text-base text-white pr-[10%]",
     requirementsContainer: "",
@@ -68,7 +68,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                 data-testid={`${isInCart ? 'cart' : 'shop'}_card_${index}`}
             >
                 <div className={`${isInCart ? PRODUCT_CART.imgContainer : PRODUCT_SHOP.imgContainer} ${!isInCart && isSelected ? "bg-center bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]" : null}`}>
-                    <img data-testid={`${isInCart ? 'cart' : 'shop'}_card_img_${index}`} className={isInCart ? PRODUCT_CART.productImg : PRODUCT_SHOP.productImg} src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
+                <img data-testid={`${isInCart ? 'cart' : 'shop'}_card_img_${index}`} className={`${isInCart ? PRODUCT_CART.productImg : PRODUCT_SHOP.productImg} ${product.type === 'ingredient' ? 'border border-x-sepia rounded bg-black' : ''}`} src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
                 </div>
                 <div className={isInCart ? PRODUCT_CART.infoContainer : PRODUCT_SHOP.infoContainer}>
                     <p data-testid={`${isInCart ? 'cart' : 'shop'}_card_name_${index}`} className={isInCart ? PRODUCT_CART.name : PRODUCT_SHOP.name}>{product.name}</p>
