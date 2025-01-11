@@ -67,7 +67,7 @@ const IncrementDecrement: React.FC<IncrementDecrementProps> = ({ initialValue = 
   };
 
   return (
-    <div className="w-full flex items-center justify-center">
+    <div className="w-full flex items-center justify-center space-x-[4%]">
       <button
         className="w-[20%] cursor-pointer bg-[url('/images/shop/UpdateQtyBox.png')] bg-contain bg-center bg-no-repeat text-white 2xl:text-4xl lg:text-3xl sm:text-2xl text-xl"
         onClick={handleDecrement}>

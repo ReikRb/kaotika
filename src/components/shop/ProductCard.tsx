@@ -23,16 +23,16 @@ interface Props {
 };
 
 const PRODUCT_CART = {
-    mainContainer: "flex h-[53%] w-[90%] row-span-3 row-start-8 place-items-center justify-center mt-[3%] ml-[5%] bg-contain bg-center bg-no-repeat",
-    imgContainer: "flex w-[35%] justify-center place-items-center h-[90%]  bg-contain bg-center bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
-    productImg: 'w-[40%] rounded-[2%]',
-    infoContainer: 'w-[30%] h-[90%] place-items-center text-center justify-content-start space-y-[6%] inline-block',
-    name: "h-[30%]  ml-[5%] self-center w-[90%] text-2xl text-white",
-    requirementsContainer: "w-[100%] flex place-items-center mb-[2%]",
-    goldContainer: "w-[50%] flex  justify-content-start mr-[5%]",
-    levelContainer: "justify-end flex space-x-[50%] inline-row",
-    levelRequirement: "text-xl w-[2%] text-white",
-    levelValue: "text-4xl pr-[12%]"
+    mainContainer: "flex h-[58%] w-[95%] row-span-3 row-start-8 place-items-center justify-center mt-[2%] ml-[5%] bg-contain bg-center bg-no-repeat",
+    imgContainer: "flex w-[30%] justify-center place-items-center h-[90%]  bg-contain bg-center bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]",
+    productImg: 'w-[60%] rounded-[2%]',
+    infoContainer: 'w-[30%] h-[90%] place-items-center text-center justify-content-start space-y-[1%] inline-block',
+    name: "h-[26%]  ml-[5%] self-center w-[90%] text-2xl text-white",
+    requirementsContainer: "w-[100%] flex place-items-center",
+    goldContainer: "w-[45%] flex  justify-content-start mr-[5%] pb-[10%]",
+    levelContainer: "justify-end flex space-x-[20%] inline-row ml-[5%] w-[70%]",
+    levelRequirement: "text-xl text-white w-[60%] mt-[10%]",
+    levelValue: "text-4xl pr-[20%] pb-[16%] w-[20%]"
 };
 
 const PRODUCT_SHOP = {
@@ -105,7 +105,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected, isI
                             //ADD CART BUTTONS HERE
                             <>
                                 {product.type === 'ingredient' && handleQuantityChange ? (
-                                    <div data-testid={`cart_card_quantity_${index}`} className="flex flex-col place-items-center justify-center w-full mt-2 h-[33%]">
+                                    <div data-testid={`cart_card_quantity_${index}`} className="flex flex-col place-items-center justify-center w-[100%] mt-2 h-[33%]">
                                         <IncrementDecrement
                                             initialValue={quantity}
                                             onValueChange={(product, newQuantity) => {
