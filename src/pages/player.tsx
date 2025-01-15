@@ -76,6 +76,7 @@ const PlayerPage = () => {
   const [playRing] = useSound('/sounds/ring.mp3');
   const [playPotion] = useSound('/sounds/potion.mp3');
   const [playInsufficientLevel] = useSound('sounds/level.mp3');
+  const [playBetrayer] = useSound('sounds/betrayer.mp3');
   
   useEffect(() => {
     if (session?.user?.email) {
@@ -197,6 +198,10 @@ const PlayerPage = () => {
           equipment:  player?.equipment      
         }),
       });
+      if(response.status === 401){
+        setWarningVisible(false);
+        return;
+      }
       const results = await response.json();
       setCurrentEquipment(results.data.equipment);
       setPlayer(results.data);
@@ -208,17 +213,21 @@ const PlayerPage = () => {
   }
 
   const handleDragStart = (event:DragStartEvent) => {
+    if(player?.isBetrayer) {
+      playBetrayer();
+      toast('The betrayer cannot modify any equipment !!');
+      return;
+    }
     if (event.active.data.current?.supports[0] === 'null') {
       playInsufficientLevel();
       toast('Insufficient level little acolyte !!');
-    };
-    
+    }; 
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const {active, over} = event;
     
-    if (over && active.data.current?.supports.includes(over.data.current?.type)) {
+    if (over && active.data.current?.supports.includes(over.data.current?.type) && !player?.isBetrayer) {
       
       if(over.data.current?.type === 'helmet') {
         const helmet = player?.inventory.helmets.find(helmet => helmet._id === active.id);
@@ -454,7 +463,7 @@ const PlayerPage = () => {
             </div>
             <div className="w-1/3 p-4">
               <div className="w-full h-full p-8 border-1 border-sepia bg-black/70">
-                {warningVisible 
+                {player.isBetrayer ? null : warningVisible 
                 ? <KaotikaButton handleClick={updatePlayerEquipment} text="WARNING. Your equipment has changed. Save it!" /> 
                 : <h2 className="text-3xl py-2 px-4 mb-4 text-center border-1  border-sepia bg-black/70 " style={warningVisible ? mountedStyle : unmountedStyle}>Your equipment is up to date.</h2>
                 }
