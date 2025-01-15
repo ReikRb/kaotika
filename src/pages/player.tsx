@@ -539,25 +539,7 @@ const PlayerPage = () => {
                       <img id="ring_2" src="/images/ring_back.png" className="object-contain rounded-full bg-black/70" width="100px" style={{'border': "3px ridge #000000"}} />}/>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 grid-rows-1 flex-grow justify-items-center items-center pt-10">
-                  <Droppable id={800} type='healing' children={player.equipment.healing_potion 
-                  ? 
-                    <Draggable id="healing_1" tooltip={<HealingPotionTooltip element={player.equipment.healing_potion} equiped={null}/>} position='top' type={['healing', 'inventory']} element={player.equipment.healing_potion} tooltipClassName="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" className="w-1/4 h-full object-contain rounded-full bg-black/30" width="75px" border="3px ridge #cda882" /> 
-                  : 
-                    <img id="healing_2" src="/images/healing_potion_back.jpg" className="w-1/4 h-full object-contain bg-black/70" width="75px" style={{'border': "3px ridge #000000"}} />}/>
-
-                  <Droppable id={900} type='antidote' children={player.equipment.antidote_potion 
-                  ? 
-                    <Draggable id="antidote_1" tooltip={<AntidotePotionTooltip element={player.equipment.antidote_potion} equiped={null}/>} position='top' type={['antidote', 'inventory']} element={player.equipment.antidote_potion} tooltipClassName="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" className="w-1/4 h-full object-contain rounded-full bg-black/30" width="75px" border="3px ridge #cda882" /> 
-                  : 
-                    <img id="antidote_2" src="/images/antidote_potion_back.jpg" className="w-1/4 h-full object-contain bg-black/70" width="75px" style={{'border': "3px ridge #000000"}} />}/>
-
-                  <Droppable id={1000} type='enhancer' children={player.equipment.enhancer_potion 
-                  ? 
-                    <Draggable id="enhancer_1" tooltip={<EnhancerPotionTooltip element={player.equipment.enhancer_potion} equiped={null}/>} position='top' type={['enhancer', 'inventory']} element={player.equipment.enhancer_potion} tooltipClassName="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" className="w-1/4 h-full object-contain rounded-full bg-black/30" width="75px" border="3px ridge #cda882" /> 
-                  : 
-                    <img id="enhancer_2" src="/images/enhancer_potion_back.jpg" className="w-1/4 h-full object-contain bg-black/70" width="75px" style={{'border': "3px ridge #000000"}} />}/>
-                </div>
+                
                 <div className="grid grid-cols-3 grid-rows-1  justify-items-center items-center pt-10">
                   <div className="col-start-1 col-span-1">
                     <User   
