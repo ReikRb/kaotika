@@ -459,7 +459,7 @@ const PlayerPage = () => {
                 : <h2 className="text-3xl py-2 px-4 mb-4 text-center border-1  border-sepia bg-black/70 " style={warningVisible ? mountedStyle : unmountedStyle}>Your equipment is up to date.</h2>
                 }
                 <div className="grid grid-cols-6 gap-4 justify-items-center items-center content-center">
-                  <div className="col-start-1 col-span-2">
+                  <div className="col-start-1 col-span-2 w-5/6">
                     <User   
                       name="Profile"
                       description={player.profile?.name}
@@ -481,7 +481,7 @@ const PlayerPage = () => {
                     : 
                       <img id="helmet_2" src="/images/helmet_back.jpg" className="object-contain rounded-sm aspect-square bg-black/70" width="100px" style={{'border': "3px ridge #000000"}} />}/>
                   </div>
-                  <div className="col-start-5 col-span-2">
+                  <div className="col-start-5 col-span-2 w-5/6">
                     <User   
                       name="Level"
                       description={player.level}
@@ -541,7 +541,7 @@ const PlayerPage = () => {
                 </div>
                 
                 <div className="grid grid-cols-3 grid-rows-1  justify-items-center items-center pt-10">
-                  <div className="col-start-1 col-span-1">
+                  <div className="col-start-1 col-span-1 w-5/6">
                     <User   
                       name="Experience"
                       description={`${player.experience} xp`}
@@ -556,7 +556,7 @@ const PlayerPage = () => {
                       }}    
                     />
                   </div>
-                  <div className="col-start-2 col-span-1">
+                  <div className="col-start-2 col-span-1 w-5/6">
                     <User   
                       name="Next level"
                       description={`${((player.level)) * EXP_POINTS} xp`}
@@ -571,7 +571,7 @@ const PlayerPage = () => {
                       }}    
                     />
                   </div>
-                  <div className="col-start-3 col-span-1">
+                  <div className="col-start-3 col-span-1 w-5/6">
                     <User   
                       name="Gold"
                       description={player.gold}
