@@ -42,7 +42,7 @@ const isIngredient = (product: Product): product is Ingredient => {
   return "qty" in product;
 };
 
-const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, player, quantity, displayBuyButtons}) => {
+const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, player, quantity, displayBuyButtons }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<{ name: string; value: number } | null>(null);
   const [localQuantity, setLocalQuantity] = useState<number>(1);
@@ -74,7 +74,8 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     setLocalQuantity(newQuantity);
   };
 
-
+  console.log('PLAYER DATA', player);
+  
 
   useEffect(() => {
     if (product) {
@@ -113,7 +114,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         )}
         {isMagical(product) ? (
           <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
-            <RequirementsSection gold={ !displayBuyButtons ? Math.floor(product.value * localQuantity / 3) : product.value * localQuantity} />
+            <RequirementsSection gold={!displayBuyButtons ? Math.floor(product.value * localQuantity / 3) : product.value * localQuantity} />
           </div>
         ) : (
           <div className="w-full row-span-1 row-start-0 flex justify-center place-content-center pt-[2%]">
@@ -126,18 +127,18 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
           <div className="w-full row-span-3 row-start-2 flex justify-center place-content-center pt-[2%]">
             {hasDefense(product) ? (
               <ProductDefenseDisplay defense={product.defense} />
-            ) : isWeapon(product) ? ( 
+            ) : isWeapon(product) ? (
               <ProductWeaponDisplay basePercentage={product.base_percentage} dieFaces={product.die_faces} dieModifier={product.die_modifier} dieNum={product.die_num} />
             ) : (
               <div />
             )}
           </div>
-          ) : (
-          <div/>
+        ) : (
+          <div />
         )}
         <div className={isMagical(product) ? "w-full row-span-5 row-start-3 flex justify-center place-content-center p-[2%]"
           : hasDefense(product) || isWeapon(product) ? "w-full row-span-5 row-start-5 flex justify-center place-content-center p-[2%]"
-          : "w-full row-span-5 row-start-4 flex justify-center place-content-center p-[2%]"}>
+            : "w-full row-span-5 row-start-4 flex justify-center place-content-center p-[2%]"}>
           <ProductImage imageSrc={product.image} altText={product.name} isMagical={isMagical(product)} />
         </div>
         {isMagical(product) ? (
@@ -156,20 +157,33 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         <div className="w-full row-span-3 row-start-10 flex justify-around items-center p-[2%]">
           {displayBuyButtons ? (
             <>
-              <ShopButton label="BUY" canAfford={canAfford} onClick={canAfford() ? handleOpenModal : () => { }} />
-              <ShopButton
-                label="ADD TO CART"
-                canAfford={canAfford}
-                onClick={canAfford() ? () => {
-                  if (product) {
-                    onAddToCart(product, localQuantity);
-                    setLocalQuantity(1);
-                  }
-                } : () => { }}
-              />
+              {canAfford() ? (
+                <>
+                  <ShopButton label="BUY" onClick={handleOpenModal} />
+                  <ShopButton
+                    label="ADD TO CART"
+                    onClick={() => {
+                      if (product) {
+                        onAddToCart(product, localQuantity);
+                        setLocalQuantity(1);
+                      }
+                    }}
+                  />
+                </>
+              ) : (
+                <>
+                  {isProductInTheInventory(player, [product]) ||
+                    isProductEquiped(player, [product]) ? (
+                    <p className="text-white text-center text-3xl bg-black border rounded-lg border-sepia bg-opacity-30 p-10">
+                      You already own this product</p>
+                  ) : !isGoldSufficient(player, calculatePurchaseValue([product], localQuantity)) ? (
+                    <p className="text-medievalRed text-center">You can't afford this product</p>
+                  ) : null}
+                </>
+              )}
             </>
           ) : (
-            <ShopButton label="SELL" canAfford={() => { return true }} onClick={handleOpenModal} />
+            <ShopButton label="SELL" onClick={handleOpenModal} />
           )}
         </div>
       </div>
