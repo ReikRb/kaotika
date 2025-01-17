@@ -177,7 +177,8 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                     <p className="text-white text-center text-3xl bg-black border rounded-lg border-sepia bg-opacity-30 p-10">
                       You already own this product</p>
                   ) : !isGoldSufficient(player, calculatePurchaseValue([product], localQuantity)) ? (
-                    <p className="text-medievalRed text-center">You can't afford this product</p>
+                    <p className="text-white text-center text-3xl bg-black border rounded-lg border-sepia bg-opacity-30 p-10">
+                      You can't afford this product</p>
                   ) : null}
                 </>
               )}
