@@ -158,7 +158,7 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
 
     return (
         <>
-            <div className="w-[5.6%] h-full bg-contain bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]"/>
+            <div className="w-[5.6%] h-full bg-cover bg-no-repeat bg-[url('/images/shop/separator_glyph.webp')]"/>
 
             <div className="w-4/12 grid grid-rows-10">
                 <div className="w-full flex justify-center row-span-2 row-start-0 p-[2%]">
