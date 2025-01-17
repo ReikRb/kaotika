@@ -75,7 +75,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
   };
 
   console.log('PLAYER DATA', player);
-  
+
 
   useEffect(() => {
     if (product) {
@@ -83,7 +83,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     }
   }, [product, quantity]);
 
-  const canAfford = () => {
+  const canBuy = () => {
     const value = calculatePurchaseValue([product], localQuantity);
 
     return (
@@ -91,6 +91,22 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
       isProductEquiped(player, [product]) &&
       isGoldSufficient(player, value)
     );
+  };
+
+  const alreadyOwned = (player: Player, product: Product) => {
+    const inInventory = Object.values(player.inventory).some((items) =>
+      items.some((item) => item._id === product._id)
+    );
+    const isEquipped = Object.values(player.equipment).some(
+      (item) => item?._id === product._id
+    );
+    return inInventory || isEquipped;
+  };
+  
+  
+  const cantAfford = (product: Product, quantity: number) => {
+    const value = calculatePurchaseValue([product], quantity);
+    return !isGoldSufficient(player, value);
   };
 
   if (!product) {
@@ -157,7 +173,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         <div className="w-full row-span-3 row-start-10 flex justify-around items-center p-[2%]">
           {displayBuyButtons ? (
             <>
-              {canAfford() ? (
+              {canBuy() ? (
                 <>
                   <ShopButton label="BUY" onClick={handleOpenModal} />
                   <ShopButton
@@ -172,11 +188,10 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
                 </>
               ) : (
                 <>
-                  {isProductInTheInventory(player, [product]) ||
-                    isProductEquiped(player, [product]) ? (
+                  {alreadyOwned(player, product) ? (
                     <p className="text-white text-center text-3xl bg-black border rounded-lg border-sepia bg-opacity-30 p-10">
                       You already own this product</p>
-                  ) : !isGoldSufficient(player, calculatePurchaseValue([product], localQuantity)) ? (
+                  ) : cantAfford(product, localQuantity) ? (
                     <p className="text-white text-center text-3xl bg-black border rounded-lg border-sepia bg-opacity-30 p-10">
                       You can't afford this product</p>
                   ) : null}
