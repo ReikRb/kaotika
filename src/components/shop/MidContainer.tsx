@@ -156,10 +156,9 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
         <div className="w-full row-span-3 row-start-10 flex justify-around items-center p-[2%]">
           {displayBuyButtons ? (
             <>
-              <ShopButton label="BUY" canAfford={canAfford} onClick={canAfford() ? handleOpenModal : () => { }} />
+              <ShopButton label="BUY" onClick={canAfford() ? handleOpenModal : () => { }} />
               <ShopButton
                 label="ADD TO CART"
-                canAfford={canAfford}
                 onClick={canAfford() ? () => {
                   if (product) {
                     onAddToCart(product, localQuantity);
@@ -169,7 +168,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
               />
             </>
           ) : (
-            <ShopButton label="SELL" canAfford={() => { return true }} onClick={handleOpenModal} />
+            <ShopButton label="SELL" onClick={handleOpenModal} />
           )}
         </div>
       </div>
