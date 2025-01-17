@@ -5,8 +5,6 @@ const Forbidden = () => {
   
   const { publicRuntimeConfig } = getConfig();
 
-  
-
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="text-center flex-row">

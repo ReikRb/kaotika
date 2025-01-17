@@ -50,7 +50,8 @@ export interface Player {
     healing_potions: HealingPotion[],
     antidote_potions: AntidotePotion[],
     enhancer_potions: EnhancerPotion[],
-    ingredients: Ingredient[],
+    ingredients: Ingredient[]
   },
-  tasks: Task[]
+  tasks: Task[],
+  isBetrayer: boolean
 }

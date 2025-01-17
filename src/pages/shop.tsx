@@ -335,6 +335,10 @@ export default function Shop() {
                 setShopCategory(category);
                 setDisplayProducts(ingredients);
                 break;
+            case 'container':
+                setShopCategory(category);
+                setDisplayProducts([]);
+                break;
             case 'inventory':
                 setShopCategory(category);
                 setDisplayProducts(inventory!);
