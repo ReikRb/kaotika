@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 const Player = require("../../../database/models/playerSchema");
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const { email } = req.query;
+    const email  = req.query.email;
     console.log('received email in query:', email);
 
     if (!email) {
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
         await DBConnect();
-        const response = await populatePlayer()
+        const response = await populatePlayer(email)
 
         if (response) {
             return res.status(200).json(response);
@@ -26,8 +26,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 }
 
-export const populatePlayer = async () => {
-    const playerPopulated: any = await Player.findOne({ email: 'unai.roca@ikasle.aeg.eus' }).populate('profile').exec();
+export const populatePlayer = async (email: string | string[]) => {
+    const playerPopulated: any = await Player.findOne({ email: email }).populate('profile').exec();
 
     // Poblamos el equipo
     await playerPopulated.equipment.populate('armor');

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const MONGODB_URI = (process.env.MONGO_URL! + process.env.DB!);
+const MONGODB_URI = (process.env.MONGODB_ROUTE!);
 
 export async function DBConnect(db = MONGODB_URI){
     if (!db) {
