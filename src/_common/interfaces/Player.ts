@@ -39,7 +39,7 @@ export interface Player {
     antidote_potion: AntidotePotion,
     enhancer_potion: EnhancerPotion,
   },
-  inventory: {
+  inventory:{
     helmets: Helmet[],
     weapons: Weapon[],
     armors: Armor[],
