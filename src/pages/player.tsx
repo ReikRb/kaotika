@@ -76,6 +76,7 @@ const PlayerPage = () => {
   const [playRing] = useSound('/sounds/ring.mp3');
   const [playPotion] = useSound('/sounds/potion.mp3');
   const [playInsufficientLevel] = useSound('sounds/level.mp3');
+  const [playBetrayer] = useSound('sounds/betrayer.mp3');
   
   useEffect(() => {
     if (session?.user?.email) {
@@ -197,6 +198,10 @@ const PlayerPage = () => {
           equipment:  player?.equipment      
         }),
       });
+      if(response.status === 401){
+        setWarningVisible(false);
+        return;
+      }
       const results = await response.json();
       setCurrentEquipment(results.data.equipment);
       setPlayer(results.data);
@@ -208,17 +213,21 @@ const PlayerPage = () => {
   }
 
   const handleDragStart = (event:DragStartEvent) => {
+    if(player?.isBetrayer) {
+      playBetrayer();
+      toast('The betrayer cannot modify any equipment !!');
+      return;
+    }
     if (event.active.data.current?.supports[0] === 'null') {
       playInsufficientLevel();
       toast('Insufficient level little acolyte !!');
-    };
-    
+    }; 
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
     const {active, over} = event;
     
-    if (over && active.data.current?.supports.includes(over.data.current?.type)) {
+    if (over && active.data.current?.supports.includes(over.data.current?.type) && !player?.isBetrayer) {
       
       if(over.data.current?.type === 'helmet') {
         const helmet = player?.inventory.helmets.find(helmet => helmet._id === active.id);
@@ -454,12 +463,12 @@ const PlayerPage = () => {
             </div>
             <div className="w-1/3 p-4">
               <div className="w-full h-full p-8 border-1 border-sepia bg-black/70">
-                {warningVisible 
+                {player.isBetrayer ? null : warningVisible 
                 ? <KaotikaButton handleClick={updatePlayerEquipment} text="WARNING. Your equipment has changed. Save it!" /> 
                 : <h2 className="text-3xl py-2 px-4 mb-4 text-center border-1  border-sepia bg-black/70 " style={warningVisible ? mountedStyle : unmountedStyle}>Your equipment is up to date.</h2>
                 }
                 <div className="grid grid-cols-6 gap-4 justify-items-center items-center content-center">
-                  <div className="col-start-1 col-span-2">
+                  <div className="col-start-1 col-span-2 w-5/6">
                     <User   
                       name="Profile"
                       description={player.profile?.name}
@@ -481,7 +490,7 @@ const PlayerPage = () => {
                     : 
                       <img id="helmet_2" src="/images/helmet_back.jpg" className="object-contain rounded-sm aspect-square bg-black/70" width="100px" style={{'border': "3px ridge #000000"}} />}/>
                   </div>
-                  <div className="col-start-5 col-span-2">
+                  <div className="col-start-5 col-span-2 w-5/6">
                     <User   
                       name="Level"
                       description={player.level}
@@ -539,27 +548,9 @@ const PlayerPage = () => {
                       <img id="ring_2" src="/images/ring_back.png" className="object-contain rounded-full bg-black/70" width="100px" style={{'border': "3px ridge #000000"}} />}/>
                   </div>
                 </div>
-                <div className="grid grid-cols-3 grid-rows-1 flex-grow justify-items-center items-center pt-10">
-                  <Droppable id={800} type='healing' children={player.equipment.healing_potion 
-                  ? 
-                    <Draggable id="healing_1" tooltip={<HealingPotionTooltip element={player.equipment.healing_potion} equiped={null}/>} position='top' type={['healing', 'inventory']} element={player.equipment.healing_potion} tooltipClassName="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" className="w-1/4 h-full object-contain rounded-full bg-black/30" width="75px" border="3px ridge #cda882" /> 
-                  : 
-                    <img id="healing_2" src="/images/healing_potion_back.jpg" className="w-1/4 h-full object-contain bg-black/70" width="75px" style={{'border': "3px ridge #000000"}} />}/>
-
-                  <Droppable id={900} type='antidote' children={player.equipment.antidote_potion 
-                  ? 
-                    <Draggable id="antidote_1" tooltip={<AntidotePotionTooltip element={player.equipment.antidote_potion} equiped={null}/>} position='top' type={['antidote', 'inventory']} element={player.equipment.antidote_potion} tooltipClassName="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" className="w-1/4 h-full object-contain rounded-full bg-black/30" width="75px" border="3px ridge #cda882" /> 
-                  : 
-                    <img id="antidote_2" src="/images/antidote_potion_back.jpg" className="w-1/4 h-full object-contain bg-black/70" width="75px" style={{'border': "3px ridge #000000"}} />}/>
-
-                  <Droppable id={1000} type='enhancer' children={player.equipment.enhancer_potion 
-                  ? 
-                    <Draggable id="enhancer_1" tooltip={<EnhancerPotionTooltip element={player.equipment.enhancer_potion} equiped={null}/>} position='top' type={['enhancer', 'inventory']} element={player.equipment.enhancer_potion} tooltipClassName="w-96 text-4xl mb-4 border-1 rounded-lg border-sepia bg-black/90" className="w-1/4 h-full object-contain rounded-full bg-black/30" width="75px" border="3px ridge #cda882" /> 
-                  : 
-                    <img id="enhancer_2" src="/images/enhancer_potion_back.jpg" className="w-1/4 h-full object-contain bg-black/70" width="75px" style={{'border': "3px ridge #000000"}} />}/>
-                </div>
+                
                 <div className="grid grid-cols-3 grid-rows-1  justify-items-center items-center pt-10">
-                  <div className="col-start-1 col-span-1">
+                  <div className="col-start-1 col-span-1 w-5/6">
                     <User   
                       name="Experience"
                       description={`${player.experience} xp`}
@@ -574,7 +565,7 @@ const PlayerPage = () => {
                       }}    
                     />
                   </div>
-                  <div className="col-start-2 col-span-1">
+                  <div className="col-start-2 col-span-1 w-5/6">
                     <User   
                       name="Next level"
                       description={`${((player.level)) * EXP_POINTS} xp`}
@@ -589,7 +580,7 @@ const PlayerPage = () => {
                       }}    
                     />
                   </div>
-                  <div className="col-start-3 col-span-1">
+                  <div className="col-start-3 col-span-1 w-5/6">
                     <User   
                       name="Gold"
                       description={player.gold}
