@@ -1,4 +1,5 @@
 import GoldComponent from "./GoldComponent";
+import ShopButton from "./shopButton";
 
 interface Props {
     displayBuyButtons: boolean;
@@ -9,21 +10,24 @@ interface Props {
     handleCloseModal: VoidFunction;
 };
 
+
 const ConfirmationComponent: React.FC<Props> = ({displayBuyButtons, quantity, modalContent, handleBuy, handleSell, handleCloseModal}) => {
     return (
         <>
-            <div data-testid={'confirmation_component'} className="relative w-8/12 h-3/6 bg-[url('/images/shop/confirmation_box.webp')] bg-contain bg-center bg-no-repeat text-white shadow-xl flex-col justify-center place-content-center space-y-[5%]">
+            <div data-testid={'confirmation_component'} className="relative w-8/12 h-3/6 bg-[url('/images/shop/product_card_selected.webp')] bg-contain bg-center bg-no-repeat text-white shadow-xl flex-col justify-center place-content-center space-y-[5%]">
                 <div className="flex flex-col items-center justify-center space-y-[1%]">
                     <p className="2xl:text-4xl lg:text-xl sm:text-base font-bold">Are you sure you want to {displayBuyButtons ? 'buy' : 'sell'}</p>
-                    <p className="2xl:text-5xl lg:text-3xl sm:text-xl font-extrabold text-yellow-300">x{quantity} {modalContent.name}</p>
+                    <p className="2xl:text-5xl lg:text-3xl sm:text-xl text-yellow-300">x{quantity} {modalContent.name}</p>
                     <div className="flex items-center justify-center space-x-2">
                         <p className="2xl:text-4xl lg:text-xl sm:text-base font-bold">for</p>
                         <GoldComponent amount={displayBuyButtons ? modalContent.value : Math.floor(modalContent.value/3)} />
                         <p className="2xl:text-4xl lg:text-xl sm:text-base font-bold">?</p>
                     </div>
                 </div>
-                <div className="flex justify-center space-x-[15%]">
-                    <button
+                <div className="flex justify-center  w-[60%] h-[30%] ml-[20%]">
+                <ShopButton label="CONFIRM" onClick={displayBuyButtons ? handleBuy : handleSell}/>
+                <ShopButton label="CANCEL" onClick={handleCloseModal} />
+                    {/* <button
                         className="bg-transparent hover:bg-black text-white 2xl:text-4xl lg:text-xl sm:text-base px-4 py-2 rounded-3xl border-2 border-medievalSepia "
                         onClick={displayBuyButtons ? handleBuy : handleSell}
                     >
@@ -34,7 +38,7 @@ const ConfirmationComponent: React.FC<Props> = ({displayBuyButtons, quantity, mo
                         onClick={handleCloseModal}
                     >
                         Cancel
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </>

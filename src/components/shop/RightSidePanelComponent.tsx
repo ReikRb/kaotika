@@ -4,6 +4,7 @@ import GoldComponent from './GoldComponent';
 import { Player } from '@/_common/interfaces/Player';
 import { isGoldSufficient, isProductEquiped, isProductInTheInventory } from '@/helpers/calculateIfCanBuy';
 import { Cart, Product, Products } from '@/_common/types/Product';
+import ShopButton from './shopButton';
 
 interface RightSidePanelProps {
   isOpen: boolean;
@@ -127,24 +128,11 @@ const RightSidePanel: React.FC<RightSidePanelProps> = ({ isOpen, togglePanel, ca
               </div>
             </div>
 
-            <div className="flex justify-between">
-              <div className="relative w-40 h-20 cursor-pointer mt-2" onClick={onClearCart}>
-                <img src="/images/shop/cartButtons.webp" alt="Delete All" className="absolute w-full h-full" />
-                <p className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
-                  Delete All
-                </p>
-              </div>
-
-              <div
-                className={`relative w-40 h-20 mt-2 ${canAfford() ? 'cursor-pointer' : 'cursor-not-allowed'
-                  }`}
-                onClick={canAfford() ? handleBuyClick : undefined}
-              >
-                <img src={buyButtonImage} alt="Buy" className="absolute w-full h-full" />
-                <p className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white">
-                  Buy
-                </p>
-              </div>
+            <div className="flex justify-between items-center h-[43%] mt-[2%] mb-[6%] ">
+            <ShopButton label='DELETE ALL' onClick={onClearCart}/>
+            {canAfford() ? <ShopButton label="BUY" onClick={handleBuyClick} /> : 
+            <p className="text-white text-center text-3xl bg-black border rounded-lg border-sepia bg-opacity-30 h-10">
+                      You can't afford all this products</p>} 
             </div>
           </div>
         )}
