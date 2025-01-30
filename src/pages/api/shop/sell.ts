@@ -21,7 +21,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             updatePlayerGold(mongoPlayer, value);
             console.log('Updated player gold: ', mongoPlayer.gold);
             await mongoPlayer.save();
-            const returnPlayer = await populatePlayer()
+            const returnPlayer = await populatePlayer(mongoPlayer.email)
             console.log('PLAYER TO RETURN: ', returnPlayer);
 
             await DBDisconnect();
