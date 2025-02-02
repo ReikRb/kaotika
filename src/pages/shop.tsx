@@ -80,7 +80,7 @@ export default function Shop() {
 				},
 				method: "POST",
 				body: JSON.stringify({
-					email: player?.email,
+					email: session?.user?.email,
 					products: products,
 				}),
 			});
