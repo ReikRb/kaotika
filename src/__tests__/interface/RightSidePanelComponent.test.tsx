@@ -249,6 +249,7 @@ describe('RightSidePanel Component', () => {
       ingredients: []
     },
     level: 17,
+    isBetrayer: false
   };
 
   const mockProduct = MOCK_SHIELDS_COLLECTION[1];
@@ -296,23 +297,32 @@ describe('RightSidePanel Component', () => {
     expect(screen.getByText(/your cart is empty/i)).toBeInTheDocument();
   });
 
-  test('renders the buy button and is disabled if conditions are not met', () => {
+  test('displays error message instead of buy button when products cannot be afforded', () => {
     renderCartComponent(expensiveCartWithProducts);
 
-    const buyButton: HTMLElement = screen.getByAltText('Buy');
-    expect(buyButton).toBeInTheDocument();
-    expect(buyButton.closest('div')).toHaveClass('cursor-not-allowed');
+    const errorMessage = screen.getByText("You can't afford all this products");
+    expect(errorMessage).toBeInTheDocument();
+    
+    const buyButton = screen.queryByText('BUY');
+    expect(buyButton).not.toBeInTheDocument();
   });
 
-
-  test('renders Buy button with alt text when cart has products', () => {
+  test('displays buy button when cart has products and conditions are met', () => {
     renderCartComponent(cartWithProducts);
-  
-    const buyButtonImg = screen.getByAltText('Buy');
-    expect(buyButtonImg).toBeInTheDocument();
-  
-    const deleteAllButtonImg = screen.getByText('Delete All');
-    expect(deleteAllButtonImg).toBeInTheDocument();
+   
+    const buyButton = screen.getByText('BUY').closest('div');
+    expect(buyButton).toBeInTheDocument();
+    expect(buyButton).toHaveClass('cursor-pointer');
+  });
+
+  test('buy button triggers onBuy when clicked', () => {
+    renderCartComponent(cartWithProducts);
+    
+    const buyButton = screen.getByText('BUY').closest('div');
+    fireEvent.click(buyButton!);
+    
+    expect(mockOnBuy).toHaveBeenCalledTimes(1);
+    expect(mockOnBuy).toHaveBeenCalledWith(cartWithProducts, true);
   });
 
   test('renders the delete all button and calls onClearCart when clicked', () => {
@@ -325,14 +335,6 @@ describe('RightSidePanel Component', () => {
     expect(mockOnClearCart).toHaveBeenCalledTimes(1);
   });
 
-
-  test('renders the buy button and is disabled if conditions are not met', () => {
-      renderCartComponent(cartWithProducts);
-
-      const buyButton: HTMLElement = screen.getByAltText('Buy');
-      expect(buyButton).toBeInTheDocument();
-      expect(buyButton.closest('div')).toHaveClass('cursor-pointer');
-  });
 
   test('renders the delete all div and calls onClearCart when clicked', () => {
     renderCartComponent(cartWithProducts);
