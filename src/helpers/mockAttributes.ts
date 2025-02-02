@@ -5,7 +5,7 @@ export const mockAttributes = {
 	insanity: 10,
 	charisma: 10,
 	strength: 10
-} 
+};
 
 export const mockEmptyAttributes = {
 	intelligence: 0,
@@ -14,4 +14,4 @@ export const mockEmptyAttributes = {
 	insanity: 0,
 	charisma: 0,
 	strength: 0
-} 
+}; 

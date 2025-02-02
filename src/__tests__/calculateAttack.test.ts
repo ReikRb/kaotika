@@ -7,7 +7,7 @@ describe('Calculate attack STR - INS / 2', () => {
 		expect(result).toBe(10 - 10 / 2);
 	})
 	it('should handle edge cases correctly', () => {
-    const result = calculateAttack(mockEmptyAttributes);
-    expect(result).toBe(0); 
-  });
-})
+		const result = calculateAttack(mockEmptyAttributes);
+		expect(result).toBe(0);
+	});
+});

@@ -102,8 +102,7 @@ const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, pl
     );
     return inInventory || isEquipped;
   };
-  
-  
+
   const cantAfford = (product: Product, quantity: number) => {
     const value = calculatePurchaseValue([product], quantity);
     return !isGoldSufficient(player, value);

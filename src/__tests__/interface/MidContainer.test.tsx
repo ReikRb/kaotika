@@ -6,11 +6,8 @@ import { MOCK_ARMORS_COLLECTION, MOCK_PLAYER, MOCK_WEAPONS_COLLECTION } from '..
 import MidContainer from '@/components/shop/MidContainer';
 import RightContainer from '@/components/shop/RightContainer';
 
-
 const mockProduct: Product = MOCK_WEAPONS_COLLECTION[0];
 const category: Product[] = MOCK_WEAPONS_COLLECTION
-
-
 const mockPlayer: any = MOCK_PLAYER;
 
 describe('MidContainer Component', () => {
@@ -123,6 +120,5 @@ describe('MidContainer Component', () => {
 
     fireEvent.click(confirmButton);
     expect(/2031/).toBeInTheDocument;
-
-  })
+  });
 });

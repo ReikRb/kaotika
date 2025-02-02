@@ -1,5 +1,5 @@
-import { calculateMagicResistance } from "../helpers/calculateMagicResistance"
-import { mockAttributes, mockEmptyAttributes } from "../helpers/mockAttributes"
+import { calculateMagicResistance } from "../helpers/calculateMagicResistance";
+import { mockAttributes, mockEmptyAttributes } from "../helpers/mockAttributes";
 
 describe('Calculate Magic Resistance INT + CHAR', () => {
 	it('should calculate magic resistance correctly', () => {
@@ -9,5 +9,5 @@ describe('Calculate Magic Resistance INT + CHAR', () => {
 	it('should handle edge cases correctly', () => {
 		const result = calculateMagicResistance(mockEmptyAttributes);
 		expect(result).toBe(0);
-	})
-})
+	});
+});

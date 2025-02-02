@@ -67,8 +67,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
       <div
         className={`${isInCart ? PRODUCT_CART.mainContainer : PRODUCT_SHOP.mainContainer} ${!isInCart && isSelected ? "bg-[url('/images/shop/product_card_selected.webp')]" : "bg-[url('/images/shop/product_card_unselected.webp')]"}`}
         onClick={onClick}
-        data-testid={`${isInCart ? 'cart' : 'shop'}_card_${index}`}
-      >
+        data-testid={`${isInCart ? 'cart' : 'shop'}_card_${index}`}>
         <div className={`${isInCart ? PRODUCT_CART.imgContainer : PRODUCT_SHOP.imgContainer} ${!isInCart && isSelected ? "bg-center bg-contain bg-no-repeat bg-[url('/images/shop/product_image_container.webp')]" : null}`}>
           <img data-testid={`${isInCart ? 'cart' : 'shop'}_card_img_${index}`} className={`${isInCart ? PRODUCT_CART.productImg : PRODUCT_SHOP.productImg} ${product.type === 'ingredient' ? 'border border-x-sepia rounded bg-black' : ''}`} src={`https://kaotika.vercel.app${product.image}`} alt="HeaderDivider" />
         </div>
@@ -110,7 +109,6 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
           </div>
           {
             isInCart ? (
-              //ADD CART BUTTONS HERE
               <>
                 {product.type === 'ingredient' && handleQuantityChange ? (
                   <div data-testid={`cart_card_quantity_${index}`} className="flex flex-col place-items-center justify-center w-full mt-2 h-[33%]">
@@ -137,11 +135,8 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
                           <p>Remove</p>
                         </div>
                         : null
-
                     }
-
                   </>
-
                 )}
               </>
             ) : null

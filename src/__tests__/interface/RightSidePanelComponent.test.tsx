@@ -12,14 +12,14 @@ describe('RightSidePanel Component', () => {
   const mockHandleQuantityChange: jest.Mock = jest.fn();
 
   const mockPlayer: Player = {
-    _id:'',
-    avatar:'',
-    email:'',
+    _id: '',
+    avatar: '',
+    email: '',
     experience: 0,
     is_active: false,
-    created_date:'',
-    profile:null,
-    attributes:{
+    created_date: '',
+    profile: null,
+    attributes: {
       intelligence: 0,
       dexterity: 12,
       constitution: 0,
@@ -28,7 +28,7 @@ describe('RightSidePanel Component', () => {
       strength: -19,
     },
     classroom_id: '',
-    tasks:[],
+    tasks: [],
     nickname: "Reik",
     name: "Reik",
     gold: 1036,
@@ -302,14 +302,14 @@ describe('RightSidePanel Component', () => {
 
     const errorMessage = screen.getByText("You can't afford all this products");
     expect(errorMessage).toBeInTheDocument();
-    
+
     const buyButton = screen.queryByText('BUY');
     expect(buyButton).not.toBeInTheDocument();
   });
 
   test('displays buy button when cart has products and conditions are met', () => {
     renderCartComponent(cartWithProducts);
-   
+
     const buyButton = screen.getByText('BUY').closest('div');
     expect(buyButton).toBeInTheDocument();
     expect(buyButton).toHaveClass('cursor-pointer');
@@ -317,10 +317,10 @@ describe('RightSidePanel Component', () => {
 
   test('buy button triggers onBuy when clicked', () => {
     renderCartComponent(cartWithProducts);
-    
+
     const buyButton = screen.getByText('BUY').closest('div');
     fireEvent.click(buyButton!);
-    
+
     expect(mockOnBuy).toHaveBeenCalledTimes(1);
     expect(mockOnBuy).toHaveBeenCalledWith(cartWithProducts, true);
   });
@@ -338,29 +338,29 @@ describe('RightSidePanel Component', () => {
 
   test('renders the delete all div and calls onClearCart when clicked', () => {
     renderCartComponent(cartWithProducts);
-  
+
     const deleteAllDiv = screen.getByText(/Delete All/i);
     fireEvent.click(deleteAllDiv);
     expect(mockOnClearCart).toHaveBeenCalledTimes(1);
   });
 
   test('displays correct gold, cost, and remaining gold values', () => {
-      const cartWithProducts: Cart = [
-        {
-          product: mockProduct,
-          quantity: 3,
-        },
-      ];
+    const cartWithProducts: Cart = [
+      {
+        product: mockProduct,
+        quantity: 3,
+      },
+    ];
 
-      renderCartComponent(cartWithProducts);
+    renderCartComponent(cartWithProducts);
 
-      const totalCost: number = mockProduct.value * 3;
-      const remainingGold: number = mockPlayer.gold - totalCost;
+    const totalCost: number = mockProduct.value * 3;
+    const remainingGold: number = mockPlayer.gold - totalCost;
 
-      expect(screen.getByText(/your gold/i)).toBeInTheDocument();
-      expect(screen.getByText(mockPlayer.gold.toString())).toBeInTheDocument();
-      expect(screen.getAllByText(totalCost.toString()).length).toBeGreaterThan(0);
-      expect(screen.getByText(remainingGold.toString())).toBeInTheDocument();
+    expect(screen.getByText(/your gold/i)).toBeInTheDocument();
+    expect(screen.getByText(mockPlayer.gold.toString())).toBeInTheDocument();
+    expect(screen.getAllByText(totalCost.toString()).length).toBeGreaterThan(0);
+    expect(screen.getByText(remainingGold.toString())).toBeInTheDocument();
   });
 
 

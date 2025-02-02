@@ -12,37 +12,37 @@ const MainHeader: React.FC = () => {
   };
 
   let navigation;
-  if (session?.user?.email?.endsWith(MENTOR_EMAIL)){
+  if (session?.user?.email?.endsWith(MENTOR_EMAIL)) {
     navigation = (<nav className="flex-1 text-center">
       <Link href="/dashboard">
-        <span className={router.pathname == "/dashboard" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Converter</span>
+        <span className={router.pathname == "/dashboard" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Converter</span>
       </Link>
       <Link href="/acolytes">
-        <span className={router.pathname == "/acolytes" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Bonifications</span>
+        <span className={router.pathname == "/acolytes" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Bonifications</span>
       </Link>
       <Link href="/player">
-        <span className={router.pathname == "/player" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Player</span>
+        <span className={router.pathname == "/player" ? "2xl:2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Player</span>
       </Link>
       <Link href="/hall">
-        <span className={router.pathname == "/hall" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Hall of Fame</span>
+        <span className={router.pathname == "/hall" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Hall of Fame</span>
       </Link>
       <Link href="/shop">
-        <span className={router.pathname == "/shop" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Aivan's Store</span>
+        <span className={router.pathname == "/shop" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Aivan's Store</span>
       </Link>
     </nav>);
   } else {
-    navigation = (<nav className="text-center row-span-1 row-start-0">     
+    navigation = (<nav className="text-center row-span-1 row-start-0">
       <Link href="/player">
-        <span className={router.pathname == "/player" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Player</span>
+        <span className={router.pathname == "/player" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Player</span>
       </Link>
       <Link href="/results">
-        <span className={router.pathname == "/results" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Results</span>
+        <span className={router.pathname == "/results" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Results</span>
       </Link>
       <Link href="/hall">
-        <span className={router.pathname == "/hall" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Hall of Fame</span>
+        <span className={router.pathname == "/hall" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Hall of Fame</span>
       </Link>
       <Link href="/shop">
-        <span className={router.pathname == "/shop" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" :"2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Aivan's Store</span>
+        <span className={router.pathname == "/shop" ? "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 underline" : "2xl:text-4xl lg:text-2xl sm:text-lg mx-6 hover:underline"}>Aivan's Store</span>
       </Link>
     </nav>);
   }
@@ -50,7 +50,7 @@ const MainHeader: React.FC = () => {
   return (
     <header className="w-full bg-black text-white shadow-md pt-4 z-50">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center"> 
+        <div className="flex items-center">
           <Image src="/images/kaotika.png" alt="Logo" width={200} height={60} />
         </div>
         {
