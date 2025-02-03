@@ -36,6 +36,10 @@ export const populatePlayer = async (email: string | string[]) => {
   await playerPopulated.equipment.populate('helmet');
   await playerPopulated.equipment.populate('shield');
   await playerPopulated.equipment.populate('boot');
+  await playerPopulated.equipment.populate({
+    path: 'antidote_potion',
+    populate: { path: 'recovery_effect' 
+  }});
   await playerPopulated.equipment.populate('healing_potion');
   await playerPopulated.equipment.populate('enhancer_potion');
 
@@ -47,6 +51,10 @@ export const populatePlayer = async (email: string | string[]) => {
 	await playerPopulated.inventory.populate('rings');
 	await playerPopulated.inventory.populate('armors');
 	await playerPopulated.inventory.populate('artifacts');
+  await playerPopulated.inventory.populate({
+    path: 'antidote_potions',
+    populate: { path: 'recovery_effect' 
+  }});
   await playerPopulated.inventory.populate('healing_potions');
   await playerPopulated.inventory.populate('enhancer_potions');
     

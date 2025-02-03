@@ -62,7 +62,7 @@ const isAntidotePotion = (product: Product): product is AntidotePotion => {
 };
 
 const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact | HealingPotion | EnhancerPotion) => {
-  return typeof product === "object" && product !== null && "min_lvl" in product;
+  return typeof product === "object" && product !== null && product !== undefined && "min_lvl" in product;
 };
 
 const isIngredient = (product: Product): product is Ingredient => {
@@ -84,7 +84,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
           <div className={isInCart ? PRODUCT_CART.requirementsContainer : PRODUCT_SHOP.requirementsContainer}>
           {!isInCart && (
               <div className={PRODUCT_SHOP.modifierComponent}>
-                {isEquipment(product) &&
+                {isEquipment(product) && product.modifiers &&
                   Object.entries(product.modifiers).map(([key, value], i) => (
                     value !== 0 && (
                       <p key={i} className={PRODUCT_SHOP.modifiersText}>
@@ -94,7 +94,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
                   ))
                 }
                 
-                {isAntidotePotion(product) &&
+                {isAntidotePotion(product) && product.recovery_effect.modifiers &&
                   Object.entries(product.recovery_effect.modifiers).map(([key, value], i) => (
                     value !== 0 && (
                       <p key={i} className={PRODUCT_SHOP.modifiersText}>
