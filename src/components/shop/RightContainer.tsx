@@ -117,9 +117,9 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         <div className="w-full flex justify-center row-span-2 row-start-0 p-[2%]">
           <UserComponent name={player.nickname} gold={player.gold} level={player.level} />
         </div>
-        <div className="w-full row-span-1 row-start-3 p-[2%] flex justify-center">
+        <div className="w-full row-span-1 row-start-3 pt-[2%] pb-[2%] pr-[4%] flex justify-center">
           <DropDownComponent options={selectOptions(category)} selectedOption={sortOption} handleFunction={sortProducts} />
-          <button className="block w-1/12 bg-gray-200 text-black rounded-br-md rounded-tr-md 2xl:text-3xl lg:text-xl sm:text-base appearance-none" onClick={() => { changeAscendant() }}>{sortAscendant ? '↓' : '↑'}</button>
+          <button className="ml-[2%] block w-1/12 bg-gray-200 text-black rounded-md 2xl:text-3xl lg:text-xl sm:text-base appearance-none" onClick={() => { changeAscendant() }}>{sortAscendant ? '↓' : '↑'}</button>
         </div>
         <ProductsCardsContainer
           isSelling={category === 'inventory' ? true : false}
