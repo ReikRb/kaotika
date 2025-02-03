@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 const curseSchema = new mongoose.Schema({
     modifiers: {
-      properties: {
         hit_points: { type: Number },
         intelligence: { type: Number },
         dexterity: { type: Number },
@@ -10,7 +9,7 @@ const curseSchema = new mongoose.Schema({
         charisma: { type: Number },
         constitution: { type: Number },
         strength: { type: Number }
-      } },
+      },
     name: { type: String },
     description: { type: String },
     type: { type: String },

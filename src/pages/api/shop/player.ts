@@ -36,20 +36,22 @@ export const populatePlayer = async (email: string | string[]) => {
   await playerPopulated.equipment.populate('helmet');
   await playerPopulated.equipment.populate('shield');
   await playerPopulated.equipment.populate('boot');
+  await playerPopulated.equipment.populate('antidote_potion');
 
 
-  // Poblamos el inventario
-  await playerPopulated.inventory.populate('helmets');
-  await playerPopulated.inventory.populate('shields');
-  await playerPopulated.inventory.populate('weapons');
-  await playerPopulated.inventory.populate('boots');
-  await playerPopulated.inventory.populate('rings');
-  await playerPopulated.inventory.populate('armors');
-  await playerPopulated.inventory.populate('artifacts');
-  await playerPopulated.inventory.populate('ingredients');
-
-  const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
-  return returnPlayer;
+	// Poblamos el inventario
+	await playerPopulated.inventory.populate('helmets');
+	await playerPopulated.inventory.populate('shields');
+	await playerPopulated.inventory.populate('weapons');
+	await playerPopulated.inventory.populate('boots');
+	await playerPopulated.inventory.populate('rings');
+	await playerPopulated.inventory.populate('armors');
+	await playerPopulated.inventory.populate('artifacts');
+	// await playerPopulated.inventory.populate('antidote_potions');
+    console.log(playerPopulated.equipment.antidote_potion);
+    
+	const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
+	return returnPlayer;
 };
 
 const updateIngredientsWithQuantity = async (playerPopulated: any) => {
@@ -69,7 +71,7 @@ const updateIngredientsWithQuantity = async (playerPopulated: any) => {
     }
   });
 
-  const { ingredients } = await playerPopulated.inventory.populate('ingredients', { 'profiles': 0 });
+	const { ingredients } = await playerPopulated.inventory.populate('ingredients');
 
   const ingredientQuantitiesPopulated = ingredientQuantites.map((item: any) => {
     const object = ingredients.filter((ingredient: any) => item._id.equals(ingredient._id))[0];
