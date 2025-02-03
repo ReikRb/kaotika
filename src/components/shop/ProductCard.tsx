@@ -88,7 +88,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
                   Object.entries(product.modifiers).map(([key, value], i) => (
                     value !== 0 && (
                       <p key={i} className={PRODUCT_SHOP.modifiersText}>
-                        <span className="text-white">{`${key}: `}</span>{value}
+                        <span className="text-white">{`${key.replace('_', ' ')}: `}</span>{value}
                       </p>
                     )
                   ))
@@ -98,7 +98,7 @@ const ProductCard: React.FC<Props> = ({ index, product, onClick, isSelected = fa
                   Object.entries(product.recovery_effect.modifiers).map(([key, value], i) => (
                     value !== 0 && (
                       <p key={i} className={PRODUCT_SHOP.modifiersText}>
-                        <span className="text-white">{`${key}: `}</span>{value}
+                        <span className="text-white">{`${key.replace('_', ' ')}: `}</span>{value}
                       </p>
                     )
                   ))
