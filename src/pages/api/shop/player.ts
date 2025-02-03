@@ -30,31 +30,31 @@ export const populatePlayer = async (email: string | string[]) => {
   .populate('profile')
   .populate({
     path: 'equipment',
-    populate: [
-      { path: 'armor' },
-      { path: 'weapon' },
-      { path: 'artifact' },
-      { path: 'ring' },
-      { path: 'helmet' },
-      { path: 'shield' },
-      { path: 'boot' },
-      { path: 'healing_potion' },
-      { path: 'enhancer_potion'},
+    populate: [ 
+      'armor',
+      'weapon',
+      'artifact',
+      'ring',
+      'helmet',
+      'shield',
+      'boot',
+      'healing_potion',
+      'enhancer_potion',
       { path: 'antidote_potion', populate: { path: 'recovery_effect' }}
     ]
   })
   .populate({
     path: 'inventory',
     populate: [
-      { path: 'helmets' },
-      { path: 'shields' },
-      { path: 'weapons' },
-      { path: 'boots' },
-      { path: 'rings' },
-      { path: 'armors' },
-      { path: 'artifacts' },
-      { path: 'healing_potions' },
-      { path: 'enhancer_potions'},
+      'helmets',
+      'shields',
+      'weapons',
+      'boots',
+      'rings',
+      'armors',
+      'artifacts',
+      'healing_potions',
+      'enhancer_potions',
       { path: 'antidote_potions', populate: { path: 'recovery_effect' }}
     ]
   })
