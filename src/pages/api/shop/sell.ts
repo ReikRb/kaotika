@@ -89,6 +89,22 @@ const updatePlayerInventory = (player: Player, productData: { product: Product, 
       player.inventory.ingredients = ingredients;
       console.log('Updated player inventory ingredients: ', player.inventory.ingredients);
       break;
+
+    case 'antidote':
+      console.log('Player inventory antidote potions: ', player.inventory.antidote_potions);
+      player.inventory.antidote_potions = player.inventory.antidote_potions.filter((item) => item._id.toString() !== productData.product._id);
+      console.log('Updated player inventory antidote potions: ', player.inventory.antidote_potions);
+      break;
+    case 'elixir':
+        console.log('Player inventory enhancer potions: ', player.inventory.enhancer_potions);
+        player.inventory.enhancer_potions = player.inventory.enhancer_potions.filter((item) => item._id.toString() !== productData.product._id);
+        console.log('Updated player inventory enhancer potions: ', player.inventory.enhancer_potions);
+        break;
+    case 'essence':
+      console.log('Player inventory healing potion: ', player.inventory.healing_potions);
+      player.inventory.healing_potions = player.inventory.healing_potions.filter((item) => item._id.toString() !== productData.product._id);
+      console.log('Updated player inventory healing potions: ', player.inventory.healing_potions);
+      break;
   };
 };
 
