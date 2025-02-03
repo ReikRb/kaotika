@@ -88,12 +88,15 @@ describe('MidContainer Component', () => {
     expect(confirmationModal).not.toBeInTheDocument();
   });
 
-  it('should display dinamically users gold after transaction is made', () => {
-    render(
+  it('should update gold display after transaction', async () => {
+    const initialGold = mockPlayer.gold;
+    const mockOnBuy = jest.fn();
+
+    const { rerender } = render(
       <>
         <MidContainer
           product={mockProduct}
-          onBuy={jest.fn()}
+          onBuy={mockOnBuy}
           onSell={jest.fn()}
           onAddToCart={jest.fn()}
           player={mockPlayer}
@@ -112,13 +115,45 @@ describe('MidContainer Component', () => {
       </>
     );
 
-    const buyButton = screen.getByText(/BUY/);
-    expect(/2041/).toBeInTheDocument;
+    const buyButton = screen.getByText('BUY');
     fireEvent.click(buyButton);
 
-    const confirmButton = screen.getByText(/Confirm/);
+    await waitFor(() => {
+      const confirmButton = screen.getByText(/Confirm/i);
+      fireEvent.click(confirmButton);
+    });
 
-    fireEvent.click(confirmButton);
-    expect(/2031/).toBeInTheDocument;
+    const updatedPlayer = {
+      ...mockPlayer,
+      gold: initialGold - mockProduct.value
+    };
+
+    rerender(
+      <>
+        <MidContainer
+          product={mockProduct}
+          onBuy={mockOnBuy}
+          onSell={jest.fn()}
+          onAddToCart={jest.fn()}
+          player={updatedPlayer}
+          quantity={1}
+          handleQuantityChange={jest.fn()}
+          displayBuyButtons={true}
+        />
+        <RightContainer
+          products={category}
+          category={'weapon'}
+          onProductSelect={jest.fn()}
+          player={updatedPlayer}
+          setMerchantMessage={jest.fn()}
+          setSortedProducts={jest.fn()}
+        />
+      </>
+    );
+
+    expect(mockOnBuy).toHaveBeenCalled();
+    const expectedGold = initialGold - mockProduct.value;
+    const goldDisplay = screen.getByText(expectedGold.toString());
+    expect(goldDisplay).toBeInTheDocument();
   });
 });
