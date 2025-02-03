@@ -50,7 +50,7 @@ const ShopOptionsHeader: React.FC<Props> = ({ displaySelectedShopProducts, butto
 
 	return (
 		<>
-			<header className="w-full bg-black text-white z-50 shadow-md">
+			<header className="w-full bg-black text-white z-50 shadow-md pt-[5.5%]">
 				<div className=" flex items-center bg-black justify-center">
 					<Image src="/images/HeaderDivider.webp" alt="HeaderDivider" width={350} height={1} />
 				</div>

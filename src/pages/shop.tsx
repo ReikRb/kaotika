@@ -11,7 +11,6 @@ import { Weapon } from '@/_common/interfaces/Weapon';
 import Loading from '@/components/Loading';
 import LeftContainer from '@/components/shop/LeftContainer';
 import MainContainer from '@/components/shop/MainContainer';
-import MainHeader from '@/components/shop/MainHeader';
 import MidContainer from '@/components/shop/MidContainer';
 import RightContainer from '@/components/shop/RightContainer';
 import ShopContainer from '@/components/shop/ShopContainer';
@@ -29,6 +28,7 @@ import { getRandomMessage } from '@/helpers/getRandomMessage';
 import { Product, Products } from '@/_common/types/Product';
 import { Equipment } from '@/_common/interfaces/Equipment';
 import LoadingOverlay from '@/components/shop/loadingComponent';
+import Header from '@/components/Header';
 
 export default function Shop() {
 	const { data: session } = useSession();
@@ -349,7 +349,7 @@ export default function Shop() {
 		<ShopContainer>
 			{loadingOverlay && <LoadingOverlay />}
 			<ShopHeader>
-				<MainHeader />
+				<Header />
 				<ShopOptionsHeader buttonDisplayHandler={setDisplayBuyButtons} displaySelectedShopProducts={displaySelectedShopProducts} togglePanel={toggleRightPanel} handleMerchantMessage={handleMerchantMessage} cart={cart || []} />
 			</ShopHeader>
 			<MainContainer>
