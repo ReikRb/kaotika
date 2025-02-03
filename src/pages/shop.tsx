@@ -271,7 +271,6 @@ export default function Shop() {
           handleCategoryFetch('artifacts', setArtifacts),
           handleCategoryFetch('weapons', setWeapons)]);
           await handlePlayerFetch();
-          await fetch('/api/shop/mongoDisconnect');
         } catch (error) {
           console.error('An error ocurred fetching the data: ', error);
         } finally {
