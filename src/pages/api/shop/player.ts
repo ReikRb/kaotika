@@ -26,37 +26,39 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 };
 
 export const populatePlayer = async (email: string | string[]) => {
-  const playerPopulated: any = await Player.findOne({ email: email }).populate('profile').exec();
-
-  // Poblamos el equipo
-  await playerPopulated.equipment.populate('armor');
-  await playerPopulated.equipment.populate('weapon');
-  await playerPopulated.equipment.populate('artifact');
-  await playerPopulated.equipment.populate('ring');
-  await playerPopulated.equipment.populate('helmet');
-  await playerPopulated.equipment.populate('shield');
-  await playerPopulated.equipment.populate('boot');
-  await playerPopulated.equipment.populate({
-    path: 'antidote_potion',
-    populate: { path: 'recovery_effect' 
-  }});
-  await playerPopulated.equipment.populate('healing_potion');
-  await playerPopulated.equipment.populate('enhancer_potion');
-
-	// Poblamos el inventario
-	await playerPopulated.inventory.populate('helmets');
-	await playerPopulated.inventory.populate('shields');
-	await playerPopulated.inventory.populate('weapons');
-	await playerPopulated.inventory.populate('boots');
-	await playerPopulated.inventory.populate('rings');
-	await playerPopulated.inventory.populate('armors');
-	await playerPopulated.inventory.populate('artifacts');
-  await playerPopulated.inventory.populate({
-    path: 'antidote_potions',
-    populate: { path: 'recovery_effect' 
-  }});
-  await playerPopulated.inventory.populate('healing_potions');
-  await playerPopulated.inventory.populate('enhancer_potions');
+  const playerPopulated: any = await Player.findOne({ email: email })
+  .populate('profile')
+  .populate({
+    path: 'equipment',
+    populate: [
+      { path: 'armor' },
+      { path: 'weapon' },
+      { path: 'artifact' },
+      { path: 'ring' },
+      { path: 'helmet' },
+      { path: 'shield' },
+      { path: 'boot' },
+      { path: 'healing_potion' },
+      { path: 'enhancer_potion'},
+      { path: 'antidote_potion', populate: { path: 'recovery_effect' }}
+    ]
+  })
+  .populate({
+    path: 'inventory',
+    populate: [
+      { path: 'helmets' },
+      { path: 'shields' },
+      { path: 'weapons' },
+      { path: 'boots' },
+      { path: 'rings' },
+      { path: 'armors' },
+      { path: 'artifacts' },
+      { path: 'healing_potions' },
+      { path: 'enhancer_potions'},
+      { path: 'antidote_potions', populate: { path: 'recovery_effect' }}
+    ]
+  })
+  .exec();
     
 	const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
 	return returnPlayer;
