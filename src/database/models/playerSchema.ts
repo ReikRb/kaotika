@@ -7,6 +7,9 @@ const Ingredient = require("./ingredientSchema");
 const Ring = require("./ringSchema");
 const Shield = require("./shieldSchema");
 const Weapon = require("./weaponSchema");
+const Antidote = require("./potionAntidoteSchema");
+const Healing = require("./potionHealingSchema");
+const Enhancer = require("./potionEnhancerSchema");
 
 const playerSchema = new mongoose.Schema({
   attributes: {
@@ -25,9 +28,9 @@ const playerSchema = new mongoose.Schema({
     artifact: { type: Schema.Types.ObjectId, ref: Artifact },
     boot: { type: Schema.Types.ObjectId, ref: Boot, default: "66d99a807518eb499003535f" },
     ring: { type: Schema.Types.ObjectId, ref: Ring, default: "66a6d6c8dfbffe7e6503970f" },
-    // antidote_potion: { type: Schema.Types.ObjectId, ref: "PotionAntidote" },
-    // healing_potion: { type: Schema.Types.ObjectId, ref: "PotionHealing" },
-    // enhancer_potion: { type: Schema.Types.ObjectId, ref: "PotionEnhancer" }
+    antidote_potion: { type: Schema.Types.ObjectId, ref: Antidote },
+    healing_potion: { type: Schema.Types.ObjectId, ref: Healing },
+    enhancer_potion: { type: Schema.Types.ObjectId, ref: Enhancer }
   },
   inventory: {
     helmets: [{ type: Schema.Types.ObjectId, ref: Helmet }],
@@ -37,9 +40,9 @@ const playerSchema = new mongoose.Schema({
     artifacts: [{ type: Schema.Types.ObjectId, ref: Artifact }],
     boots: [{ type: Schema.Types.ObjectId, ref: Boot }],
     rings: [{ type: Schema.Types.ObjectId, ref: Ring }],
-    // antidote_potions: [{ type: Schema.Types.ObjectId, ref: "PotionAntidote" }],
-    // healing_potions: [{ type: Schema.Types.ObjectId, ref: "PotionHealing" }],
-    // enhancer_potions: [{ type: Schema.Types.ObjectId, ref: "PotionEnhancer" }],
+    antidote_potions: [{ type: Schema.Types.ObjectId, ref: Antidote }],
+    healing_potions: [{ type: Schema.Types.ObjectId, ref: Healing }],
+    enhancer_potions: [{ type: Schema.Types.ObjectId, ref: Enhancer }],
     ingredients: [{ type: Schema.Types.ObjectId, ref: Ingredient }]
   },
   _id: { type: 'ObjectId' },

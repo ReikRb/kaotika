@@ -36,20 +36,30 @@ export const populatePlayer = async (email: string | string[]) => {
   await playerPopulated.equipment.populate('helmet');
   await playerPopulated.equipment.populate('shield');
   await playerPopulated.equipment.populate('boot');
+  await playerPopulated.equipment.populate({
+    path: 'antidote_potion',
+    populate: { path: 'recovery_effect' 
+  }});
+  await playerPopulated.equipment.populate('healing_potion');
+  await playerPopulated.equipment.populate('enhancer_potion');
 
-
-  // Poblamos el inventario
-  await playerPopulated.inventory.populate('helmets');
-  await playerPopulated.inventory.populate('shields');
-  await playerPopulated.inventory.populate('weapons');
-  await playerPopulated.inventory.populate('boots');
-  await playerPopulated.inventory.populate('rings');
-  await playerPopulated.inventory.populate('armors');
-  await playerPopulated.inventory.populate('artifacts');
-  await playerPopulated.inventory.populate('ingredients');
-
-  const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
-  return returnPlayer;
+	// Poblamos el inventario
+	await playerPopulated.inventory.populate('helmets');
+	await playerPopulated.inventory.populate('shields');
+	await playerPopulated.inventory.populate('weapons');
+	await playerPopulated.inventory.populate('boots');
+	await playerPopulated.inventory.populate('rings');
+	await playerPopulated.inventory.populate('armors');
+	await playerPopulated.inventory.populate('artifacts');
+  await playerPopulated.inventory.populate({
+    path: 'antidote_potions',
+    populate: { path: 'recovery_effect' 
+  }});
+  await playerPopulated.inventory.populate('healing_potions');
+  await playerPopulated.inventory.populate('enhancer_potions');
+    
+	const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
+	return returnPlayer;
 };
 
 const updateIngredientsWithQuantity = async (playerPopulated: any) => {
@@ -69,7 +79,7 @@ const updateIngredientsWithQuantity = async (playerPopulated: any) => {
     }
   });
 
-  const { ingredients } = await playerPopulated.inventory.populate('ingredients', { 'profiles': 0 });
+	const { ingredients } = await playerPopulated.inventory.populate('ingredients');
 
   const ingredientQuantitiesPopulated = ingredientQuantites.map((item: any) => {
     const object = ingredients.filter((ingredient: any) => item._id.equals(ingredient._id))[0];
