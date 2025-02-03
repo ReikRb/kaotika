@@ -38,9 +38,6 @@ const isWeapon = (product: Product): product is Weapon => {
 const isMagical = (product: Product): product is Ingredient => {
   return "effects" in product;
 };
-const isIngredient = (product: Product): product is Ingredient => {
-  return "qty" in product;
-};
 
 const MidContainer: React.FC<Props> = ({ product, onBuy, onSell, onAddToCart, player, quantity, displayBuyButtons }) => {
   const [isModalOpen, setModalOpen] = useState(false);
