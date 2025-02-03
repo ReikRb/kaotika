@@ -19,4 +19,4 @@ const potionEnhancerSchema = new mongoose.Schema({
   min_lvl: { type: Number },
 });
 
-module.exports = mongoose.models.Potionenhancer || mongoose.model('Potionenhancer', potionEnhancerSchema);
+module.exports = mongoose.models.PotionEnhancer || mongoose.model('PotionEnhancer', potionEnhancerSchema);

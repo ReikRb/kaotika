@@ -36,8 +36,8 @@ export const populatePlayer = async (email: string | string[]) => {
   await playerPopulated.equipment.populate('helmet');
   await playerPopulated.equipment.populate('shield');
   await playerPopulated.equipment.populate('boot');
-  await playerPopulated.equipment.populate('antidote_potion');
-
+  await playerPopulated.equipment.populate('healing_potion');
+  await playerPopulated.equipment.populate('enhancer_potion');
 
 	// Poblamos el inventario
 	await playerPopulated.inventory.populate('helmets');
@@ -47,8 +47,8 @@ export const populatePlayer = async (email: string | string[]) => {
 	await playerPopulated.inventory.populate('rings');
 	await playerPopulated.inventory.populate('armors');
 	await playerPopulated.inventory.populate('artifacts');
-	// await playerPopulated.inventory.populate('antidote_potions');
-    console.log(playerPopulated.equipment.antidote_potion);
+  await playerPopulated.inventory.populate('healing_potions');
+  await playerPopulated.inventory.populate('enhancer_potions');
     
 	const returnPlayer = await updateIngredientsWithQuantity(playerPopulated);
 	return returnPlayer;

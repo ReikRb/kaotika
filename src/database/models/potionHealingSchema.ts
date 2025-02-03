@@ -18,4 +18,4 @@ const potionHealingSchema = new mongoose.Schema({
   min_lvl: { type: Number },
 });
 
-module.exports = mongoose.models.Potionhealing || mongoose.model('Potionhealing', potionHealingSchema);
+module.exports = mongoose.models.PotionHealing || mongoose.model('PotionHealing', potionHealingSchema);
