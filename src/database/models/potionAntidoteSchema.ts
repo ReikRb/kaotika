@@ -8,6 +8,6 @@ const potionAntidoteSchema = new mongoose.Schema({
   image: { type: String },
   value: { type: Number },
   min_lvl: { type: Number },
-  recovery_effect: [{ type: Schema.Types.ObjectId, ref: Curse}]
+  recovery_effect: { type: Schema.Types.ObjectId, ref: Curse}
 });
 module.exports = mongoose.models.PotionAntidote || mongoose.model('PotionAntidote', potionAntidoteSchema);

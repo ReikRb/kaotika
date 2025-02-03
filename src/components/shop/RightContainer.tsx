@@ -12,6 +12,10 @@ import { Artifact } from "@/_common/interfaces/Artifact";
 import { Ring } from "@/_common/interfaces/Ring";
 import DropDownComponent from "./DropDownComponent";
 import { accesoriesSortOptions, defaultSortOptions, defensiveEquipmentSortOptions, ingredientsSortOptions, inventorySortOptions, ofensiveEquipmentsSortOptions } from "@/constants/constants";
+import { AntidotePotion } from "@/_common/interfaces/AntidotePotion";
+import { HealingPotion } from "@/_common/interfaces/HealingPotion";
+import { EnhancerPotion } from "@/_common/interfaces/EnhancerPotion";
+import { Modifier } from "@/_common/interfaces/Modifier";
 
 interface Props {
   products: Products;
@@ -30,9 +34,23 @@ const isWeapon = (product: Product): product is Weapon => {
   return "base_percentage" in product && "die_faces" in product;
 };
 
-const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact) => {
+const isEquipment = (product: Product): product is (Weapon | Shield | Helmet | Armor | Boot | Ring | Artifact | HealingPotion | EnhancerPotion) => {
   return "min_lvl" in product;
 };
+
+const isAntidotePotion = (product: Product): product is AntidotePotion => {
+  return "recovery_effect" in product;
+};
+
+const getModifierValue = (product: Product, modifier: keyof Modifier): number => {
+  if (isAntidotePotion(product)) {
+    return product.recovery_effect.modifiers[modifier];
+  } else if (isEquipment(product)) {
+    return product.modifiers[modifier];
+  }
+  return 0;
+};
+
 
 const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, player, setMerchantMessage, setSortedProducts }) => {
   const [sortOption, setSortOption] = useState<string>('gold');
@@ -64,23 +82,41 @@ const RightContainer: React.FC<Props> = ({ products, category, onProductSelect, 
         case 'gold':
           return ascendant ? product.value - prevProduct.value : prevProduct.value - product.value;
         case 'min_lvl':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.min_lvl - prevProduct.min_lvl : prevProduct.min_lvl - product.min_lvl : 0;
+          return (isEquipment(product) || isAntidotePotion(product)) && (isEquipment(prevProduct) || isAntidotePotion(prevProduct)) 
+            ? ascendant ? product.min_lvl - prevProduct.min_lvl : prevProduct.min_lvl - product.min_lvl 
+            : 0;
         case 'base_porcentage':
-          return isWeapon(product) && isWeapon(prevProduct) ? ascendant ? product.base_percentage - prevProduct.base_percentage : prevProduct.base_percentage - product.base_percentage : 0;
+          return isWeapon(product) && isWeapon(prevProduct) 
+            ? ascendant ? product.base_percentage - prevProduct.base_percentage : prevProduct.base_percentage - product.base_percentage 
+            : 0;
         case 'defense':
-          return hasDefense(product) && hasDefense(prevProduct) ? ascendant ? product.defense - prevProduct.defense : prevProduct.defense - product.defense : 0;
+          return hasDefense(product) && hasDefense(prevProduct) 
+            ? ascendant ? product.defense - prevProduct.defense : prevProduct.defense - product.defense 
+            : 0;
         case 'intelligence':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.intelligence - prevProduct.modifiers.intelligence : prevProduct.modifiers.intelligence - product.modifiers.intelligence : 0;
+          return ascendant 
+            ? getModifierValue(product, 'intelligence') - getModifierValue(prevProduct, 'intelligence')
+            : getModifierValue(prevProduct, 'intelligence') - getModifierValue(product, 'intelligence');
         case 'dexterity':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.dexterity - prevProduct.modifiers.dexterity : prevProduct.modifiers.dexterity - product.modifiers.dexterity : 0;
+          return ascendant 
+            ? getModifierValue(product, 'dexterity') - getModifierValue(prevProduct, 'dexterity')
+            : getModifierValue(prevProduct, 'dexterity') - getModifierValue(product, 'dexterity');
         case 'insanity':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.insanity - prevProduct.modifiers.insanity : prevProduct.modifiers.insanity - product.modifiers.insanity : 0;
+          return ascendant 
+            ? getModifierValue(product, 'insanity') - getModifierValue(prevProduct, 'insanity')
+            : getModifierValue(prevProduct, 'insanity') - getModifierValue(product, 'insanity');
         case 'charisma':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.charisma - prevProduct.modifiers.charisma : prevProduct.modifiers.charisma - product.modifiers.charisma : 0;
+          return ascendant 
+            ? getModifierValue(product, 'charisma') - getModifierValue(prevProduct, 'charisma')
+            : getModifierValue(prevProduct, 'charisma') - getModifierValue(product, 'charisma');
         case 'constitution':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.constitution - prevProduct.modifiers.constitution : prevProduct.modifiers.constitution - product.modifiers.constitution : 0;
+          return ascendant 
+            ? getModifierValue(product, 'constitution') - getModifierValue(prevProduct, 'constitution')
+            : getModifierValue(prevProduct, 'constitution') - getModifierValue(product, 'constitution');
         case 'strength':
-          return isEquipment(product) && isEquipment(prevProduct) ? ascendant ? product.modifiers.strength - prevProduct.modifiers.strength : prevProduct.modifiers.strength - product.modifiers.strength : 0;
+          return ascendant 
+            ? getModifierValue(product, 'strength') - getModifierValue(prevProduct, 'strength')
+            : getModifierValue(prevProduct, 'strength') - getModifierValue(product, 'strength');
         default:
           return 0;
       }
